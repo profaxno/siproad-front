@@ -51,7 +51,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
 
   // * return component
   return (
-    <tr key={orderProduct.id} style={ orderProduct.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5 } : {} }>
+    <tr className="animate__animated animate__fadeInDown" key={orderProduct.id} style={ orderProduct.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5 } : {} }>
       <td>
         <div className="d-flex gap-1 align-items-center">
           

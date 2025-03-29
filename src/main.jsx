@@ -1,17 +1,20 @@
-// import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-// import './index.css'
-import { ApolloProvider } from "@apollo/client";
-import client from "./apolloClient";
 
-import { SalesOrder } from './sales/components/SalesOrder'
+import { BrowserRouter } from 'react-router'
+
+// import './index.css'
+// import { ApolloProvider } from "@apollo/client";
+// import client from "./apolloClient";
+
+import { SiproadRouter } from './siproad/routes/SiproadRouter';
 
 createRoot(document.getElementById('root')).render(
-  // <StrictMode>
-    // <SalesOrder/>
-  // </StrictMode>
+  
+  // <ApolloProvider client={client}>
+  //   <SalesOrder/>
+  // </ApolloProvider>
 
-  <ApolloProvider client={client}>
-    <SalesOrder/>
-  </ApolloProvider>
+  <BrowserRouter>
+    <SiproadRouter/>
+  </BrowserRouter>
 )

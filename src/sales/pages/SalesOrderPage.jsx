@@ -3,12 +3,12 @@ import "../../index.css";
 
 import { useOrder } from '../hooks/useOrder';
 
-import { SalesOrderProductTable } from "./SalesOrderProductTable";
-import { SalesOrderProductSearch } from "./SalesOrderProductSearch";
+import { SalesOrderProductTable } from "../components/SalesOrderProductTable";
+import { SalesOrderProductSearch } from "../components/SalesOrderProductSearch";
 import { InputSearch } from "../../common/components/InputSearch";
 import { InputAmount } from "../../common/components/InputAmount";
 import { ButtonWithConfirm } from "../../common/components/ButtonWithConfirm";
-import { SalesOrderButtonGeneratePricePDF } from "./SalesOrderButtonGeneratePricePDF";
+import { SalesOrderButtonGeneratePricePDF } from "../components/SalesOrderButtonGeneratePricePDF";
 
 const initOrderList = [
   { id: 1, customer: "Juan Pérez", status: "Pendiente" },
@@ -29,7 +29,7 @@ const initObj = {
   status: 1
 }
 
-export const SalesOrder = () => {
+export const SalesOrderPage = () => {
 
   // * hooks
   const [orders, setOrders] = useState([]);
@@ -38,10 +38,8 @@ export const SalesOrder = () => {
   const { createOrder, data, loading, error } = useOrder();
   const [cleanSearchInput, setCleanSearchInput] = useState(false);
 
-
   console.log(`rendered... orderProductList=(${order.productList.length})${JSON.stringify(order.productList)}`);
-
-
+  
   // * handles
   const handleChange = (e) => {
     setOrder({ ...order, [e.target.name]: e.target.value })
@@ -220,7 +218,7 @@ export const SalesOrder = () => {
 
   // * return component
   return ( 
-    <div className="row">
+    <div className="row mt-3 animate__animated animate__fadeIn">
 
       {/* search */}
       <div className="col-md-6 border rounded p-3">
