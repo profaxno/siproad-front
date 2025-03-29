@@ -10,8 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.5",
+    "graphql": "^16.10.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-modal": "^3.16.3",
     "react-number-format": "^5.4.3",
     "uuidv4": "^6.2.13"
   },

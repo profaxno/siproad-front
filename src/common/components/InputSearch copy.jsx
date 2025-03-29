@@ -1,16 +1,12 @@
-import React, { useState, useEffect, useRef, use } from 'react'
-import "../css/input-search.css";
+import React, { useState, useEffect, useRef } from 'react'
 
-export const InputSearch = ({name, className, value, searchField, placeholder, onNotifyChangeEvent, onSearchOptions, onNotifySelectOption, onNotifyRemoveTag}) => {
+export const InputSearch = ({name, className, value, searchField, placeholder, onNotifyChangeEvent, onSearchOptions, onNotifySelectOption}) => {
 
   // * hooks
   const [inputValue, setInputValue] = useState(value);
-  // const [clean, setClean] = useState(isClean);
-  const [tags, setTags] = useState([]);
   const [objList, setObjList] = useState([]);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const optionRefs = useRef([]); // * Referencias a los elementos de la lista
-
 
   console.log(`rendered... value=${value}, inputValue=${inputValue}`);
   
@@ -28,11 +24,6 @@ export const InputSearch = ({name, className, value, searchField, placeholder, o
       });
     }
   }, [highlightedIndex]);
-
-
-  useEffect(() => {
-    if(value=='') removeTag(tags.length - 1);
-  }, [value]);
 
   // * handles
   const handleInputChange = async(e) => {
@@ -55,8 +46,7 @@ export const InputSearch = ({name, className, value, searchField, placeholder, o
   }
 
   const handleSelectOption = (obj) => {
-    setTags([...tags, obj[searchField]]);
-    setInputValue("");
+    setInputValue(obj[searchField]);
     setObjList([]);
     console.log(`handleSelectOption: notifying to...`);
     onNotifySelectOption(obj);
@@ -73,39 +63,19 @@ export const InputSearch = ({name, className, value, searchField, placeholder, o
     }
   };
 
-  const removeTag = (index) => {
-    setTags(tags.filter((_, i) => i !== index));
-
-    if(onNotifyRemoveTag)
-      onNotifyRemoveTag();
-  };
-
-
+  
   // * return component
   return (
     <div className="position-relative">
-
-      <div className="tags-input-container">
-        {
-          tags.map((tag, index) => (
-            <div key={index} className="tag">
-              {tag}<button className="remove-tag" onClick={() => removeTag(index)}>×</button>
-            </div>
-          ))
-        }
-
-        {tags.length == 0 && 
-          <input
-            name={name}
-            type="text"
-            className={"search-input"}
-            value={inputValue}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            placeholder={placeholder}
-          />
-    }
-      </div>
+      <input
+        name={name}
+        type="text"
+        className={className}
+        value={inputValue}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+      />
 
       {objList.length > 0 && (
         <ul className="list-group position-absolute w-100" style={{ maxHeight: "250px", overflowY: "auto", zIndex: 1000 }}>

@@ -1,33 +1,57 @@
 import { v4 as uuidv4 } from 'uuid';
-import React, { useState } from 'react'
+import React, { use, useState, useEffect } from 'react'
 import { InputAmount } from '../../common/components/InputAmount';
 import { InputSearch } from '../../common/components/InputSearch';
+import { useProduct } from '../hooks/useProduct';
+
+const initOrderProduct = {
+  key: 0,
+  id: 0,
+  name: '',
+  qty: 1,
+  cost: 0,
+  price: 0,
+  discountPct: 0,
+  subTotal: 0,
+  status: 1 // * 1: active, 0: inactive
+}
 
 export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
-
-  const initOrderProduct = {
-    key: 0,
-    id: 0,
-    name: '',
-    qty: 1, 
-    price: 1,
-    discountPct: 0,
-    subTotal: 0,
-    status: 1 // * 1: active, 0: inactive
-  }
   
   // * hooks
   const [orderProduct, setOrderProduct] = useState(initOrderProduct);
-  
+  const [errors, setErrors] = useState({});
+  const [clean, setClean] = useState(false);
+  const { fetchProducts, productList = [], loading, error } = useProduct();
+
   console.log(`rendered...`);
 
-
   // * handles
+  const handleChange = (e) => {
+    setOrderProduct({ ...orderProduct, [e.target.name]: e.target.value })
+    setErrors({ ...errors, [e.target.name]: "" }); // Borra el error al escribir
+    console.log(`handleChange: errors=${JSON.stringify(errors)}`);
+  }
+
+  const validate = () => {
+    let newErrors = {};
+
+    if (!(orderProduct.id && orderProduct.name)) newErrors.name = "Producto es requerido";
+    if (!orderProduct.qty) newErrors.qty = "Cantidad es requerido";
+    
+    console.log(`validate: newErrors=${JSON.stringify(newErrors)}`);
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Devuelve true si no hay errores
+  }
+
   const handleInputQtyChange = (e) => {
     const { target } = e;
     const { name, value } = target;
     
+    setErrors({ ...errors, [e.target.name]: "" }); // Borra el error al escribir
+
     console.log(`onInputChange: ${JSON.stringify({name, value})}`);
+    handleChange(e);
 
     setOrderProduct({
       ...orderProduct,
@@ -40,13 +64,14 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
     console.log(`handleAddOrderProduct: orderProduct=${JSON.stringify(orderProduct)}`);
 
     // * validate
+    if(!validate()) return;
     if(orderProduct.name === '') return;
-
     if(orderProduct.qty < 1) return;
-
+    
     setOrderProduct(initOrderProduct);
+    //setClean(true);
     console.log(`handleAddOrderProduct: notifying to saleOrder...`);
-    onNotifyUpdateOrderProduct(orderProduct); 
+    onNotifyUpdateOrderProduct(orderProduct, 'add'); 
   }
   
   // const handleChangeProduct = (e) => {
@@ -71,24 +96,31 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
 
   // TODO: este metodo es el que busca los productos en el backend
   
-  const onSearchProductList = (searchValue) => {
+  const onSearchProductList = async(searchValue) => {
+    console.log(`onSearchProductList: searchValue="${searchValue}"`);
+    const searchList = [searchValue];
 
-    if(searchValue.length < 3) return [];
-    
-    // TODO: aqui debe ir la llamada al backend para buscar los productos
-    const list = [
-      { id: 1, name: "Teclado", price: 100 },
-      { id: 2, name: "Monitor", price: 200 },
-      { id: 3, name: "Mouse", price: 300 },
-      { id: 4, name: "Laptop", price: 400 },
-      { id: 5, name: "Móvil", price: 500 }
-    ]    
+    const { data } = await fetchProducts({ variables: { searchList } })
+    if (data) {
+      const payload = data?.salesProductFind?.payload || [];
+      console.log(`onSearchProductList: payload=(${JSON.stringify(payload)})`);
+      return payload;
+    }
 
-    const filteredList = list.filter((value) =>
-      value.name.toLowerCase().includes(searchValue.toLowerCase())
-    )
+    // // TODO: aqui debe ir la llamada al backend para buscar los productos
+    // const list = [
+    //   { id: 1, name: "Teclado", price: 100 },
+    //   { id: 2, name: "Monitor", price: 200 },
+    //   { id: 3, name: "Mouse", price: 300 },
+    //   { id: 4, name: "Laptop", price: 400 },
+    //   { id: 5, name: "Móvil", price: 500 }
+    // ]    
 
-    return filteredList;
+    // const filteredList = list.filter((value) =>
+    //   value.name.toLowerCase().includes(searchValue.toLowerCase())
+    // )
+
+    // return filteredList;
   }
 
   const updateSelectProduct = (obj) => {
@@ -99,9 +131,14 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
       key: uuidv4(),
       id: obj.id,
       name: obj.name,
+      cost: obj.cost,
       price: obj.price,
       subTotal: orderProduct.qty * obj.price
     });
+  }
+
+  const cleanInputProduct = () => {
+    setOrderProduct(initOrderProduct);
   }
 
 
@@ -112,13 +149,17 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
 
         <div className="position-relative" style={{ flex: "70%" }}>
           <InputSearch 
+            name="name"
             className={"form-control"} 
             searchField={"name"} 
             value={orderProduct.name}
-            placeholder={"Buscador de productos..."} 
+            placeholder={"Buscador de productos..."}
+            onNotifyChangeEvent={handleChange}
             onSearchOptions={onSearchProductList} 
             onNotifySelectOption={updateSelectProduct}
+            onNotifyRemoveTag={cleanInputProduct}
           />
+          {errors.name && <div className="custom-invalid-feedback">{errors.name}</div>}
         </div>
 
         {/* <div className="position-relative" style={{ flex: "70%" }}>
@@ -168,9 +209,11 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
             className={"form-control"} 
             value={orderProduct.qty} 
             onChange={handleInputQtyChange} 
-            placeholder={"Cantidad"}/>
+            placeholder={"Cantidad"}
+          />
+          {errors.qty && <div className="custom-invalid-feedback">{errors.qty}</div>}
         </div>
-        
+
         {/* <input 
           name="qty"
           className="form-control w-20" 
@@ -193,6 +236,8 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
           </button>
         </div>
 
+        {/* {error && <p>Error: {JSON.stringify(error)}</p>} */}
+        {error && <p>Error: {error.message}</p>}
       </div>
     </>
   )

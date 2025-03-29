@@ -5,15 +5,16 @@ export const SalesOrderProductTable = ({orderProductList = [], onNotifyUpdateOrd
 
   console.log(`rendered... orderProductList=${JSON.stringify(orderProductList)}`);
 
+  
   return (
     <table className="table table-striped table-bordered">
-      <thead className="table-dark	">
-        <tr>
-          <th style={{ width: "30%" }}>Producto</th>
+      <thead className="table-dark">
+        <tr style={{ textAlign: "center" }}>
+          <th style={{ width: "36%" }}>Producto</th>
           <th style={{ width: "10%" }}>Cantidad</th>
-          <th style={{ width: "20%" }}>Precio</th>
-          <th style={{ width: "20%" }}>Descuento</th>
-          <th style={{ width: "20%" }}>SubTotal</th>
+          <th style={{ width: "18%" }}>Precio</th>
+          <th style={{ width: "18%" }}>Descuento</th>
+          <th style={{ width: "18%" }}>Sub-Total</th>
         </tr>
       </thead>
 

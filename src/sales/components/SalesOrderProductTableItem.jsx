@@ -11,6 +11,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
   
   console.log(`rendered... orderProduct=${JSON.stringify(item)}`);
 
+  
 
   // * handles
   const handleInputChange = (fieldName, qty, price, discountPct) => {     
@@ -34,9 +35,9 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
 
     setItem(itemAux);
     console.log(`handleInputChange: notifying to saleOrder...`);
-    onNotifyUpdateOrderProduct(itemAux);
+    onNotifyUpdateOrderProduct(itemAux, 'update');
   }
-  
+
   const handleDeleteProduct = () => {
     const itemAux = {
       ...item,
@@ -45,7 +46,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
 
     setItem(itemAux);
     console.log(`handleDeleteProduct: notifying to saleOrder...`);
-    onNotifyUpdateOrderProduct(itemAux);
+    onNotifyUpdateOrderProduct(itemAux, 'delete');
   }
 
   // * return component
