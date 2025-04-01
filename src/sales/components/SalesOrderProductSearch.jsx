@@ -37,8 +37,8 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
   const validate = () => {
     let newErrors = {};
 
-    if (!(orderProduct.id && orderProduct.name)) newErrors.name = "Producto es requerido";
-    if (!orderProduct.qty) newErrors.qty = "Cantidad es requerido";
+    if (!(orderProduct.id && orderProduct.name)) newErrors.name = "Ingrese el nombre del producto a buscar";
+    if (!orderProduct.qty) newErrors.qty = "Ingrese la cantidad";
     
     console.log(`validate: newErrors=${JSON.stringify(newErrors)}`);
     setErrors(newErrors);

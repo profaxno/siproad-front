@@ -39,7 +39,7 @@ export const ButtonWithConfirm = ({ className, style, actionName, title, message
             </div>
             
             {/* body */}
-            <div className="modal-body">{message}</div>
+            <div className="modal-body bg-white text-dark">{message}</div>
             
             {/* footer */}
             <div className="modal-footer">

@@ -75,7 +75,7 @@ export const SalesOrderPage = () => {
     }
 
     if(action === "delete") {
-      sendUpdateOrder(order); // TODO: enviar al backend graphql para eliminar la orden
+      sendDeleteOrder(order); // TODO: enviar al backend graphql para eliminar la orden
     }
 
 
@@ -123,8 +123,8 @@ export const SalesOrderPage = () => {
   const validate = () => {
     let newErrors = {};
 
-    if (!order.customerName) newErrors.customerName = "Cliente es requerido";
-    if (order.productList.length === 0) newErrors.productList = "Uno ó mas productos son requeridos en la lista";
+    if (!order.customerName) newErrors.customerName = "Ingrese el nombre del cliente";
+    if (order.productList.length === 0) newErrors.productList = "Ingrese uno ó mas productos a la lista";
 
     console.log(`validate: newErrors=${JSON.stringify(newErrors)}`);
     setErrors(newErrors);
@@ -273,6 +273,52 @@ export const SalesOrderPage = () => {
     setOrder({ ...order, customerName: "", customerIdDoc: "", customerEmail: "", customerAddress: "" });
   }
 
+  const sendDeleteOrder = async (order) => {
+    console.log(`sendDeleteOrder: order=${JSON.stringify(order)}`);
+    // const { data } = await createOrder({ variables: { input: { ...formData, price: parseFloat(formData.price) } } });
+
+    
+    
+
+    // TODO: crear metodo para generar order to graphql
+    const productListAux = order.productList.map((value) => {
+      return {
+        id: value.id,
+        name: value.name,
+        cost: parseFloat(value.cost),
+        price: parseFloat(value.price),
+        qty: parseFloat(value.qty),
+        status: value.status
+      }
+    });
+
+    const orderAux = {
+      id: order.id,
+      customerIdDoc: order.customerIdDoc,
+      customerName: order.customerName,
+      customerEmail: order.customerEmail,
+      customerPhone: order.customerPhone,
+      customerAddress: order.customerAddress,
+      comment: order.comment,
+      status: order.status,
+      productList: productListAux
+    }
+
+    const { data } = await mutateOrder({ variables: { input: { ...orderAux } } });
+    if (data) {
+      const payload = data?.salesOrderUpdate?.payload || []; // TODO: DEBO DEVOLVER toda la data despues de gurdar para poder pintar en la lista
+           
+      // *
+      const found = orderList.find((value) => value.id === order.id) 
+      const action = found ? "update" : "add";
+      const orderAux = found ? order : payload[0];
+      updateOrder(orderAux, action); // TODO: AQUI se debe enviar la orden que se acaba de guardar  y viene en el data del 251
+      
+      console.log(`sendDeleteOrder: executed, payload=(${JSON.stringify(payload)})`);
+    }
+  }
+
+
   const cleanOrder = () => {
     console.log(`cleanOrder: order=${JSON.stringify(order)}`);
     // TODO: aqui validar o levantar un modal de confirmacion
@@ -281,6 +327,7 @@ export const SalesOrderPage = () => {
     setErrors({});
   }
 
+  
   // * return component
   return (
     // <div className="row mt-3 animate__animated animate__fadeIn">
@@ -362,7 +409,7 @@ export const SalesOrderPage = () => {
 
                 <textarea
                   name="customerAddress"
-                  className="form-control"
+                  className="form-control form-control-sm"
                   value={order.customerAddress}
                   onChange={handleChange}
                 />
@@ -394,11 +441,9 @@ export const SalesOrderPage = () => {
           {/* totales */}
           <div className="d-flex p-3">
 
-            <div className="col-4"></div>
+            <div className="col-7"></div>
 
-            <div className="col-4"></div>
-
-            <div className="col-4">
+            <div className="col-5">
               <div className="d-flex align-items-center gap-2">
                 <label className="form-label mt-2 w-50 text-end">Sub-Total:</label>
                 <InputAmount className="form-control form-control-sm" value={order.subTotal} readOnly={true}/>
@@ -421,9 +466,9 @@ export const SalesOrderPage = () => {
           </div>
           {/* principal buttons */}
           <div className="d-flex mt-4 gap-1">
-            <div className="col-4"><SalesOrderButtonGeneratePricePDF className={"btn btn-outline-primary w-100"} actionName={"Imprimir"} order={order} onConfirm={validate}/></div>
             <div className="col-4"><ButtonWithConfirm className={"btn btn-outline-primary w-100"} actionName={"Cancelar"} title={"Confirmar Acción"} message={"Se Perderá La Información No Guardada ¿Desea Continuar?"} onExecute={cleanOrder} /></div>
-            <div className="col-4"><ButtonWithConfirm className={"btn btn-primary w-100"} actionName={"Guardar"} title={"Confirmar Acción"} message={"Se Guardará La Información ¿Desea Continuar?"} onExecute={sendUpdateOrder} /></div>
+            { order.status == 1 && <div className="col-4"><SalesOrderButtonGeneratePricePDF className={"btn btn-outline-primary w-100"} actionName={"Imprimir"} orderData={order} onConfirm={validate}/></div>}
+            { order.status == 1 && <div className="col-4"><ButtonWithConfirm className={"btn btn-outline-primary w-100"} actionName={"Guardar"} title={"Confirmar Acción"} message={"Se Guardará La Información ¿Desea Continuar?"} onExecute={sendUpdateOrder} /></div>}
           </div>
 
         </div>

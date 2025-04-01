@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { InputAmount } from '../../common/components/InputAmount';
 import { ButtonWithConfirm } from "../../common/components/ButtonWithConfirm";
+import '../../common/css/table.css';
 
-export const SalesOrderTableItem = ({order = {}, onNotifyUpdateObject, onNotifySelectObject}) => {
+export const SalesOrderTableItem = ({order = {}, onNotifyUpdateObject, onNotifySelectObject, onClick, selectedRow}) => {
 
   // * hooks
   const [item, setItem] = useState({
     ...order
   });
-  
+
   console.log(`rendered... order=${JSON.stringify(item)}`);
 
   useEffect(() => {
@@ -54,15 +55,22 @@ export const SalesOrderTableItem = ({order = {}, onNotifyUpdateObject, onNotifyS
   const handleRowClick = (item) => {
     //setItem(item);
     onNotifySelectObject(item);
+   
+    console.log("Objeto seleccionado:", selectedRow, JSON.stringify(item));
 
-    console.log("Objeto seleccionado:", JSON.stringify(item));
-  };
+    onClick(item); // Call the onClick function with the selected item
+  }
 
   // * return component
   return (
     // <tr className="animate__animated animate__fadeInDown" key={order.id} style={ order.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5 } : {} }>
-    <tr key={item.id} onClick={() => handleRowClick(item)} style={ item.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5 } : { cursor: "pointer" } }>
-      <td>
+    <tr 
+      key={item.id} 
+      onClick={() => handleRowClick(item)}
+      className={selectedRow === item.id ? "table-dark" : ""} 
+      style={ item.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5, cursor: "pointer" } : { cursor: "pointer" } }
+    >
+      <td >
         { item.status === 1 
           ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"} actionName={"-"} title={"Confirmar Acción"} message={"¿Desea Eliminar La Orden?"} onExecute={handleButtonDelete}/>
           : <div/>

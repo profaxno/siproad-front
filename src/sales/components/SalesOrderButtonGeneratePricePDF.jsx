@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import logo from "../assets/headerVasco.jpg"; // Logo en el header
@@ -22,10 +22,18 @@ const initObj = {
 }
 
 
-export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, order, onConfirm}) => {
+export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, orderData, onConfirm}) => {
+
+  // * hooks
   const [previewUrl, setPreviewUrl] = useState(null); // Estado para el preview
   const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para controlar el modal
-  // const [order, setOrder] = useState(salesOrder); // Estado para almacenar la orden
+  const [order, setOrder] = useState(orderData); // Estado para almacenar la orden
+
+  useEffect(() => {
+    console.log(`useEffect... orderData=${JSON.stringify(orderData)}`);
+    setOrder(orderData);
+  }, [orderData]);
+
 
   // const productList = Array.from({ length: 50 }, (_, i) => ({
   //   code        : Math.floor(Math.random() * 1000),
@@ -73,11 +81,13 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
         if(value.status == 0)
           return acc;
     
-        const code        = value.code ? value.code : ""; 
-        const qty         = value.qty?.toFixed(2);
-        const price       = value.price?.toFixed(2);
-        const discountPct = value.discountPct?.toFixed(2);
-        const subTotal    = value.subTotal?.toFixed(2);
+        console.log(`generatePDF: value=${JSON.stringify(value)}`);
+  
+        const code        = value.code        ? value.code : ""; 
+        const qty         = value.qty         ? parseFloat(value.qty).toFixed(2)          : 0.00;
+        const price       = value.price       ? parseFloat(value.price).toFixed(2)        : 0.00;
+        const discountPct = value.discountPct ? parseFloat(value.discountPct).toFixed(2)  : 0.00;
+        const subTotal    = value.subTotal    ? parseFloat(value.subTotal).toFixed(2)     : 0.00;
     
         acc.push([code, value.name, qty, price, `${discountPct} %`, subTotal]);
     
@@ -201,9 +211,9 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
       // 🔹 Ir a la última página para agregar Totales
       
       // Totales
-      const subTotal = order.subTotal?.toFixed(2);
-      const iva = order.iva?.toFixed(2);
-      const total = order.total?.toFixed(2);
+      const subTotal  = order.subTotal  ? parseFloat(order.subTotal).toFixed(2) : 0.00;
+      const iva       = order.iva       ? parseFloat(order.iva).toFixed(2)      : 0.00;
+      const total     = order.total     ? parseFloat(order.total).toFixed(2)    : 0.00;
 
       const data = [
         ['Sub-Total:' , `${subTotal}`],

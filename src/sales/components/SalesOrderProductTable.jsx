@@ -3,8 +3,14 @@ import { SalesOrderProductTableItem } from './SalesOrderProductTableItem'
 
 export const SalesOrderProductTable = ({orderProductList = [], onNotifyUpdateOrderProduct}) => {
 
+  const [selectedRow, setSelectedRow] = useState(null);
+
   console.log(`rendered... orderProductList=${JSON.stringify(orderProductList)}`);
   
+  const handleRowClick = (item) => {
+    setSelectedRow(item.key); // Set the selected row ID
+  }
+
   return (
     <table className="table table-striped table-bordered table-sm">
       <thead className="table-dark">
@@ -22,7 +28,7 @@ export const SalesOrderProductTable = ({orderProductList = [], onNotifyUpdateOrd
       <tbody>
         {
           orderProductList.map((value) => (
-            <SalesOrderProductTableItem key={value.key} orderProduct={value} onNotifyUpdateOrderProduct={onNotifyUpdateOrderProduct}/>
+            <SalesOrderProductTableItem key={value.key} orderProduct={value} onNotifyUpdateOrderProduct={onNotifyUpdateOrderProduct} onClick={handleRowClick} selectedRow={selectedRow}/>
           ))
         }
       </tbody>
