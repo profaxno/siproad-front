@@ -38,38 +38,41 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
     onNotifyUpdateOrderProduct(itemAux, 'update');
   }
 
-  const handleDeleteProduct = () => {
+  const handleButtonDelete = () => {
     const itemAux = {
       ...item,
       status: 0
     }
 
     setItem(itemAux);
-    console.log(`handleDeleteProduct: notifying to saleOrder...`);
+    console.log(`handleButtonDelete: notifying to saleOrder...`);
     onNotifyUpdateOrderProduct(itemAux, 'delete');
   }
 
   // * return component
   return (
-    <tr className="animate__animated animate__fadeInDown" key={orderProduct.id} style={ orderProduct.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5 } : {} }>
+    // <tr className="animate__animated animate__fadeInDown" key={orderProduct.id} style={ orderProduct.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5 } : {} }>
+    <tr key={item.id} style={ item.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5 } : {} }>
       <td>
-        <div className="d-flex gap-1 align-items-center">
-          
-          {/* validate order-product status */}
-          { orderProduct.status === 1 
-            // ? <button className="btn btn-outline-danger" onClick={handleDeleteProduct}>x</button>
-            ? <ButtonWithConfirm className={"btn btn-outline-danger"} actionName={"x"} title={"Confirmar Acción"} message={"¿Desea Eliminar el Producto de la Lista?"} onExecute={handleDeleteProduct}/>
-            : <div/>
-          }
+        { item.status === 1 
+          // ? <button className="btn btn-outline-danger" onClick={handleDeleteProduct}>x</button>
+          ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"} actionName={"-"} title={"Confirmar Acción"} message={"¿Desea Eliminar el Producto de la Lista?"} onExecute={handleButtonDelete}/>
+          : <div/>
+        }
+      </td>
 
-          {item.name}
-        </div>  
+      <td>
+        {item.code? item.code : ""}
+      </td>
+
+      <td className="text-capitalize">
+        {item.name?.toLowerCase()}
       </td>
 
       <td>
         <InputAmount 
           name={"qty"} 
-          className={"form-control"} 
+          className={"form-control form-control-sm"} 
           value={item.qty}
           onChange={(event) => handleInputChange(event.target.name, event.target.value, item.price, item.discountPct)}
         />
@@ -88,7 +91,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
       <td>
         <InputAmount 
           name={"price"} 
-          className={"form-control"} 
+          className={"form-control form-control-sm"} 
           value={item.price}
           onChange={(event) => handleInputChange(event.target.name, item.qty, event.target.value, item.discountPct)}
         />
@@ -117,7 +120,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
           /> */}
           <InputAmount 
             name={"discountPct"} 
-            className={"form-control"} 
+            className={"form-control form-control-sm"} 
             value={item.discountPct}
             onChange={(event) => handleInputChange(event.target.name, item.qty, item.price,  event.target.value)}
             max={100}
@@ -127,7 +130,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
       </td>
 
       <td>
-        <InputAmount className="form-control" value={item.subTotal} readOnly={true}/>
+        <InputAmount className="form-control form-control-sm" value={item.subTotal} readOnly={true}/>
         {/* {item.subTotal} */}
       </td>
     </tr>

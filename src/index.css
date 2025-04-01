@@ -45,3 +45,8 @@ button {
   outline: none;
   flex: 1
 } */
+
+
+.text-capitalize {
+  text-transform: capitalize !important;
+}

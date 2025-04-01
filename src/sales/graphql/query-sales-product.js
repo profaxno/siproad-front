@@ -9,6 +9,7 @@ export const GET_PRODUCTS = gql`
       payload {
         id
         name
+        code
         cost
         price
       }

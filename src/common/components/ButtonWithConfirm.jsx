@@ -24,7 +24,7 @@ export const ButtonWithConfirm = ({ className, style, actionName, title, message
   return (
     <>
       {/* action button */}
-      <button className={className} style={style} onClick={() => modal?.show()}>
+      <button className={className} onClick={() => modal?.show()}>
         {actionName}
       </button>
 

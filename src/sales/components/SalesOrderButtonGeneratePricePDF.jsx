@@ -22,24 +22,41 @@ const initObj = {
 }
 
 
-export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, order }) => {
+export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, order, onConfirm}) => {
   const [previewUrl, setPreviewUrl] = useState(null); // Estado para el preview
   const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para controlar el modal
   // const [order, setOrder] = useState(salesOrder); // Estado para almacenar la orden
 
-  const productList = Array.from({ length: 50 }, (_, i) => ({
-    code        : Math.floor(Math.random() * 1000),
-    name        : `Producto ${i + 1}`,
-    qty         : Math.floor(Math.random() * 5) + 1,
-    price       : Math.random() * 100,
-    discountPct : Math.floor(Math.random() * 100),
-    subTotal    : Math.random() * 100,
-  }));
+  // const productList = Array.from({ length: 50 }, (_, i) => ({
+  //   code        : Math.floor(Math.random() * 1000),
+  //   name        : `Producto ${i + 1}`,
+  //   qty         : (Math.floor(Math.random() * 5) + 1).toFixed(2),
+  //   price       : (Math.random() * 100).toFixed(2),
+  //   discountPct : (Math.floor(Math.random() * 100)).toFixed(2),
+  //   subTotal    : (Math.random() * 100).toFixed(2),
+  // }))
 
+  // const productList = order.productList.map((value) => {
+  //   if(value.status == 0) return null; // Filtrar productos con status 0
+
+  //   const code        = value.code ? value.code : ""; 
+  //   const qty         = value.qty.toFixed(2);
+  //   const price       = value.price.toFixed(2);
+  //   const discountPct = value.discountPct.toFixed(2);
+  //   const subTotal    = value.subTotal.toFixed(2);
+    
+  //   return [code, value.name, qty, price, `${discountPct} %`, subTotal];
+  // })
 
   console.log(`rendered... order=${JSON.stringify(order)}`);
 
   // Función para cargar imágenes
+  const handleGeneratePDF = () => {
+    if(onConfirm()) {
+      generatePDF();
+    }
+  }
+
   const loadImage = (src) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -51,6 +68,22 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
 
   const generatePDF = async () => {
     try {
+
+      const productList = order.productList.reduce( (acc, value) => {
+        if(value.status == 0)
+          return acc;
+    
+        const code        = value.code ? value.code : ""; 
+        const qty         = value.qty?.toFixed(2);
+        const price       = value.price?.toFixed(2);
+        const discountPct = value.discountPct?.toFixed(2);
+        const subTotal    = value.subTotal?.toFixed(2);
+    
+        acc.push([code, value.name, qty, price, `${discountPct} %`, subTotal]);
+    
+        return acc;
+      }, [])
+
       // Cargar las imágenes de forma sincrónica
       const [imgHeader, imgFooter] = await Promise.all([
         loadImage(logo),
@@ -124,14 +157,7 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
       autoTable(doc, {
         startY: finalY,
         head: [["Codigo", "Producto", "Cantidad", "Precio", "Descuento", "Sub-Total"]],
-        body: productList.map((value) => {
-          const code        = value.code ? value.code : "N/A"; 
-          const qty         = value.qty.toFixed(2);
-          const price       = value.price.toFixed(2);
-          const discountPct = value.discountPct.toFixed(2);
-          const subTotal    = value.subTotal.toFixed(2);
-          return [code, value.name, qty, price, `${discountPct} %`, subTotal];
-        }),
+        body: productList,
         margin: { top: 10, left: margin, right: margin, bottom: 40},
         headStyles: {
           fillColor: [0, 0, 0], // Color de fondo para el encabezado (azul en este caso)
@@ -175,9 +201,9 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
       // 🔹 Ir a la última página para agregar Totales
       
       // Totales
-      const subTotal = order.subTotal.toFixed(2);
-      const iva = order.iva.toFixed(2);
-      const total = order.total.toFixed(2);
+      const subTotal = order.subTotal?.toFixed(2);
+      const iva = order.iva?.toFixed(2);
+      const total = order.total?.toFixed(2);
 
       const data = [
         ['Sub-Total:' , `${subTotal}`],
@@ -232,7 +258,7 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
 
   return (
     <div>
-      <button className={className} style={style} onClick={() => generatePDF(order)}>{actionName}</button>
+      <button className={className} onClick={handleGeneratePDF}>{actionName}</button>
       
       {/* Modal de vista previa del PDF */}
       <Modal

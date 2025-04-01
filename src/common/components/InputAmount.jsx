@@ -6,6 +6,7 @@ export const InputAmount = ({name, className, defaultValue, value, readOnly, onC
     <NumericFormat
       name={name}
       className={className}
+      style={{ textAlign: 'right' }}
       defaultValue={defaultValue}
       value={value}
       // thousandSeparator="."

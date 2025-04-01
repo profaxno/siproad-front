@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const UPDATE_ORDER = gql`
-  mutation CreateOrder($input: SalesOrderInput!) {
-    salesOrderUpdate(order: $input) {
+export const GET_ORDERS = gql`
+  query FindOrders($searchList: [String!]) {
+    salesOrderFind(searchList: $searchList) {
       internalCode
       message
       qty
@@ -34,4 +34,4 @@ export const UPDATE_ORDER = gql`
       }
     }
   }
-`;	
+`;

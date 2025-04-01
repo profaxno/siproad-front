@@ -1,13 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
 import React, { use, useState, useEffect } from 'react'
 import { InputAmount } from '../../common/components/InputAmount';
-import { InputSearch } from '../../common/components/InputSearch';
+import { InputSearchWithTag } from '../../common/components/InputSearchWithTag';
 import { useProduct } from '../hooks/useProduct';
 
 const initOrderProduct = {
   key: 0,
   id: 0,
   name: '',
+  code: '',
   qty: 1,
   cost: 0,
   price: 0,
@@ -60,8 +61,8 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
     })
   }
 
-  const handleAddOrderProduct = (orderProduct) => {
-    console.log(`handleAddOrderProduct: orderProduct=${JSON.stringify(orderProduct)}`);
+  const handleButtonAdd = (orderProduct) => {
+    console.log(`handleButtonAdd: orderProduct=${JSON.stringify(orderProduct)}`);
 
     // * validate
     if(!validate()) return;
@@ -70,7 +71,7 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
     
     setOrderProduct(initOrderProduct);
     //setClean(true);
-    console.log(`handleAddOrderProduct: notifying to saleOrder...`);
+    console.log(`handleButtonAdd: notifying to saleOrder...`);
     onNotifyUpdateOrderProduct(orderProduct, 'add'); 
   }
   
@@ -96,14 +97,14 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
 
   // TODO: este metodo es el que busca los productos en el backend
   
-  const onSearchProductList = async(searchValue) => {
-    console.log(`onSearchProductList: searchValue="${searchValue}"`);
+  const onSearchObjectList = async(searchValue) => {
+    console.log(`onSearchObjectList: searchValue="${searchValue}"`);
     const searchList = [searchValue];
 
     const { data } = await fetchProducts({ variables: { searchList } })
     if (data) {
       const payload = data?.salesProductFind?.payload || [];
-      console.log(`onSearchProductList: payload=(${JSON.stringify(payload)})`);
+      console.log(`onSearchObjectList: payload=(${JSON.stringify(payload)})`);
       return payload;
     }
 
@@ -123,21 +124,22 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
     // return filteredList;
   }
 
-  const updateSelectProduct = (obj) => {
-    console.log(`updateSelectProduct: obj=${JSON.stringify(obj)}`);
+  const updateSelectObject = (obj) => {
+    console.log(`updateSelectObject: obj=${JSON.stringify(obj)}`);
 
     setOrderProduct({
       ...orderProduct,
       key: uuidv4(),
       id: obj.id,
       name: obj.name,
+      code: obj.code,
       cost: obj.cost,
       price: obj.price,
       subTotal: orderProduct.qty * obj.price
     });
   }
 
-  const cleanInputProduct = () => {
+  const cleanInput = () => {
     setOrderProduct(initOrderProduct);
   }
 
@@ -147,90 +149,37 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
     <>
       <div className="d-flex gap-2 mb-2">
 
-        <div className="position-relative" style={{ flex: "70%" }}>
-          <InputSearch 
+        <div className="col-9">
+          <InputSearchWithTag 
             name="name"
-            className={"form-control"} 
+            className={`form-control ${errors.name ? "is-invalid" : ""}`}
             searchField={"name"} 
             value={orderProduct.name}
-            placeholder={"Buscador de productos..."}
+            placeholder={"Buscador..."}
             onNotifyChangeEvent={handleChange}
-            onSearchOptions={onSearchProductList} 
-            onNotifySelectOption={updateSelectProduct}
-            onNotifyRemoveTag={cleanInputProduct}
+            onSearchOptions={onSearchObjectList}
+            onNotifySelectOption={updateSelectObject}
+            onNotifyRemoveTag={cleanInput}
           />
           {errors.name && <div className="custom-invalid-feedback">{errors.name}</div>}
         </div>
 
-        {/* <div className="position-relative" style={{ flex: "70%" }}>
-          <input
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="Escribe aquí..."
-            className="form-control"
-          />
-
-          {filteredOptions.length > 0 && (
-            <ul className="list-group position-absolute w-100" style={{ maxHeight: "150px", overflowY: "auto", zIndex: 1000 }}>
-              {filteredOptions.map((option) => (
-                <li
-                  key={option.id}
-                  onClick={() => handleSelectOption(option)}
-                  className="list-group-item list-group-item-action"
-                >
-                  {option.name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div> */}
-
-        {/* <div style={{ flex: "70%" }}>
-          <select
-            className="form-select"
-            value={orderProduct.name}
-            isSearchable
-            onInputChange={(input) => console.log("Texto ingresado:", input)}
-            onChange={handleChangeProduct}
-          >
-            <option value="">Buscador productos...</option>
-            {
-              initProductList.map( (value) => (
-                <option key={value.id} id={value.id} value={value.name} price={value.price}>{value.name}</option>
-              ))
-            }
-          </select>
-        </div> */}
-
-        <div style={{ flex: "20%" }}>
+        <div className="col-2">
           <InputAmount 
-            name={"qty"} 
-            className={"form-control"} 
-            value={orderProduct.qty} 
-            onChange={handleInputQtyChange} 
+            name={"qty"}
+            className={`form-control ${errors.qty ? "is-invalid" : ""}`}
+            value={orderProduct.qty}
+            onChange={handleInputQtyChange}
             placeholder={"Cantidad"}
           />
           {errors.qty && <div className="custom-invalid-feedback">{errors.qty}</div>}
         </div>
-
-        {/* <input 
-          name="qty"
-          className="form-control w-20" 
-          style={{ flex: "20%" }} 
-          type="number" 
-          placeholder="Cantidad"
-          step="any" 
-          min="1" 
-          defaultValue="1"
-          onChange={handleInputQtyChange}
-        /> */}
         
-        <div style={{ flex: "10%" }}>
+        <div className="col-1">
           <button 
             name='btnAddOrderProduct'
             className="btn btn-outline-success"            
-            onClick={() => handleAddOrderProduct(orderProduct) }
+            onClick={() => handleButtonAdd(orderProduct) }
           >
             +
           </button>

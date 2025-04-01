@@ -5,14 +5,14 @@
   border: 1px solid #ccc;
   padding: 4px;
   border-radius: 4px;
+  
 }
 
 .tag {
   background-color: #007bff;
   color: white;
-  padding: 2px 4px;
   margin: 2px;
-  border-radius: 10px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
 }
@@ -29,5 +29,4 @@
 .search-input {
   border: none;
   outline: none;
-  /* flex: 1 */
 }
