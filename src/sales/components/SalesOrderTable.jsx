@@ -13,7 +13,7 @@ export const SalesOrderTable = ({orderList = [], onNotifyUpdateOrder, onNotifySe
 
   return (
     <table className="table table-striped table-bordered table-sm">
-      <thead className="table-dark">
+      <thead className="table-dark" style={{ position: "sticky", top: 0 }}>
         <tr style={{ textAlign: "center" }}>
         <th style={{ width: "5%" }}></th>
           <th style={{ width: "28%" }}>F. Creación</th>

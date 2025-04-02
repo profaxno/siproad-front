@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
   // * handles
   const onLogin = ( name = '', token ) => {
-    const user = { id: '123abcxx', name };
+    const user = { name };
     const session = { user, token };
 
     const action = {
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     dispatch( action );
   }
 
-  const onLogout = ( name = '' ) => {
+  const onLogout = () => {
     localStorage.removeItem('session');
     dispatch({ type: types.logout });
   }

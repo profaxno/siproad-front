@@ -15,11 +15,7 @@ import { ButtonWithConfirm } from "../../common/components/ButtonWithConfirm";
 import { SalesOrderButtonGeneratePricePDF } from "../components/SalesOrderButtonGeneratePricePDF";
 import { SalesOrderTable } from "../components/SalesOrderTable";
 import { SalesOrderSearch } from "../components/SalesOrderSearch";
-
-const initOrderList = [
-  { id: 1, customer: "Juan Pérez", status: "Pendiente" },
-  { id: 2, customer: "Ana López", status: "Entregado" },
-]
+import { Message } from "../../common/components/Message";
 
 const initObj = {
   code          : "",
@@ -45,6 +41,7 @@ export const SalesOrderPage = () => {
   const { mutateOrder, data, loading, error } = useUpdateOrder();
   const [cleanSearchInput, setCleanSearchInput] = useState(false);
   const [switchRestart, setSwitchRestart] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
   console.log(`rendered... order=${JSON.stringify(order)}, orderList=(${orderList.length})${JSON.stringify(orderList)}`);
 
@@ -154,8 +151,7 @@ export const SalesOrderPage = () => {
     if(searchValue.length < 3) return [];
 
     const list = [
-      { id: 1, idDoc: "25.830.201-k", name: "Jhossymer Maita", email: "jhossymer.maita@gmail.com", address: "Calle 1234" },
-      { id: 2, idDoc: "25.574.415-1", name: "Ivan Perez", email: "ivanmperezt@gmail.com", address: "" }
+      { id: 1, idDoc: "1.111.111-k", name: "Cliente Generico", email: "cliente@correo.com", address: "Av. Siempre Viva 1234" },
     ]
 
     const filteredList = list.filter((value) =>
@@ -242,6 +238,7 @@ export const SalesOrderPage = () => {
 
     const orderAux = {
       id: order.id ? order.id : undefined,
+      code: order.code ? order.code : undefined,
       customerIdDoc: order.customerIdDoc,
       customerName: order.customerName,
       customerEmail: order.customerEmail,
@@ -264,7 +261,7 @@ export const SalesOrderPage = () => {
       const orderAux = found ? order : payload[0];
       updateOrder(orderAux, action); // TODO: AQUI se debe enviar la orden que se acaba de guardar  y viene en el data del 251
 
-      
+      setShowMessage(true);
       console.log(`sendUpdateOrder: executed, payload=(${JSON.stringify(payload)})`);
     }
   }
@@ -294,6 +291,7 @@ export const SalesOrderPage = () => {
 
     const orderAux = {
       id: order.id,
+      code: order.code,
       customerIdDoc: order.customerIdDoc,
       customerName: order.customerName,
       customerEmail: order.customerEmail,
@@ -313,7 +311,7 @@ export const SalesOrderPage = () => {
       const action = found ? "update" : "add";
       const orderAux = found ? order : payload[0];
       updateOrder(orderAux, action); // TODO: AQUI se debe enviar la orden que se acaba de guardar  y viene en el data del 251
-      
+      setShowMessage(true);
       console.log(`sendDeleteOrder: executed, payload=(${JSON.stringify(payload)})`);
     }
   }
@@ -335,14 +333,16 @@ export const SalesOrderPage = () => {
 
       {/* search */}
       <div className="col-sm-6">
-        <div className="border rounded p-3 overflow-auto" style={{ maxHeight: '750px'}}>
+        <div className="border rounded p-3" style={{ maxHeight: '750px'}}>
           <h4 className="mb-2">Búsqueda de Ordenes</h4>
 
           <div className="mt-3 p-3">
             {/* <div className="border rounded p-3 mb-3"> */}
               <SalesOrderSearch onNotifyUpdateOrder={updateOrder} onNotifyUpdateOrderList={updateOrderList} isClean={cleanSearchInput}/>
             {/* </div> */}
-            <SalesOrderTable orderList={orderList} onNotifyUpdateOrder={updateOrder} onNotifySelectOrder={loadOrder}/>
+            <div className="overflow-auto" style={{ maxHeight: '600px'}}>
+              <SalesOrderTable orderList={orderList} onNotifyUpdateOrder={updateOrder} onNotifySelectOrder={loadOrder}/>
+            </div>
           </div>
         </div>
       </div>
@@ -466,13 +466,15 @@ export const SalesOrderPage = () => {
           </div>
           {/* principal buttons */}
           <div className="d-flex mt-4 gap-1">
-            <div className="col-4"><ButtonWithConfirm className={"btn btn-outline-primary w-100"} actionName={"Cancelar"} title={"Confirmar Acción"} message={"Se Perderá La Información No Guardada ¿Desea Continuar?"} onExecute={cleanOrder} /></div>
-            { order.status == 1 && <div className="col-4"><SalesOrderButtonGeneratePricePDF className={"btn btn-outline-primary w-100"} actionName={"Imprimir"} orderData={order} onConfirm={validate}/></div>}
-            { order.status == 1 && <div className="col-4"><ButtonWithConfirm className={"btn btn-outline-primary w-100"} actionName={"Guardar"} title={"Confirmar Acción"} message={"Se Guardará La Información ¿Desea Continuar?"} onExecute={sendUpdateOrder} /></div>}
+            <div className="col-4"><ButtonWithConfirm className={"btn btn-outline-danger w-100"} actionName={"Cancelar"} title={"Confirmar Acción"} message={"Se Perderá La Información No Guardada ¿Desea Continuar?"} onExecute={cleanOrder} /></div>
+            { order.status == 1 && <div className="col-4"><SalesOrderButtonGeneratePricePDF className={"btn btn-outline-success w-100"} actionName={"Imprimir"} orderData={order} onConfirm={validate}/></div>}
+            { order.status == 1 && <div className="col-4"><ButtonWithConfirm className={"btn btn-success w-100"} actionName={"Guardar"} title={"Confirmar Acción"} message={"Se Guardará La Información ¿Desea Continuar?"} onExecute={sendUpdateOrder} /></div>}
           </div>
 
         </div>
       </div>
+
+      <Message show={showMessage} onUpdateShowMessage={setShowMessage}/>
 
       {error && <p>Error: {JSON.stringify(error)}</p>}
       {/* {error && <p>Error: {error.message}</p>} */}

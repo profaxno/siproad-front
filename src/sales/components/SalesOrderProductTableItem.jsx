@@ -65,7 +65,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
       <td>
         { item.status === 1 
           // ? <button className="btn btn-outline-danger" onClick={handleDeleteProduct}>x</button>
-          ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"} actionName={"-"} title={"Confirmar Acción"} message={"¿Desea Eliminar el Producto de la Lista?"} onExecute={handleButtonDelete}/>
+          ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"} actionName={"x"} title={"Confirmar Acción"} message={"¿Desea Eliminar el Producto de la Lista?"} onExecute={handleButtonDelete}/>
           : <div/>
         }
       </td>

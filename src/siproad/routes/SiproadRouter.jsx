@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Route, Routes } from 'react-router'
+import { Navigate, Route, Routes } from 'react-router'
 
 import { AuthProvider } from '../../auth/context/AuthProvider'
 import { SiproadPublicRoute } from './SiproadPublicRoute'
@@ -31,7 +31,7 @@ export const SiproadRouter = () => {
           
           <Route path="/*" element={
             <SiproadPrivateRoute>
-              <SiproadNavbar/>
+              <Navigate to="/sales" />  
             </SiproadPrivateRoute>
           }/>
           

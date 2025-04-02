@@ -10,7 +10,7 @@ export const SalesNavbar = () => {
   
   // * return component
   return (
-    <nav className="navbar navbar-expand-sm navbar bg-light py-1 px-3 border rounded">
+    <nav className="navbar navbar-expand-sm navbar bg-light py-0 px-3 border rounded">
         
       <div className="navbar-collapse">
         <div className="navbar-nav">

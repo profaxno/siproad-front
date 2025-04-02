@@ -84,10 +84,10 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
         console.log(`generatePDF: value=${JSON.stringify(value)}`);
   
         const code        = value.code        ? value.code : ""; 
-        const qty         = value.qty         ? parseFloat(value.qty).toFixed(2)          : 0.00;
-        const price       = value.price       ? parseFloat(value.price).toFixed(2)        : 0.00;
-        const discountPct = value.discountPct ? parseFloat(value.discountPct).toFixed(2)  : 0.00;
-        const subTotal    = value.subTotal    ? parseFloat(value.subTotal).toFixed(2)     : 0.00;
+        const qty         = value.qty         ? parseFloat(value.qty).toFixed(2)          : '0.00';
+        const price       = value.price       ? parseFloat(value.price).toFixed(2)        : '0.00';
+        const discountPct = value.discountPct ? parseFloat(value.discountPct).toFixed(2)  : '0.00';
+        const subTotal    = value.subTotal    ? parseFloat(value.subTotal).toFixed(2)     : '0.00';
     
         acc.push([code, value.name, qty, price, `${discountPct} %`, subTotal]);
     
@@ -211,9 +211,9 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
       // 🔹 Ir a la última página para agregar Totales
       
       // Totales
-      const subTotal  = order.subTotal  ? parseFloat(order.subTotal).toFixed(2) : 0.00;
-      const iva       = order.iva       ? parseFloat(order.iva).toFixed(2)      : 0.00;
-      const total     = order.total     ? parseFloat(order.total).toFixed(2)    : 0.00;
+      const subTotal  = order.subTotal  ? parseFloat(order.subTotal).toFixed(2) : '0.00';
+      const iva       = order.iva       ? parseFloat(order.iva).toFixed(2)      : '0.00';
+      const total     = order.total     ? parseFloat(order.total).toFixed(2)    : '0.00';
 
       const data = [
         ['Sub-Total:' , `${subTotal}`],
