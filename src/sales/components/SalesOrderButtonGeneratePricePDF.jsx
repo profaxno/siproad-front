@@ -29,34 +29,12 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
   const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para controlar el modal
   const [order, setOrder] = useState(orderData); // Estado para almacenar la orden
 
+  console.log(`rendered...`);
+
   useEffect(() => {
-    console.log(`useEffect... orderData=${JSON.stringify(orderData)}`);
+    // console.log(`useEffect...`);
     setOrder(orderData);
   }, [orderData]);
-
-
-  // const productList = Array.from({ length: 50 }, (_, i) => ({
-  //   code        : Math.floor(Math.random() * 1000),
-  //   name        : `Producto ${i + 1}`,
-  //   qty         : (Math.floor(Math.random() * 5) + 1).toFixed(2),
-  //   price       : (Math.random() * 100).toFixed(2),
-  //   discountPct : (Math.floor(Math.random() * 100)).toFixed(2),
-  //   subTotal    : (Math.random() * 100).toFixed(2),
-  // }))
-
-  // const productList = order.productList.map((value) => {
-  //   if(value.status == 0) return null; // Filtrar productos con status 0
-
-  //   const code        = value.code ? value.code : ""; 
-  //   const qty         = value.qty.toFixed(2);
-  //   const price       = value.price.toFixed(2);
-  //   const discountPct = value.discountPct.toFixed(2);
-  //   const subTotal    = value.subTotal.toFixed(2);
-    
-  //   return [code, value.name, qty, price, `${discountPct} %`, subTotal];
-  // })
-
-  console.log(`rendered... order=${JSON.stringify(order)}`);
 
   // Función para cargar imágenes
   const handleGeneratePDF = () => {
@@ -297,7 +275,7 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
         </div> */}
 
         <div className="mb-4">
-          <h3>Vista Previa del PDF</h3>
+          <h3>Vista Previa</h3>
           <button className="btn-close" onClick={closeModal} style={{ position: "absolute", top: "10px", right: "10px" }}/>
         </div>
 

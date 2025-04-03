@@ -9,9 +9,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
     ...orderProduct
   });
   
-  console.log(`rendered... orderProduct=${JSON.stringify(item)}`);
-
-  
+  console.log(`rendered... orderProduct=${JSON.stringify(item)}`); 
 
   // * handles
   const handleInputChange = (fieldName, qty, price, discountPct) => {     
@@ -34,7 +32,6 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
     }
 
     setItem(itemAux);
-    console.log(`handleInputChange: notifying to saleOrder...`);
     onNotifyUpdateOrderProduct(itemAux, 'update');
   }
 
@@ -65,7 +62,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
       <td>
         { item.status === 1 
           // ? <button className="btn btn-outline-danger" onClick={handleDeleteProduct}>x</button>
-          ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"} actionName={"x"} title={"Confirmar Acción"} message={"¿Desea Eliminar el Producto de la Lista?"} onExecute={handleButtonDelete}/>
+          ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"} actionName={"x"} title={"Confirmación"} message={"Eliminar producto de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete}/>
           : <div/>
         }
       </td>

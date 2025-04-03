@@ -11,11 +11,13 @@ export const InputSearchWithTag = ({name, className, value, searchField, placeho
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const optionRefs = useRef([]); // * Referencias a los elementos de la lista
 
-
-  console.log(`rendered... value=${value}, inputValue=${inputValue}`);
+  console.log(`rendered: value=${value}, inputValue=${inputValue}`);
   
   useEffect(() => {
-    console.log(`useEffect: executed, value=${value}, inputValue=${inputValue}`);
+    // console.log(`useEffect: value=${value}, inputValue=${inputValue}`);
+    if(value=='') 
+      removeTag(tags.length - 1);
+
     setInputValue(value);
   }, [value]);
 
@@ -33,15 +35,10 @@ export const InputSearchWithTag = ({name, className, value, searchField, placeho
     setTags([]);
   }, [switchRestart]);
 
-  useEffect(() => {
-    if(value=='') removeTag(tags.length - 1);
-  }, [value]);
-
   // * handles
   const handleInputChange = async(e) => {
     const value = e.target.value;
-    console.log(`handleInputChange: value="${value}"`);
-
+    
     setInputValue(value);
     
     if(onNotifyChangeEvent)
@@ -52,7 +49,6 @@ export const InputSearchWithTag = ({name, className, value, searchField, placeho
 
     } else {
       const foundObjList = await onSearchOptions(value);
-      console.log(`handleInputChange: foundObjList=(${foundObjList.length})${JSON.stringify(foundObjList)}`);
       setObjList(foundObjList);
     }
   }
@@ -61,7 +57,6 @@ export const InputSearchWithTag = ({name, className, value, searchField, placeho
     setTags([...tags, obj[searchField]]);
     setInputValue("");
     setObjList([]);
-    console.log(`handleSelectOption: notifying to...`);
     onNotifySelectOption(obj);
   }
 

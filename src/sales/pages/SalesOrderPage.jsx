@@ -1,4 +1,4 @@
-import { useState, useId } from "react";
+import { useState, useId, useEffect } from "react";
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -49,13 +49,10 @@ export const SalesOrderPage = () => {
   const handleChange = (e) => {
     setOrder({ ...order, [e.target.name]: e.target.value })
     setErrors({ ...errors, [e.target.name]: "" }); // Borra el error al escribir
-    console.log(`handleChange: errors=${JSON.stringify(errors)}`);
   }
 
     // * search module
   const updateOrder = (order = {}, action) => {
-    console.log(`updateOrder: order=${JSON.stringify(order)}`);
-
     let orderListAux = [];
 
     if(action === "add") {
@@ -80,14 +77,10 @@ export const SalesOrderPage = () => {
   }
 
   const updateOrderList = (orderList = [], action) => {
-    console.log(`updateOrderList: order=${JSON.stringify(orderList)}`);
-
     setOrderList(orderList);
   }
 
   const loadOrder = (obj) => {
-    console.log(`loadOrder: order=${JSON.stringify(order)}`);
-
     const productListAux = obj.productList.map((value) => {
       return {
         ...value,
@@ -123,17 +116,9 @@ export const SalesOrderPage = () => {
     if (!order.customerName) newErrors.customerName = "Ingrese el nombre del cliente";
     if (order.productList.length === 0) newErrors.productList = "Ingrese uno ó mas productos a la lista";
 
-    console.log(`validate: newErrors=${JSON.stringify(newErrors)}`);
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Devuelve true si no hay errores
   }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(`handleSubmit: order=${JSON.stringify(order)}`);
-    // TODO: enviar al backend graphql
-
-  };
 
   const onSearchCustomerList = (searchValue = '') => {
 
@@ -162,8 +147,6 @@ export const SalesOrderPage = () => {
   }
 
   const updateSelectCustomer = (obj = {}) => {
-    console.log(`updateSelectCustomer: obj=${JSON.stringify(obj)}`);
-
     setErrors({ ...errors, customerName: "", customerIdDoc: "", customerAddress: "" }); // * remove customer error
 
     setOrder({
@@ -176,8 +159,6 @@ export const SalesOrderPage = () => {
   }
 
   const updateOrderProduct = (orderProduct = {}, action) => {
-    console.log(`updateOrderProduct: orderProduct=${JSON.stringify(orderProduct)}`);
-
     let orderProductListAux = [];
 
     // TODO: crear enum para los actions
@@ -217,11 +198,7 @@ export const SalesOrderPage = () => {
   }
 
   const sendUpdateOrder = async () => {
-    console.log(`sendUpdateOrder: order=${JSON.stringify(order)}`);
-    // const { data } = await createOrder({ variables: { input: { ...formData, price: parseFloat(formData.price) } } });
-
-    console.log(`sendUpdateOrder: errors=${JSON.stringify(errors)}`);
-
+   
     if(!validate()) return;
 
     // TODO: crear metodo para generar order to graphql
@@ -271,11 +248,6 @@ export const SalesOrderPage = () => {
   }
 
   const sendDeleteOrder = async (order) => {
-    console.log(`sendDeleteOrder: order=${JSON.stringify(order)}`);
-    // const { data } = await createOrder({ variables: { input: { ...formData, price: parseFloat(formData.price) } } });
-
-    
-    
 
     // TODO: crear metodo para generar order to graphql
     const productListAux = order.productList.map((value) => {
@@ -312,13 +284,11 @@ export const SalesOrderPage = () => {
       const orderAux = found ? order : payload[0];
       updateOrder(orderAux, action); // TODO: AQUI se debe enviar la orden que se acaba de guardar  y viene en el data del 251
       setShowMessage(true);
-      console.log(`sendDeleteOrder: executed, payload=(${JSON.stringify(payload)})`);
     }
   }
 
 
   const cleanOrder = () => {
-    console.log(`cleanOrder: order=${JSON.stringify(order)}`);
     // TODO: aqui validar o levantar un modal de confirmacion
     setOrder(initObj);
     setCleanSearchInput(true);
@@ -340,7 +310,7 @@ export const SalesOrderPage = () => {
             {/* <div className="border rounded p-3 mb-3"> */}
               <SalesOrderSearch onNotifyUpdateOrder={updateOrder} onNotifyUpdateOrderList={updateOrderList} isClean={cleanSearchInput}/>
             {/* </div> */}
-            <div className="overflow-auto" style={{ maxHeight: '600px'}}>
+            <div className="mt-3 overflow-auto" style={{ maxHeight: '600px'}}>
               <SalesOrderTable orderList={orderList} onNotifyUpdateOrder={updateOrder} onNotifySelectOrder={loadOrder}/>
             </div>
           </div>
@@ -367,9 +337,9 @@ export const SalesOrderPage = () => {
                     name="customerName"
                     className={`form-control ${errors.customerName ? "is-invalid" : ""}`}
                     searchField={"name"}
-                    value={order.customerName}
+                    value={order.customerName} // ! Esto hace que se renderice 2 veces la pantalla
                     placeholder={"Buscador..."}
-                    onNotifyChangeEvent ={handleChange}
+                    onNotifyChangeEvent={handleChange}
                     onSearchOptions={onSearchCustomerList}
                     onNotifySelectOption={updateSelectCustomer}
                     onNotifyRemoveTag={cleanCustomer}
@@ -432,43 +402,43 @@ export const SalesOrderPage = () => {
           {/* product search */}
           <label className="form-label mt-3">Productos:</label>
           <div className="border rounded">
-          <div className="p-3" >
-            <SalesOrderProductSearch onNotifyUpdateOrderProduct={updateOrderProduct} isClean={cleanSearchInput}/>
-            <SalesOrderProductTable orderProductList={order.productList} onNotifyUpdateOrderProduct={updateOrderProduct}/>
-            {errors.productList && <div className="custom-invalid-feedback border rounded p-1">{errors.productList}</div>}
-          </div>
-
-          {/* totales */}
-          <div className="d-flex p-3">
-
-            <div className="col-7"></div>
-
-            <div className="col-5">
-              <div className="d-flex align-items-center gap-2">
-                <label className="form-label mt-2 w-50 text-end">Sub-Total:</label>
-                <InputAmount className="form-control form-control-sm" value={order.subTotal} readOnly={true}/>
-              </div>
-
-              <div className="d-flex align-items-center gap-2">
-                <label className="form-label mt-2 w-50 text-end">IVA:</label>
-                <InputAmount className="form-control form-control-sm mt-2" value={order.iva} readOnly={true}/>
-              </div>
-
-              <div className="d-flex align-items-center gap-2">
-                <label className="form-label mt-2 w-50 text-end">Total:</label>
-                <InputAmount className="form-control form-control-sm mt-2" value={order.total} readOnly={true}/>
-              </div>
+            <div className="p-3" >
+              <SalesOrderProductSearch onNotifyUpdateOrderProduct={updateOrderProduct} isClean={cleanSearchInput}/>
+              <SalesOrderProductTable orderProductList={order.productList} onNotifyUpdateOrderProduct={updateOrderProduct}/>
+              {errors.productList && <div className="custom-invalid-feedback border rounded p-1">{errors.productList}</div>}
             </div>
 
-          </div>
+            {/* totales */}
+            <div className="d-flex p-3">
+
+              <div className="col-7"></div>
+
+              <div className="col-5">
+                <div className="d-flex align-items-center gap-2">
+                  <label className="form-label mt-2 w-50 text-end">Sub-Total:</label>
+                  <InputAmount className="form-control form-control-sm" value={order.subTotal} readOnly={true}/>
+                </div>
+
+                <div className="d-flex align-items-center gap-2">
+                  <label className="form-label mt-2 w-50 text-end">IVA:</label>
+                  <InputAmount className="form-control form-control-sm mt-2" value={order.iva} readOnly={true}/>
+                </div>
+
+                <div className="d-flex align-items-center gap-2">
+                  <label className="form-label mt-2 w-50 text-end">Total:</label>
+                  <InputAmount className="form-control form-control-sm mt-2" value={order.total} readOnly={true}/>
+                </div>
+              </div>
+
+            </div>
           </div>
 
           </div>
           {/* principal buttons */}
           <div className="d-flex mt-4 gap-1">
-            <div className="col-4"><ButtonWithConfirm className={"btn btn-outline-danger w-100"} actionName={"Cancelar"} title={"Confirmar Acción"} message={"Se Perderá La Información No Guardada ¿Desea Continuar?"} onExecute={cleanOrder} /></div>
+            <div className="col-4"><ButtonWithConfirm className={"btn btn-outline-danger w-100"} actionName={"Cancelar"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} onExecute={cleanOrder} /></div>
             { order.status == 1 && <div className="col-4"><SalesOrderButtonGeneratePricePDF className={"btn btn-outline-success w-100"} actionName={"Imprimir"} orderData={order} onConfirm={validate}/></div>}
-            { order.status == 1 && <div className="col-4"><ButtonWithConfirm className={"btn btn-success w-100"} actionName={"Guardar"} title={"Confirmar Acción"} message={"Se Guardará La Información ¿Desea Continuar?"} onExecute={sendUpdateOrder} /></div>}
+            { order.status == 1 && <div className="col-4"><ButtonWithConfirm className={"btn btn-success w-100"} actionName={"Guardar"} title={"Confirmación"} message={"Guardar la Orden ¿Desea Continuar?"} onExecute={sendUpdateOrder} /></div>}
           </div>
 
         </div>

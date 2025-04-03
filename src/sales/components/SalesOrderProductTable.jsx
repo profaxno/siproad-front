@@ -3,14 +3,17 @@ import { SalesOrderProductTableItem } from './SalesOrderProductTableItem'
 
 export const SalesOrderProductTable = ({orderProductList = [], onNotifyUpdateOrderProduct}) => {
 
+  // * hooks
   const [selectedRow, setSelectedRow] = useState(null);
 
-  console.log(`rendered... orderProductList=${JSON.stringify(orderProductList)}`);
+  console.log(`rendered...`);
   
+  // * handles
   const handleRowClick = (item) => {
     setSelectedRow(item.key); // Set the selected row ID
   }
 
+  // * return component
   return (
     <table className="table table-striped table-bordered table-sm">
       <thead className="table-dark">

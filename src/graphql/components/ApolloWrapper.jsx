@@ -9,8 +9,10 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../auth/context/AuthContext";
 import { Message } from "../../common/components/Message";
 
+import config from "../../config/app.config";
+
 const httpLink = createHttpLink({
-  uri: "http://localhost:3000/graphql",
+  uri: `${config.SIPROAD_BFF_HOST}/graphql` //"http://localhost:3000/graphql",
 });
 
 export const ApolloWrapper = ({ children }) => {

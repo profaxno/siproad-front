@@ -31,7 +31,6 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
   const handleChange = (e) => {
     setOrderProduct({ ...orderProduct, [e.target.name]: e.target.value })
     setErrors({ ...errors, [e.target.name]: "" }); // Borra el error al escribir
-    console.log(`handleChange: errors=${JSON.stringify(errors)}`);
   }
 
   const validate = () => {
@@ -40,8 +39,8 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
     if (!(orderProduct.id && orderProduct.name)) newErrors.name = "Ingrese el nombre del producto a buscar";
     if (!orderProduct.qty) newErrors.qty = "Ingrese la cantidad";
     
-    console.log(`validate: newErrors=${JSON.stringify(newErrors)}`);
     setErrors(newErrors);
+    
     return Object.keys(newErrors).length === 0; // Devuelve true si no hay errores
   }
 
@@ -51,7 +50,6 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
     
     setErrors({ ...errors, [e.target.name]: "" }); // Borra el error al escribir
 
-    console.log(`onInputChange: ${JSON.stringify({name, value})}`);
     handleChange(e);
 
     setOrderProduct({
@@ -62,20 +60,14 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
   }
 
   const handleButtonAdd = (orderProduct) => {
-    console.log(`handleButtonAdd: orderProduct=${JSON.stringify(orderProduct)}`);
-
     // * validate
     if(!validate()) return;
     if(orderProduct.name === '') return;
     if(orderProduct.qty < 1) return;
     
     setOrderProduct(initOrderProduct);
-    //setClean(true);
-    console.log(`handleButtonAdd: notifying to saleOrder...`);
     onNotifyUpdateOrderProduct(orderProduct, 'add'); 
   }
-  
-  // const handleChangeProduct = (e) => {
   //   const { target } = e;
   //   const selectedIndex   = target.options.selectedIndex;
   //   const selectedOption  = target.options[selectedIndex];
@@ -98,35 +90,16 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
   // TODO: este metodo es el que busca los productos en el backend
   
   const onSearchObjectList = async(searchValue) => {
-    console.log(`onSearchObjectList: searchValue="${searchValue}"`);
     const searchList = [searchValue];
 
     const { data } = await fetchProducts({ variables: { searchList } })
     if (data) {
-      const payload = data?.salesProductFind?.payload || [];
-      console.log(`onSearchObjectList: payload=(${JSON.stringify(payload)})`);
+      const payload = data?.salesProductFind?.payload || [];      
       return payload;
     }
-
-    // // TODO: aqui debe ir la llamada al backend para buscar los productos
-    // const list = [
-    //   { id: 1, name: "Teclado", price: 100 },
-    //   { id: 2, name: "Monitor", price: 200 },
-    //   { id: 3, name: "Mouse", price: 300 },
-    //   { id: 4, name: "Laptop", price: 400 },
-    //   { id: 5, name: "Móvil", price: 500 }
-    // ]    
-
-    // const filteredList = list.filter((value) =>
-    //   value.name.toLowerCase().includes(searchValue.toLowerCase())
-    // )
-
-    // return filteredList;
   }
 
   const updateSelectObject = (obj) => {
-    console.log(`updateSelectObject: obj=${JSON.stringify(obj)}`);
-
     setOrderProduct({
       ...orderProduct,
       key: uuidv4(),

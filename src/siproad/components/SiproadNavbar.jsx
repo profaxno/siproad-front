@@ -24,7 +24,6 @@ export const SiproadNavbar = () => {
     // <nav className="navbar navbar-expand-sm navbar-dark bg-dark p-3">
     <nav className="navbar navbar-expand-sm navbar-dark bg-dark py-1 px-3 border rounded">
 
-
       <Link className="navbar-brand" to="/">SIPROAD</Link>
 
       <div className="navbar-collapse">
@@ -37,7 +36,7 @@ export const SiproadNavbar = () => {
 
       <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
         <ul className="navbar-nav ml-auto">
-          <span className="nav-item nav-link text-info">{authState.user?.name}</span>
+          <span className="nav-item nav-link text-light">{authState.user?.name}</span>
           <button className="nav-item nav-link btn" onClick={handleLogout}>Salir</button>
         </ul>
       </div>
