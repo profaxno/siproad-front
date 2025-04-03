@@ -120,7 +120,7 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
   // * return component
   return (
     <>
-      <div className="d-flex gap-2 mb-2">
+      <div className="d-flex gap-1 mb-2">
 
         <div className="col-9">
           <InputSearchWithTag 
