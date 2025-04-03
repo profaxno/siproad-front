@@ -404,8 +404,10 @@ export const SalesOrderPage = () => {
           <div className="border rounded">
             <div className="p-3" >
               <SalesOrderProductSearch onNotifyUpdateOrderProduct={updateOrderProduct} isClean={cleanSearchInput}/>
-              <SalesOrderProductTable orderProductList={order.productList} onNotifyUpdateOrderProduct={updateOrderProduct}/>
-              {errors.productList && <div className="custom-invalid-feedback border rounded p-1">{errors.productList}</div>}
+              <div className="mt-3 overflow-auto" style={{ maxHeight: '200px'}}>
+                <SalesOrderProductTable orderProductList={order.productList} onNotifyUpdateOrderProduct={updateOrderProduct}/>
+                {errors.productList && <div className="custom-invalid-feedback border rounded p-1">{errors.productList}</div>}
+              </div>
             </div>
 
             {/* totales */}
