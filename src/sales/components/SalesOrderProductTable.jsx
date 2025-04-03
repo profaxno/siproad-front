@@ -16,7 +16,7 @@ export const SalesOrderProductTable = ({orderProductList = [], onNotifyUpdateOrd
   // * return component
   return (
     <table className="table table-striped table-bordered table-sm">
-      <thead className="table-dark">
+      <thead className="table-dark" style={{ position: "sticky", top: 0 }}>
         <tr style={{ textAlign: "center" }}>
           <th style={{ width: "5%" }}></th>
           <th style={{ width: "10%" }}>Codigo</th>
@@ -24,7 +24,7 @@ export const SalesOrderProductTable = ({orderProductList = [], onNotifyUpdateOrd
           <th style={{ width: "10%" }}>Cantidad</th>
           <th style={{ width: "15%" }}>Precio</th>
           <th style={{ width: "15%" }}>Descuento</th>
-          <th style={{ width: "15%" }}>Sub-Total</th>
+          <th style={{ width: "15%" }}>SubTotal</th>
         </tr>
       </thead>
 
