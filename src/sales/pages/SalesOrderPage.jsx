@@ -404,7 +404,7 @@ export const SalesOrderPage = () => {
           <div className="border rounded">
             <div className="p-3" >
               <SalesOrderProductSearch onNotifyUpdateOrderProduct={updateOrderProduct} isClean={cleanSearchInput}/>
-              <div className="mt-3 overflow-auto" style={{ maxHeight: '200px'}}>
+              <div className="mt-3 overflow-auto" style={{ maxHeight: '300px'}}>
                 <SalesOrderProductTable orderProductList={order.productList} onNotifyUpdateOrderProduct={updateOrderProduct}/>
                 {errors.productList && <div className="custom-invalid-feedback border rounded p-1">{errors.productList}</div>}
               </div>
@@ -413,11 +413,11 @@ export const SalesOrderPage = () => {
             {/* totales */}
             <div className="d-flex p-3">
 
-              <div className="col-7"></div>
+              <div className="col-6"></div>
 
-              <div className="col-5">
+              <div className="col-6">
                 <div className="d-flex align-items-center gap-2">
-                  <label className="form-label mt-2 w-50 text-end">Sub-Total:</label>
+                  <label className="form-label mt-2 w-50 text-end">SubTotal:</label>
                   <InputAmount className="form-control form-control-sm" value={order.subTotal} readOnly={true}/>
                 </div>
 

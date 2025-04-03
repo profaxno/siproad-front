@@ -144,7 +144,7 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
       // 🔹 Generar tabla con productos
       autoTable(doc, {
         startY: finalY,
-        head: [["Codigo", "Producto", "Cantidad", "Precio", "Descuento", "Sub-Total"]],
+        head: [["Codigo", "Producto", "Cantidad", "Precio", "Descuento", "SubTotal"]],
         body: productList,
         margin: { top: 10, left: margin, right: margin, bottom: 40},
         headStyles: {
@@ -194,7 +194,7 @@ export const SalesOrderButtonGeneratePricePDF = ({className, style, actionName, 
       const total     = order.total     ? parseFloat(order.total).toFixed(2)    : '0.00';
 
       const data = [
-        ['Sub-Total:' , `${subTotal}`],
+        ['SubTotal:' , `${subTotal}`],
         ['IVA:'       , `${iva}`],
         ['Total:'     , `${total}`]
       ];
