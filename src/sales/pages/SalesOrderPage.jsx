@@ -16,6 +16,7 @@ import { SalesOrderButtonGeneratePricePDF } from "../components/SalesOrderButton
 import { SalesOrderTable } from "../components/SalesOrderTable";
 import { SalesOrderSearch } from "../components/SalesOrderSearch";
 import { Message } from "../../common/components/Message";
+import { FaBars } from "react-icons/fa"; 
 
 const initObj = {
   code          : "",
@@ -42,7 +43,9 @@ export const SalesOrderPage = () => {
   const [cleanSearchInput, setCleanSearchInput] = useState(false);
   const [switchRestart, setSwitchRestart] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-
+  const [isOpenSearchSection, setIsOpenSearchSection] = useState(true);
+  const [isOpenOrderSection, setIsOpenOrderSection] = useState(true);
+  
   console.log(`rendered... order=${JSON.stringify(order)}, orderList=(${orderList.length})${JSON.stringify(orderList)}`);
 
   // * handles
@@ -300,34 +303,62 @@ export const SalesOrderPage = () => {
   return (
     // <div className="row mt-3 animate__animated animate__fadeIn">
     <div className="row mt-3">
-
+      
       {/* search */}
-      <div className="col-sm-6">
+      <div className="col-sm-6 mb-3">
+        
         <div className="border rounded p-3" style={{ maxHeight: '750px'}}>
-          <h4 className="mb-2">Búsqueda de Ordenes</h4>
+          
+          <div className="d-flex align-items-center gap-2">
+            <span
+              className="d-block d-md-none fs-2" // Se oculta en pantallas medianas y grandes
+              onClick={() => setIsOpenSearchSection(!isOpenSearchSection)}
+              style={{ cursor: "pointer" }}
+            >
+              <FaBars className="text-dark"/>
+            </span>
 
-          <div className="mt-3 p-3">
-            {/* <div className="border rounded p-3 mb-3"> */}
-              <SalesOrderSearch onNotifyUpdateOrder={updateOrder} onNotifyUpdateOrderList={updateOrderList} isClean={cleanSearchInput}/>
-            {/* </div> */}
+            <h4 className="text-dark m-0">Búsqueda de Ordenes</h4>  
+          </div>
+
+          {/* <h4 className="mb-2">Búsqueda de Ordenes</h4> */}
+          {isOpenSearchSection && (
+
+          <div className="border rounded mt-3 p-3">
+            <SalesOrderSearch onNotifyUpdateOrder={updateOrder} onNotifyUpdateOrderList={updateOrderList} isClean={cleanSearchInput}/>
+            
             <div className="mt-3 overflow-auto" style={{ maxHeight: '600px'}}>
               <SalesOrderTable orderList={orderList} onNotifyUpdateOrder={updateOrder} onNotifySelectOrder={loadOrder}/>
             </div>
           </div>
+          )}
         </div>
+        
       </div>
 
       {/* update */}
       <div className="col-sm-6">
+
         <div className="border rounded p-3">
 
-          <div className="overflow-auto" style={{ height: '650px'}}>
-          {/* principal form */}
-          {/* <form onSubmit={handleSubmit} className="p-3"> */}
+          {/* form */}
+          <div className="overflow-auto" style={{ height: '750px'}}>
 
-            {/* order fields */}
-            <div className="border rounded p-3">
+            {/* order */}
+            <div className="d-flex align-items-center gap-2">
+              <span
+                className="fs-4" // Se oculta en pantallas medianas y grandes
+                onClick={() => setIsOpenOrderSection(!isOpenOrderSection)}
+                style={{ cursor: "pointer" }}
+              >
+                <FaBars className="text-dark"/>
+              </span>
 
+              <h4 className="text-dark m-0">Orden</h4>  
+            </div>
+            
+            {isOpenOrderSection && (
+            <div className="border rounded mt-2 p-3">
               <div className="d-flex gap-4">
 
                 <div className="col-7 flex-wrap">
@@ -362,7 +393,7 @@ export const SalesOrderPage = () => {
 
               </div>
 
-              <div className="flex-wrap mt-3 ">
+              <div className="flex-wrap mt-2 ">
                 <label className="form-label">Email:</label>
 
                 <input
@@ -374,10 +405,10 @@ export const SalesOrderPage = () => {
                 />
               </div>
 
-              <div className="flex-wrap mt-3">
+              <div className="flex-wrap mt-2">
                 <label className="form-label">Dirección:</label>
 
-                <textarea
+                <input
                   name="customerAddress"
                   className="form-control form-control-sm"
                   value={order.customerAddress}
@@ -385,57 +416,60 @@ export const SalesOrderPage = () => {
                 />
               </div>
 
-            </div>
-
-            <div className="mt-3">
-              <label className="form-label">Comentarios:</label>
-              <textarea
-                name="comment"
-                className="form-control form-control-sm"
-                value={order.comment}
-                onChange={handleChange}
-              />
-            </div>
-
-          {/* </form> */}
-
-          {/* product search */}
-          <label className="form-label mt-3">Productos:</label>
-          <div className="border rounded">
-            <div className="p-3" >
-              <SalesOrderProductSearch onNotifyUpdateOrderProduct={updateOrderProduct} isClean={cleanSearchInput}/>
-              <div className="mt-3 overflow-auto" style={{ maxHeight: '300px'}}>
-                <SalesOrderProductTable orderProductList={order.productList} onNotifyUpdateOrderProduct={updateOrderProduct}/>
-                {errors.productList && <div className="custom-invalid-feedback border rounded p-1">{errors.productList}</div>}
+              <div className="mt-3">
+                <label className="form-label">Comentarios:</label>
+                <textarea
+                  name="comment"
+                  className="form-control form-control-sm"
+                  value={order.comment}
+                  onChange={handleChange}
+                />
               </div>
             </div>
+            )}
 
-            {/* totales */}
-            <div className="d-flex p-3">
+            {/* products */}
+            <div className="mt-4">
+              <h4 className="text-dark m-0">Productos de la Orden</h4>  
+            </div>
 
-              <div className="col-6"></div>
-
-              <div className="col-6">
-                <div className="d-flex align-items-center gap-2">
-                  <label className="form-label mt-2 w-50 text-end">SubTotal:</label>
-                  <InputAmount className="form-control form-control-sm" value={order.subTotal} readOnly={true}/>
-                </div>
-
-                <div className="d-flex align-items-center gap-2">
-                  <label className="form-label mt-2 w-50 text-end">IVA:</label>
-                  <InputAmount className="form-control form-control-sm mt-2" value={order.iva} readOnly={true}/>
-                </div>
-
-                <div className="d-flex align-items-center gap-2">
-                  <label className="form-label mt-2 w-50 text-end">Total:</label>
-                  <InputAmount className="form-control form-control-sm mt-2" value={order.total} readOnly={true}/>
+            <div className="border rounded mt-2">  
+              <div className="p-3">
+                <SalesOrderProductSearch onNotifyUpdateOrderProduct={updateOrderProduct} isClean={cleanSearchInput}/>
+                
+                <div className="mt-3 overflow-auto" style={{ maxHeight: '400px'}}>
+                  <SalesOrderProductTable orderProductList={order.productList} onNotifyUpdateOrderProduct={updateOrderProduct}/>
+                  {errors.productList && <div className="custom-invalid-feedback border rounded p-1">{errors.productList}</div>}
                 </div>
               </div>
 
+              {/* totales */}
+              <div className="d-flex p-3">
+
+                <div className="col-6"></div>
+
+                <div className="col-6">
+                  <div className="d-flex align-items-center gap-2">
+                    <label className="form-label mt-2 w-50 text-end">SubTotal:</label>
+                    <InputAmount className="form-control form-control-sm" value={order.subTotal} readOnly={true}/>
+                  </div>
+
+                  <div className="d-flex align-items-center gap-2">
+                    <label className="form-label mt-2 w-50 text-end">IVA:</label>
+                    <InputAmount className="form-control form-control-sm mt-2" value={order.iva} readOnly={true}/>
+                  </div>
+
+                  <div className="d-flex align-items-center gap-2">
+                    <label className="form-label mt-2 w-50 text-end">Total:</label>
+                    <InputAmount className="form-control form-control-sm mt-2" value={order.total} readOnly={true}/>
+                  </div>
+                </div>
+
+              </div>
             </div>
-          </div>
 
           </div>
+
           {/* principal buttons */}
           <div className="d-flex mt-4 gap-1">
             <div className="col-4"><ButtonWithConfirm className={"btn btn-outline-danger w-100"} actionName={"Cancelar"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} onExecute={cleanOrder} /></div>
@@ -444,6 +478,7 @@ export const SalesOrderPage = () => {
           </div>
 
         </div>
+        
       </div>
 
       <Message show={showMessage} onUpdateShowMessage={setShowMessage}/>
