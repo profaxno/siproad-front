@@ -95,6 +95,7 @@ export const SalesOrderSearch = ({onNotifyUpdateOrder, onNotifyUpdateOrderList})
             onChange={handleInputChange}
             // onKeyDown={handleKeyDown}
             placeholder={"Buscador..."}
+            autoComplete="off"
           />
         </div>
 

@@ -24,6 +24,9 @@ export const ApolloWrapper = ({ children }) => {
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message, extensions }) => {
+        
+        console.error(`[GraphQL error]: Message: ${message}`);
+
         if (extensions?.code === 'UNAUTHENTICATED') {
           alert('Tu sesión ha expirado. Por favor inicia sesión de nuevo.'); // TODO: falta crear un componente de mensaje
           onLogout();

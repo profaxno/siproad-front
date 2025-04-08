@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 import "../../index.css";
+// import "../../common/css/table.css";
 
 import { useUpdateOrder, useSearchOrder } from '../hooks/useOrder';
 
@@ -307,7 +308,7 @@ export const SalesOrderPage = () => {
       {/* search */}
       <div className="col-sm-6 mb-3">
         
-        <div className="border rounded p-3" style={{ maxHeight: '750px'}}>
+        <div className="border rounded p-3" style={{ maxHeight: '650px'}}>
           
           <div className="d-flex align-items-center gap-2">
             <span
@@ -323,11 +324,10 @@ export const SalesOrderPage = () => {
 
           {/* <h4 className="mb-2">Búsqueda de Ordenes</h4> */}
           {isOpenSearchSection && (
-
           <div className="border rounded mt-3 p-3">
             <SalesOrderSearch onNotifyUpdateOrder={updateOrder} onNotifyUpdateOrderList={updateOrderList} isClean={cleanSearchInput}/>
             
-            <div className="mt-3 overflow-auto" style={{ maxHeight: '600px'}}>
+            <div className="mt-3 overflow-auto" style={{ maxHeight: '500px'}}>
               <SalesOrderTable orderList={orderList} onNotifyUpdateOrder={updateOrder} onNotifySelectOrder={loadOrder}/>
             </div>
           </div>
@@ -342,7 +342,7 @@ export const SalesOrderPage = () => {
         <div className="border rounded p-3">
 
           {/* form */}
-          <div className="overflow-auto" style={{ height: '750px'}}>
+          <div className="overflow-auto" style={{ height: '650px'}}>
 
             {/* order */}
             <div className="d-flex align-items-center gap-2">
@@ -354,7 +354,7 @@ export const SalesOrderPage = () => {
                 <FaBars className="text-dark"/>
               </span>
 
-              <h4 className="text-dark m-0">Orden</h4>  
+              <h5 className="text-dark m-0">Orden</h5>  
             </div>
             
             {isOpenOrderSection && (
@@ -366,9 +366,9 @@ export const SalesOrderPage = () => {
 
                   <InputSearchWithTag
                     name="customerName"
-                    className={`form-control ${errors.customerName ? "is-invalid" : ""}`}
+                    className={`form-control text-capitalize ${errors.customerName ? "is-invalid" : ""}`}
                     searchField={"name"}
-                    value={order.customerName} // ! Esto hace que se renderice 2 veces la pantalla
+                    value={order.customerName?.toLowerCase()} // ! Esto hace que se renderice 2 veces la pantalla
                     placeholder={"Buscador..."}
                     onNotifyChangeEvent={handleChange}
                     onSearchOptions={onSearchCustomerList}
@@ -386,21 +386,21 @@ export const SalesOrderPage = () => {
                     name="customerIdDoc"
                     className={`form-control ${errors.customerIdDoc ? "is-invalid" : ""}`}
                     type="text"
-                    value={order.customerIdDoc}
+                    value={order.customerIdDoc?.toUpperCase()}
                     onChange={handleChange}
                   />
                 </div>
 
               </div>
 
-              <div className="flex-wrap mt-2 ">
+              <div className="flex-wrap mt-3 ">
                 <label className="form-label">Email:</label>
 
                 <input
                   name="customerEmail"
                   className={"form-control form-control-sm"}
                   type="text"
-                  value={order.customerEmail}
+                  value={order.customerEmail?.toLowerCase()}
                   onChange={handleChange}
                 />
               </div>
@@ -410,8 +410,8 @@ export const SalesOrderPage = () => {
 
                 <input
                   name="customerAddress"
-                  className="form-control form-control-sm"
-                  value={order.customerAddress}
+                  className="form-control form-control-sm text-capitalize"
+                  value={order.customerAddress?.toLowerCase()}
                   onChange={handleChange}
                 />
               </div>
@@ -421,7 +421,7 @@ export const SalesOrderPage = () => {
                 <textarea
                   name="comment"
                   className="form-control form-control-sm"
-                  value={order.comment}
+                  value={order.comment?.toLowerCase()}
                   onChange={handleChange}
                 />
               </div>
@@ -430,7 +430,7 @@ export const SalesOrderPage = () => {
 
             {/* products */}
             <div className="mt-4">
-              <h4 className="text-dark m-0">Productos de la Orden</h4>  
+              <h5 className="text-dark m-0">Productos de la Orden</h5>  
             </div>
 
             <div className="border rounded mt-2">  
@@ -446,9 +446,9 @@ export const SalesOrderPage = () => {
               {/* totales */}
               <div className="d-flex p-3">
 
-                <div className="col-6"></div>
+                <div className="col-5"></div>
 
-                <div className="col-6">
+                <div className="col-7">
                   <div className="d-flex align-items-center gap-2">
                     <label className="form-label mt-2 w-50 text-end">SubTotal:</label>
                     <InputAmount className="form-control form-control-sm" value={order.subTotal} readOnly={true}/>

@@ -60,10 +60,9 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
       style={ item.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5, cursor: "pointer" } : { cursor: "pointer" } }
     >
       <td>
-        { item.status === 1 
-          // ? <button className="btn btn-outline-danger" onClick={handleDeleteProduct}>x</button>
-          ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"} actionName={"x"} title={"Confirmación"} message={"Eliminar producto de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete}/>
-          : <div/>
+        { item.status === 0 
+          ? <div/>
+          : <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"} actionName={"x"} title={"Confirmación"} message={"Eliminar producto de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete}/>
         }
       </td>
 
@@ -81,6 +80,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
           className={"form-control form-control-sm"} 
           value={item.qty}
           onChange={(event) => handleInputChange(event.target.name, event.target.value, item.price, item.discountPct)}
+          readOnly={item.status === 0}
         />
       </td>
 
@@ -90,6 +90,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
           className={"form-control form-control-sm"} 
           value={item.price}
           onChange={(event) => handleInputChange(event.target.name, item.qty, event.target.value, item.discountPct)}
+          readOnly={item.status === 0}
         />
       </td>
       
@@ -99,8 +100,9 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
             name={"discountPct"} 
             className={"form-control form-control-sm"} 
             value={item.discountPct}
-            onChange={(event) => handleInputChange(event.target.name, item.qty, item.price,  event.target.value)}
             max={100}
+            onChange={(event) => handleInputChange(event.target.name, item.qty, item.price,  event.target.value)}
+            readOnly={item.status === 0}
           />
           %
         </div>

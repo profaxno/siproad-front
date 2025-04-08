@@ -30,13 +30,13 @@ export const SiproadNavbar = () => {
         <div className="navbar-nav">
           <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/sales">Ventas</NavLink>
           <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products">Productos</NavLink>
-          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/admin">Administración</NavLink>
+          {/* <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/admin">Administración</NavLink> */}
         </div>
       </div>
 
       <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
         <ul className="navbar-nav ml-auto">
-          <span className="nav-item nav-link text-light">{authState.user?.name}</span>
+          <span className="nav-item nav-link text-light text-capitalize">{authState.user?.name.toLowerCase()}</span>
           <button className="nav-item nav-link btn" onClick={handleLogout}>Salir</button>
         </ul>
       </div>

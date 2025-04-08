@@ -7,15 +7,18 @@ import { SiproadPublicRoute } from './SiproadPublicRoute'
 import { SiproadPrivateRoute } from './SiproadPrivateRoute'
 import { LoginPage } from '../../auth/pages/LoginPage'
 import { SiproadNavbar } from '../components/SiproadNavbar'
-import { SalesRoutes } from '../../sales/routes/SalesRoutes'
-import { ProductsRoutes } from '../../products/routes/ProductsRoutes'
+// import { SalesRoutes } from '../../sales/routes/SalesRoutes'
+// import { ProductsRoutes } from '../../products/routes/ProductsRoutes'
 import { SalesNavbar } from '../../sales/components/SalesNavbar'
-import { ProductsNavbar } from '../../products/components/ProductsNavbar'
+
 import { SalesOrderPage } from '../../sales/pages/SalesOrderPage'
 
 import { ApolloProvider } from '@apollo/client'
 import client from "../../apolloClient";
 import { ApolloWrapper } from '../../graphql/components/ApolloWrapper'
+import { ProductsProductPage } from '../../products/pages/ProductsProductPage'
+import { ProductsProductProvider } from '../../products/context/ProductsProductProvider'
+import { ProductsNavbar } from '../../products/components/product/ProductsNavbar'
 
 export const SiproadRouter = () => {
   return (
@@ -44,11 +47,11 @@ export const SiproadRouter = () => {
 
           <Route path="/sales/*" element={
             <SiproadPrivateRoute>
-              <ApolloWrapper>  
                 <SiproadNavbar/>
                 <SalesNavbar/>
-                <SalesOrderPage/>
-              </ApolloWrapper>
+                <ApolloWrapper>  
+                  <SalesOrderPage/>
+                </ApolloWrapper>
             </SiproadPrivateRoute>
           }/>
 
@@ -57,7 +60,7 @@ export const SiproadRouter = () => {
               <ApolloProvider client={client}>
                 <SiproadNavbar/>
                 <SalesNavbar/>
-                <div>Clientes en construccion</div>
+                {/* <div>Clientes en construccion</div> */}
               </ApolloProvider>
             </SiproadPrivateRoute>
           }/>
@@ -66,7 +69,12 @@ export const SiproadRouter = () => {
             <SiproadPrivateRoute>
               <SiproadNavbar/>
               <ProductsNavbar/>
-              <div>Productos en construccion</div>
+              {/* <div>Productos en construccion</div> */}
+              <ApolloWrapper>
+                <ProductsProductProvider>
+                  <ProductsProductPage/>
+                </ProductsProductProvider>
+              </ApolloWrapper>
             </SiproadPrivateRoute>
           }/>
           

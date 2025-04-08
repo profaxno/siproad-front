@@ -13,7 +13,7 @@ export const InputAmount = ({name, className, defaultValue, value, readOnly, onC
       decimalSeparator="."
       decimalScale={2}
       fixedDecimalScale
-      allowNegative={false}
+      // allowNegative={false}
       // prefix="€ "
       readOnly={readOnly}
       onChange={onChange}
