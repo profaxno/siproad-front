@@ -7,7 +7,7 @@ import { tableReducer } from './TableReducer'
 import { TableActionEnum } from '../enums/table-actions.enum';
 
 const initObj = {
-  id: 0,
+  id: undefined,
   name: "",
   code: "",
   description: "",
@@ -42,9 +42,6 @@ export const ProductsProductProvider = ({ children }) => {
       console.log(`updateTable: obj=(${obj.length}), actionType=${actionType}`);
     else console.log(`updateTable: obj=${JSON.stringify(obj)}, actionType=${actionType}`);
 
-    if(actionType === TableActionEnum.DELETE)
-      deleteProduct(obj);
-
     const action = {
       type: actionType,
       payload: obj
@@ -54,8 +51,13 @@ export const ProductsProductProvider = ({ children }) => {
   }
 
   const updateForm = (obj = initObj) => {
-    //alert(`updateForm: ${JSON.stringify(obj)}`);
     setObj(obj);
+  }
+
+  const cleanForm = () => {
+    setObj(initObj);
+    updateTableProductElement([], TableActionEnum.CLEAN);
+    setErrors({});
   }
 
   const calculateCost = (productElementList) => {
@@ -94,13 +96,6 @@ export const ProductsProductProvider = ({ children }) => {
     }
 
     dispatchProductElementList( action );
-  }
-
-  const cleanForm = () => {
-    // alert(`cleanForm`);
-    setObj(initObj);
-    // updateTableProductElement([], TableActionEnum.CLEAN);
-    setErrors({});
   }
 
   // * api handles
@@ -171,7 +166,25 @@ export const ProductsProductProvider = ({ children }) => {
 
   // * return component
   return (
-    <ProductsProductContext.Provider value={{ obj, objList, updateTable, updateForm, calculateProfitMargin, updateTableProductElement, cleanForm, saveProduct, findProducts, errors, setErrors, showMessage, setShowMessage }}>
+    <ProductsProductContext.Provider 
+      value={{ 
+        obj, 
+        objList, 
+        errors, 
+        showMessage, 
+        
+        updateTable, 
+        updateForm, 
+        cleanForm,
+        calculateProfitMargin, 
+        updateTableProductElement, 
+        setErrors, 
+        setShowMessage,
+
+        findProducts, 
+        saveProduct, 
+        deleteProduct
+      }}>
       {children}
     </ProductsProductContext.Provider>
   )

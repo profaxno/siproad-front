@@ -124,6 +124,10 @@ export const ProductsProductElementSearch = ({onNotifyUpdateTable}) => {
           className="btn btn-outline-success"            
           onClick={() => handleButtonAdd(productElement) }
         >
+          {/* <img
+            src={'src/common/assets/add-green.png'}
+            style={{ width: "20px", height: "20px" }}
+          /> */}
           +
         </button>
       </div>

@@ -82,7 +82,7 @@ export const ProductsProductElementTableItem = ({value = {}, selectedRow, onNoti
     >
       <td>
         { item.active
-          ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"} actionName={"x"} title={"Confirmación"} message={"Eliminar producto de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete}/>
+          ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"}  title={"Confirmación"} message={"Eliminar item de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete} imgPath={'src/common/assets/delete-red.png'} imgStyle={{ width: "15px", height: "15px" }}/>
           : <div/>
         }
       </td>

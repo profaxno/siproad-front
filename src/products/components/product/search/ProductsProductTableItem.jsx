@@ -24,7 +24,7 @@ export const ProductsProductTableItem = ({value = {}}) => {
   // * handles
   const handleRowClick = () => {
     // alert(`handleRowClick: item=${JSON.stringify(item)}`);
-
+    
     const elementListAux = item.elementList.map((value) => {
       return {
         ...value,
@@ -38,22 +38,22 @@ export const ProductsProductTableItem = ({value = {}}) => {
       elementList: elementListAux
     }
 
-    alert(`handleRowClick: itemAux=${JSON.stringify(elementListAux)}`);
+    // alert(`handleRowClick: itemAux=${JSON.stringify(elementListAux)}`);
     updateForm(itemAux);
     updateTableProductElement(elementListAux, TableActionEnum.LOAD);
   }
 
-  const handleButtonDelete = () => {
-    const itemAux = {
-      ...item,
-      active: false
-    }
+  // const handleButtonDelete = () => {
+  //   const itemAux = {
+  //     ...item,
+  //     active: false
+  //   }
 
-    cleanForm();
-    updateTable(itemAux, TableActionEnum.DELETE);
-    setShowMessage(true);
-    // setItem(itemAux);
-  }
+  //   cleanForm();
+  //   updateTable(itemAux, TableActionEnum.DELETE);
+  //   setShowMessage(true);
+  //   // setItem(itemAux);
+  // }
 
   // * return component
   return (
@@ -63,12 +63,12 @@ export const ProductsProductTableItem = ({value = {}}) => {
       className={obj.key === item.key ? "table-dark" : ""} 
       style={ item.active ? { cursor: "pointer" } : { textDecoration: "line-through 1px red ", cursor: "pointer" } }
     >
-      <td >
+      {/* <td >
         { item.active
           ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"} actionName={"x"} title={"Confirmación"} message={"Eliminar la Orden ¿Desea Continuar?"} onExecute={handleButtonDelete}/>
           : <div/>
         }
-      </td>
+      </td> */}
 
       <td>
         {item.code}

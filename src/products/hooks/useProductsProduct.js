@@ -6,7 +6,7 @@ import { UPDATE_PRODUCT, DELETE_PRODUCT } from "../graphql/products-product-muta
 export const useSearchProduct = () => {
   
   const [fetchProducts, { data, loading, error }] = useLazyQuery(GET_PRODUCTS, {
-    fetchPolicy: "no-cache",  // Evita el uso de caché
+    fetchPolicy: "no-cache",
   });
 
   const payload = data?.productsProductFind?.payload || [];
