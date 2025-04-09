@@ -7,6 +7,21 @@ import Modal from "react-modal"; // Importamos la librería para modal
 
 Modal.setAppElement("#root"); // Especificamos el elemento principal de la app
 
+const initObj = {
+  customerIdDoc: "11.111.111-1",
+  customerName: "",
+  customerEmail: "",
+  customerPhone: "",
+  customerAddress: "",
+  comment: "",
+  productList: [],
+  subTotal: 0,
+  iva: 0,
+  total: 0,
+  status: 1
+}
+
+
 export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderData, onConfirm, tooltip, imgPath, imgStyle}) => {
 
   // * hooks
@@ -231,7 +246,6 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
 
   return (
     <div>
-
       <button className={className} onClick={handleGeneratePDF} title={tooltip}>
         {imgPath && (
           <img
@@ -242,53 +256,47 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         {actionName}
       </button>
       
+      {/* Modal de vista previa del PDF */}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Vista Previa del PDF"
-        ariaHideApp={false}
+        ariaHideApp={false} // Para permitir que funcione el modal sin conflictos
         style={{
           overlay: { backgroundColor: "rgba(0,0,0,0.5)" },
-          content: {
-            // ✅ Ajuste responsive del modal
-            top: "5%",
-            left: "5%",
-            right: "5%",
-            bottom: "5%",
-            padding: "10px",
-            backgroundColor: "#fff",
+          content: { 
+            position: "absolute", 
+            top: "10%", 
+            left: "10%", 
+            right: "10%", 
+            bottom: "10%", 
+            padding: "20px", 
+            backgroundColor: "#fff", 
             borderRadius: "8px",
-            overflow: "hidden",
-            maxWidth: "100%",
-            maxHeight: "100%",
-            boxSizing: "border-box"
+            overflow: "hidden"
           }
         }}
       >
-        {/* ✅ Título y botón cerrar */}
+        {/* <div className="modal-header bg-dark text-white mb-3">
+          <h3 className="modal-title">Vista Previa del PDF:</h3>
+          <button className="btn-close btn-close-white" style={{ position: "absolute", top: "10px", right: "10px" }} onClick={closeModal}/>
+        </div> */}
+
         <div className="mb-4">
           <h3>Vista Previa</h3>
-          <button
-            className="btn-close"
-            onClick={closeModal}
-            style={{ position: "absolute", top: "10px", right: "10px" }}
-          />
+          <button className="btn-close" onClick={closeModal} style={{ position: "absolute", top: "10px", right: "10px" }}/>
         </div>
 
-        {/* ✅ Iframe responsive con altura adaptable */}
         {previewUrl && (
           <iframe
             title="PDF Preview"
             src={previewUrl}
-            style={{
-              width: "100%",
-              height: "70vh", // ✅ Altura relativa a la ventana
-              border: "none"
-            }}
+            width="100%"
+            height="600px"
+            style={{ border: "none" }}
           ></iframe>
         )}
       </Modal>
-
     </div>
   );
 };
