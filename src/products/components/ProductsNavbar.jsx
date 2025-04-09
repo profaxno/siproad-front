@@ -10,15 +10,11 @@ export const ProductsNavbar = () => {
   
   // * return component
   return (
-    <nav className="navbar navbar-expand-sm navbar bg-light py-0 px-3 border rounded">
-        
-      <div className="navbar-collapse">
-        <div className="navbar-nav">
-          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products/products">Productos</NavLink>
-          {/* <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products/elements">Ingredientes</NavLink> */}
-        </div>
+    <nav className="navbar navbar-expand-sm bg-light py-0 border rounded d-none d-sm-block">
+      <div className="navbar-nav">
+        <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products/products">Productos</NavLink>
+        <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products/elements">Ingredientes</NavLink>
       </div>
-
     </nav>
   )
 }
