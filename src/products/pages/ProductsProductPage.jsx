@@ -89,7 +89,7 @@ export const ProductsProductPage = () => {
       <div className="col-sm-6 mb-3">
         
         {/* search */}
-        <div className="border rounded p-3" style={{ maxHeight: '650px'}}>
+        <div className="border rounded p-3" style={{ maxHeight: '750px'}}>
           
           <div className="d-flex align-items-center gap-2">
             <span className="d-block d-md-none fs-2" onClick={() => setIsOpenSearchSection(!isOpenSearchSection)} style={{ cursor: "pointer" }}>
@@ -103,7 +103,7 @@ export const ProductsProductPage = () => {
           <div className="border rounded mt-3 p-3">
             <ProductsProductSearch/>
             
-            <div className="mt-3 overflow-auto" style={{ maxHeight: '500px'}}>
+            <div className="mt-3 overflow-auto" style={{ maxHeight: '550px'}}>
               <ProductsProductTable/>
             </div>
           </div>
@@ -115,7 +115,7 @@ export const ProductsProductPage = () => {
       
       <div className="col-sm-6">
 
-        <div className="border rounded p-3">
+        <div className="border rounded p-3" style={{ maxHeight: '750px'}}>
 
           {/* form */}
           <div className="overflow-auto" style={{ height: '650px'}}>
