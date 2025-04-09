@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useId } from "react";
+import { useState, useEffect, useId } from "react";
 
 export const ButtonWithConfirm = ({ className, actionName, title, tooltip, message, onExecute, imgPath, imgStyle }) => {
   

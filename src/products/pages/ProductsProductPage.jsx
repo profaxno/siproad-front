@@ -3,18 +3,18 @@ import { useState, useEffect, useContext } from 'react'
 import { FaBars } from "react-icons/fa"; 
 
 import { ButtonWithConfirm } from '../../common/components/ButtonWithConfirm';
-import { TableActionEnum } from '../enums/table-actions.enum';
+import { TableActionEnum } from '../../common/enums/table-actions.enum';
 import { Message } from '../../common/components/Message';
 
 import { ProductsProductContext } from '../context/ProductsProductContext';
 import { ProductsElementProvider } from '../context/ProductsElementProvider';
 
-import { ProductsProductSearch } from '../components/product/search/ProductsProductSearch';
-import { ProductsProductTable } from '../components/product/search/ProductsProductTable';
+import { ProductsProductSearch } from '../components/product/ProductsProductSearch';
+import { ProductsProductTable } from '../components/product/ProductsProductTable';
 
-import { ProductsProductForm } from '../components/product/form/ProductsProductForm';
-import { ProductsProductElementSearch } from '../components/product/form/ProductsProductElementSearch';
-import { ProductsProductElementTable } from '../components/product/form/ProductsProductElementTable';
+import { ProductsProductForm } from '../components/product/ProductsProductForm';
+import { ProductsProductElementSearch } from '../components/product/ProductsProductElementSearch';
+import { ProductsProductElementTable } from '../components/product/ProductsProductElementTable';
 
 export const ProductsProductPage = () => {
 

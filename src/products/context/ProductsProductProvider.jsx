@@ -3,8 +3,8 @@ import { useState, useEffect, useReducer } from 'react'
 import { ProductsProductContext } from './ProductsProductContext';
 import { useSearchProduct, useUpdateProduct, useDeleteProduct } from '../hooks/useProductsProduct';
 
-import { tableReducer } from './TableReducer'
-import { TableActionEnum } from '../enums/table-actions.enum';
+import { tableReducer } from '../../common/hooks/TableReducer'
+import { TableActionEnum } from '../../common/enums/table-actions.enum';
 
 const initObj = {
   id: undefined,

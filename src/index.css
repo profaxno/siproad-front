@@ -1,10 +1,10 @@
 body {
-  padding: 20px;
+  padding: 10px;
 }
 
-button {
+/* button {
   margin-right: 5px;
-}
+} */
 
 .custom-invalid-feedback {
   color: #dc3545; /* Rojo Bootstrap */
@@ -17,18 +17,23 @@ button {
   display: flex;
   flex-wrap: wrap;
   border: 1px solid #ccc;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 4px;
+  border-radius: 4px;
 }
 
 .tag {
-  background-color: #007bff;
+  background-color: #198754;
   color: white;
   padding: 5px 10px;
   margin: 2px;
-  border-radius: 15px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
+}
+
+.list-group-item.active {
+  background-color: #198754 !important; /* verde Bootstrap */
+  color: white;
 }
 
 .remove-tag {

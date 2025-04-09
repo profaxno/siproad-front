@@ -1,4 +1,3 @@
-import React from 'react'
 import { NumericFormat } from "react-number-format";
 
 export const InputAmount = ({name, className, defaultValue, value, readOnly, onChange, placeholder, max}) => {
