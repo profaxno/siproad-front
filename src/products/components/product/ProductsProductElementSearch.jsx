@@ -124,7 +124,7 @@ export const ProductsProductElementSearch = ({onNotifyUpdateTable}) => {
           onClick={() => handleButtonAdd(productElement) }
         >
           {/* <img
-            src={'src/common/assets/add-green.png'}
+            src={'/assets/add-green.png'}
             style={{ width: "20px", height: "20px" }}
           /> */}
           +

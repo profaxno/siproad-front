@@ -131,9 +131,9 @@ export const SalesOrderPage = () => {
               
               <div className="col-1 col-sm d-flex justify-content-end gap-1">
                 { obj.status && obj.id &&
-                  <ButtonWithConfirm className={"btn btn-outline-danger"} title={"Confirmación"} message={"Eliminar el Ordero ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm} imgPath={'src/common/assets/delete-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
+                  <ButtonWithConfirm className={"btn btn-outline-danger"} title={"Confirmación"} message={"Eliminar el Ordero ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm} imgPath={'/assets/delete-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
                 }
-                <SalesOrderButtonGeneratePdfPrice className={"btn btn-outline-success"} onConfirm={validate} orderData={obj} tooltip={"Generar Cotización"} imgPath={'src/common/assets/printer-green.png'} imgStyle={{ width: "20px", height: "20px" }}/>
+                <SalesOrderButtonGeneratePdfPrice className={"btn btn-outline-success"} onConfirm={validate} orderData={obj} tooltip={"Generar Cotización"} imgPath={'/assets/printer-green.png'} imgStyle={{ width: "20px", height: "20px" }}/>
               </div>
             
             </div>
