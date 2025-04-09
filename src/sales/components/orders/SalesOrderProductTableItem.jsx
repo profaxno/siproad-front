@@ -79,7 +79,7 @@ export const SalesOrderProductTableItem = ({value = {}, selectedRow, onNotifyCli
       <td>
         { item.status === 0 
           ? <div/>
-          : <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"}  title={"Confirmación"} message={"Eliminar item de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete} imgPath={'src/common/assets/delete-red.png'} imgStyle={{ width: "15px", height: "15px" }}/>
+          : <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"}  title={"Confirmación"} message={"Eliminar item de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete} imgPath={'/assets/delete-red.png'} imgStyle={{ width: "15px", height: "15px" }}/>
         }
       </td>
 

@@ -134,9 +134,9 @@ export const ProductsProductPage = () => {
               
               <div className="col-1 col-sm d-flex justify-content-end">
                 { obj.active && obj.id &&
-                  <ButtonWithConfirm className={"btn btn-outline-danger"} title={"Confirmación"} message={"Eliminar el Producto ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm} imgPath={'src/common/assets/delete-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
+                  <ButtonWithConfirm className={"btn btn-outline-danger"} title={"Confirmación"} message={"Eliminar el Producto ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm} imgPath={'/assets/delete-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
                 }
-                {/* <ButtonWithConfirm className={"btn btn-outline-success"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} tooltip={"Nuevo Registro"} onExecute={cleanForm} pathImg={'src/common/assets/add-green.png'}/> */}
+                {/* <ButtonWithConfirm className={"btn btn-outline-success"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} tooltip={"Nuevo Registro"} onExecute={cleanForm} pathImg={'/assets/add-green.png'}/> */}
               </div>
             
             </div>
