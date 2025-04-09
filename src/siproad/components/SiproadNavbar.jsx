@@ -52,7 +52,6 @@ export const SiproadNavbar = () => {
               </span>
 
               <ButtonWithConfirm className={"btn btn-sm"} title={"Confirmación"} message={"Salir del Sistema ¿Desea Continuar?"} tooltip={"Salir del Sistema"} onExecute={handleLogout} imgPath={'/assets/logout-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
-              {/* <button className="nav-item nav-link btn" onClick={() => { handleLogout() }}>Salir</button> */}
             </div>
 
           </div>
@@ -63,16 +62,15 @@ export const SiproadNavbar = () => {
         <div className="navbar-nav me-auto d-sm-none">
           {/* <label style={{ color: 'red' }}>MENU SMALL</label> */}
           
-          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/sales/orders" onClick={closeNavbar}>Órdenes</NavLink>
+          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/sales/orders" onClick={closeNavbar}>Ordenes</NavLink>
           <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/sales/customers" onClick={closeNavbar}>Clientes</NavLink>  
 
           <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products/products" onClick={closeNavbar}>Productos</NavLink>
-          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products/elements" onClick={closeNavbar}>Ingredientes</NavLink>
+          {/* <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products/elements" onClick={closeNavbar}>Elementos</NavLink> */}
 
           <ButtonWithConfirm className={"btn btn-sm"} title={"Confirmación"} message={"Salir del Sistema ¿Desea Continuar?"} tooltip={"Salir del Sistema"} onExecute={handleLogout} imgPath={'/assets/logout-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
-          {/* <button className="nav-item nav-link btn" onClick={() => { handleLogout() }}>Salir</button> */}
         </div>
-        
+
       </div>
     </nav>
   );

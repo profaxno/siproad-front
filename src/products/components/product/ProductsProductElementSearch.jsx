@@ -89,9 +89,9 @@ export const ProductsProductElementSearch = ({onNotifyUpdateTable}) => {
   // * return component
   return (
     
-    <div className="row mb-2">
+    <div className="d-flex justify-content-end gap-2">
 
-      <div className="col-7">
+      <div className="col-6 col-sm">
         <InputSearchWithTag 
           name="name"
           className={`form-control ${errors.name ? "is-invalid" : ""}`}
@@ -106,7 +106,7 @@ export const ProductsProductElementSearch = ({onNotifyUpdateTable}) => {
         {errors.name && <div className="custom-invalid-feedback">{errors.name}</div>}
       </div>
 
-      <div className="col-3">
+      <div className="col-4">
         <InputAmount 
           name={"qty"}
           className={`form-control ${errors.qty ? "is-invalid" : ""}`}

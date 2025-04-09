@@ -7,6 +7,21 @@ import Modal from "react-modal"; // Importamos la librería para modal
 
 Modal.setAppElement("#root"); // Especificamos el elemento principal de la app
 
+const initObj = {
+  customerIdDoc: "11.111.111-1",
+  customerName: "",
+  customerEmail: "",
+  customerPhone: "",
+  customerAddress: "",
+  comment: "",
+  productList: [],
+  subTotal: 0,
+  iva: 0,
+  total: 0,
+  status: 1
+}
+
+
 export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderData, onConfirm, tooltip, imgPath, imgStyle}) => {
 
   // * hooks
@@ -231,7 +246,6 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
 
   return (
     <div>
-
       <button className={className} onClick={handleGeneratePDF} title={tooltip}>
         {imgPath && (
           <img
@@ -288,7 +302,6 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
           ></iframe>
         )}
       </Modal>
-
     </div>
   );
 };
