@@ -93,10 +93,10 @@ export const SalesOrderProductSearch = () => {
 
   // * return component
   return (
-    
-    <div className="d-flex gap-1 mb-2">
+  
+    <div className="row mb-2">
 
-      <div className="col-9">
+      <div className="col-7">
         <InputSearchWithTag 
           name="name"
           className={`form-control ${errors.name ? "is-invalid" : ""}`}
@@ -111,17 +111,19 @@ export const SalesOrderProductSearch = () => {
         {errors.name && <div className="custom-invalid-feedback">{errors.name}</div>}
       </div>
 
-      <div className="col-2">
-        <InputAmount 
-          name={"qty"}
-          className={`form-control ${errors.qty ? "is-invalid" : ""}`}
-          value={orderProduct.qty}
-          onChange={handleChange}
-          placeholder={"Cantidad"}
-        />
-        {errors.qty && <div className="custom-invalid-feedback">{errors.qty}</div>}
+      <div className="col-3">
+        
+          <InputAmount 
+            name={"qty"}
+            className={`form-control ${errors.qty ? "is-invalid" : ""}`}
+            value={orderProduct.qty}
+            onChange={handleChange}
+            placeholder={"Cantidad"}
+          />
+          {errors.qty && <div className="custom-invalid-feedback">{errors.qty}</div>}
+
       </div>
-      
+
       <div className="col-1">
         <button 
           name='btnAddOrderProduct'

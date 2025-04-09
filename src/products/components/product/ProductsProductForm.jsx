@@ -59,7 +59,7 @@ export const ProductsProductForm = () => {
       </div>
 
       {/* cost, price */}
-      <div className="mt-3 d-flex gap-4">
+      <div className="mt-3 d-flex gap-3">
       
         <div className="col-4 flex-wrap">
           <label className="form-label">Costo:</label>
