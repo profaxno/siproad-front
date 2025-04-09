@@ -1,26 +1,44 @@
-import React, { useEffect, useState } from 'react'
-import { InputAmount } from '../../common/components/InputAmount';
-import { ButtonWithConfirm } from "../../common/components/ButtonWithConfirm";
+import { useEffect, useContext, useState } from 'react'
 
-export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrderProduct, onClick, selectedRow}) => {
+import { InputAmount, ButtonWithConfirm } from '../../../common/components';
+import { TableActionEnum } from '../../../common/enums/table-actions.enum';
+
+import { SalesOrderContext } from '../../context/SalesOrderContext';
+
+export const SalesOrderProductTableItem = ({value = {}, selectedRow, onNotifyClick}) => {
 
   // * hooks
+  const { updateTableOrderProduct } = useContext(SalesOrderContext);
   const [item, setItem] = useState({
-    ...orderProduct
+    ...value
   });
   
-  console.log(`rendered... orderProduct=${JSON.stringify(item)}`); 
+  console.log(`rendered... item=${JSON.stringify(item)}`); 
+
+  useEffect(() => {
+    console.log(`rendered... value=${JSON.stringify(value)}`); 
+    setItem({
+      ...value
+    });
+  }, [value]);
 
   // * handles
+  // const handleChange = (e) => {
+  //   const itemAux = {
+  //     ...item,
+  //     [e.target.name]: e.target.value
+  //   }
+
+  //   setItem(itemAux);
+  //   updateTableOrderProduct(itemAux, TableActionEnum.UPDATE);
+  // }
+
   const handleInputChange = (fieldName, qty, price, discountPct) => {     
 
     // validate discountPct value (min 0 and max 100)
     if(fieldName === 'discountPct' && (discountPct < 0 || discountPct > 100) ) return;
 
-    // calcutale discount
     const discount = (qty * price) * (discountPct / 100);
-
-    // calculate subTotal
     const subTotal = (qty * price) - discount;
 
     const itemAux = {
@@ -32,27 +50,26 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
     }
 
     setItem(itemAux);
-    onNotifyUpdateOrderProduct(itemAux, 'update');
+    updateTableOrderProduct(itemAux, TableActionEnum.UPDATE);
   }
 
   const handleButtonDelete = () => {
     const itemAux = {
       ...item,
       status: 0
+      // active: false
     }
 
     setItem(itemAux);
-    console.log(`handleButtonDelete: notifying to saleOrder...`);
-    onNotifyUpdateOrderProduct(itemAux, 'delete');
+    updateTableOrderProduct(itemAux, TableActionEnum.DELETE);
   }
 
   const handleRowClick = (item) => {
-    onClick(item); // Call the onClick function with the selected item
+    onNotifyClick(item);
   }
 
   // * return component
   return (
-    // <tr className="animate__animated animate__fadeInDown" key={orderProduct.id} style={ orderProduct.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5 } : {} }>
     <tr 
       key={item.key} 
       onClick={() => handleRowClick(item)}
@@ -60,10 +77,9 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
       style={ item.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5, cursor: "pointer" } : { cursor: "pointer" } }
     >
       <td>
-        { item.status === 1 
-          // ? <button className="btn btn-outline-danger" onClick={handleDeleteProduct}>x</button>
-          ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"} actionName={"x"} title={"Confirmación"} message={"Eliminar producto de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete}/>
-          : <div/>
+        { item.status === 0 
+          ? <div/>
+          : <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"}  title={"Confirmación"} message={"Eliminar item de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete} imgPath={'src/common/assets/delete-red.png'} imgStyle={{ width: "15px", height: "15px" }}/>
         }
       </td>
 
@@ -81,6 +97,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
           className={"form-control form-control-sm"} 
           value={item.qty}
           onChange={(event) => handleInputChange(event.target.name, event.target.value, item.price, item.discountPct)}
+          readOnly={item.status === 0}
         />
       </td>
 
@@ -90,6 +107,7 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
           className={"form-control form-control-sm"} 
           value={item.price}
           onChange={(event) => handleInputChange(event.target.name, item.qty, event.target.value, item.discountPct)}
+          readOnly={item.status === 0}
         />
       </td>
       
@@ -99,8 +117,9 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
             name={"discountPct"} 
             className={"form-control form-control-sm"} 
             value={item.discountPct}
-            onChange={(event) => handleInputChange(event.target.name, item.qty, item.price,  event.target.value)}
             max={100}
+            onChange={(event) => handleInputChange(event.target.name, item.qty, item.price,  event.target.value)}
+            readOnly={item.status === 0}
           />
           %
         </div>
@@ -108,15 +127,8 @@ export const SalesOrderProductTableItem = ({orderProduct = {}, onNotifyUpdateOrd
 
       <td>
         <InputAmount className="form-control form-control-sm" value={item.subTotal} readOnly={true}/>
-        {/* {item.subTotal} */}
       </td>
+
     </tr>
   )
 }
-
-
-{/* <div className="d-flex gap-2 mb-2">
-                <input className="form-control w-70" style={{ flex: "70%" }} type="text" placeholder="Buscador de productos..."/>
-                <input className="form-control w-20" style={{ flex: "20%" }} type="number" step="any" placeholder="Cantidad"/>
-                <button className="btn btn-outline-primary w-10" style={{ flex: "10%" }}>+</button>
-              </div> */}

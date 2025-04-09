@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client'
 
 import { BrowserRouter } from 'react-router'
 
-// import './index.css'
+import './index.css'
 // import { ApolloProvider } from "@apollo/client";
 // import client from "./apolloClient";
 

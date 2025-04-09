@@ -63,7 +63,7 @@ export const SalesOrderProductSearch = ({onNotifyUpdateOrderProduct}) => {
     // * validate
     if(!validate()) return;
     if(orderProduct.name === '') return;
-    if(orderProduct.qty < 1) return;
+    if(orderProduct.qty < 0) return;
     
     setOrderProduct(initOrderProduct);
     onNotifyUpdateOrderProduct(orderProduct, 'add'); 

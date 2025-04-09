@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, use } from 'react'
-import "../css/input-search.css";
+
+// import "../css/input-search.css";
 
 export const InputSearchWithTag = ({name, className, value, searchField, placeholder, onNotifyChangeEvent, onSearchOptions, onNotifySelectOption, onNotifyRemoveTag, switchRestart}) => {
 

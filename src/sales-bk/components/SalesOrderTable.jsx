@@ -21,7 +21,7 @@ export const SalesOrderTable = ({orderList = [], onNotifyUpdateOrder, onNotifySe
         <tr style={{ textAlign: "center" }}>
         <th style={{ width: "5%" }}></th>
           <th style={{ width: "28%" }}>Creación</th>
-          <th style={{ width: "12%" }}>Codigo</th>
+          <th style={{ width: "12%" }}>Código</th>
           <th style={{ width: "20%" }}>Cliente</th>
           <th style={{ width: "35%" }}>Comentarios</th>
         </tr>

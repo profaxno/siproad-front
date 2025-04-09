@@ -12,7 +12,7 @@ import { Message } from "../../common/components/Message";
 import config from "../../config/app.config";
 
 const httpLink = createHttpLink({
-  uri: `${config.SIPROAD_BFF_HOST}/graphql` //"http://localhost:3000/graphql",
+  uri: `${config.SIPROAD_BFF_HOST}/graphql`
 });
 
 export const ApolloWrapper = ({ children }) => {
@@ -24,6 +24,9 @@ export const ApolloWrapper = ({ children }) => {
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message, extensions }) => {
+        
+        console.error(`[GraphQL error]: Message: ${message}`);
+
         if (extensions?.code === 'UNAUTHENTICATED') {
           alert('Tu sesión ha expirado. Por favor inicia sesión de nuevo.'); // TODO: falta crear un componente de mensaje
           onLogout();

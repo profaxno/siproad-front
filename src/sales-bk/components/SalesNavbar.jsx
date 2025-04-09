@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth/context/AuthContext';
 
-export const ProductsNavbar = () => {
+export const SalesNavbar = () => {
 
   // * hooks
   
@@ -14,8 +14,8 @@ export const ProductsNavbar = () => {
         
       <div className="navbar-collapse">
         <div className="navbar-nav">
-          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products/products">Productos</NavLink>
-          {/* <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products/elements">Ingredientes</NavLink> */}
+          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/sales/orders">Ordenes</NavLink>
+          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/sales/customers">Clientes</NavLink>
         </div>
       </div>
 
