@@ -13,7 +13,6 @@ export const SalesOrderSearch = () => {
   
   // * hooks
   const { updateTable, searchOrders } = useContext(SalesOrderContext);
-  // const [inputValue, setInputValue] = useState();
   const [objSearch, setObjSearch] = useState(initObjSearch);
 
   console.log(`rendered...`);
@@ -87,7 +86,7 @@ export const SalesOrderSearch = () => {
           value={objSearch.customerNameIdDoc}
           onChange={handleChange}
           // onKeyDown={handleKeyDown}
-          // placeholder={"Buscador..."}
+          placeholder={"Nombre o RUT..."}
           autoComplete="off"
         />
       </div>

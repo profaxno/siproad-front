@@ -20,7 +20,7 @@ export const SalesOrderForm = () => {
       <div className="d-flex gap-4">
 
         <div className="col-7 flex-wrap">
-          <label className="form-label text-end">Cliente:</label>
+          <label className="form-label text-end">Nombre:</label>
 
           <InputSearchWithTag
             name="customerName"

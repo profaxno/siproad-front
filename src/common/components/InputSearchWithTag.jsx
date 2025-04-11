@@ -53,13 +53,16 @@ export const InputSearchWithTag = ({
     if(onNotifyChangeEvent)
       onNotifyChangeEvent(e);
 
-    if (value.length < 3) {
-      setObjList([]);
+    const foundObjList = await onSearchOptions(value);
+    setObjList(foundObjList);
 
-    } else {
-      const foundObjList = await onSearchOptions(value);
-      setObjList(foundObjList);
-    }
+    // if (value.length > 3) {
+    //   const foundObjList = await onSearchOptions(value);
+    //   setObjList(foundObjList);
+
+    // } else {
+    //   setObjList([]);
+    // }
   }
 
   const buildItem = (obj) => {
