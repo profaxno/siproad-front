@@ -41,9 +41,9 @@ export const SalesOrderForm = () => {
           <label className="form-label text-end">RUT:</label>
 
           <input
+            type="text"
             name="customerIdDoc"
             className={`form-control ${errors.customerIdDoc ? "is-invalid" : ""}`}
-            type="text"
             value={obj.customerIdDoc?.toUpperCase()}
             onChange={handleChange}
           />
@@ -55,9 +55,9 @@ export const SalesOrderForm = () => {
         <label className="form-label">Email:</label>
 
         <input
+          type="text"
           name="customerEmail"
           className={"form-control form-control-sm"}
-          type="text"
           value={obj.customerEmail?.toLowerCase()}
           onChange={handleChange}
         />
@@ -67,6 +67,7 @@ export const SalesOrderForm = () => {
         <label className="form-label">Dirección:</label>
 
         <input
+          type="text"
           name="customerAddress"
           className="form-control form-control-sm text-capitalize"
           value={obj.customerAddress?.toLowerCase()}

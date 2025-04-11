@@ -43,7 +43,7 @@ export const ProductsProductPage = () => {
     if (!validate()) return;
     
     // * save
-    await saveProduct(obj);
+    const mutatedObj = await saveProduct(obj);
     
     // * update view
     const found = objList.find((value) => value.id === obj.id) 
@@ -54,7 +54,11 @@ export const ProductsProductPage = () => {
       return acc;
     }, []);
 
-    const objAux = {...obj, elementList: elementListAux}
+    const objAux = {
+      ...obj, 
+      id: mutatedObj.id, 
+      elementList: elementListAux
+    }
 
     cleanForm();
     updateTable(objAux, actionType);
@@ -64,7 +68,6 @@ export const ProductsProductPage = () => {
 
   const deleteForm = async() => {
         
-    // * save
     await deleteProduct(obj);
     
     // * update view
@@ -74,7 +77,11 @@ export const ProductsProductPage = () => {
       return acc;
     }, []);
 
-    const objAux = {...obj, elementList: elementListAux, active: false}
+    const objAux = {
+      ...obj, 
+      elementList: elementListAux, 
+      active: false
+    }
 
     cleanForm();
     updateTable(objAux, TableActionEnum.DELETE);

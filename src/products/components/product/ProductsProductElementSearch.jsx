@@ -95,7 +95,6 @@ export const ProductsProductElementSearch = ({onNotifyUpdateTable}) => {
         <InputSearchWithTag 
           name="name"
           className={`form-control ${errors.name ? "is-invalid" : ""}`}
-          searchField={"name"} 
           value={productElement.name}
           placeholder={"Buscador..."}
           onNotifyChangeEvent={handleChange}

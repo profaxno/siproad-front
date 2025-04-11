@@ -80,7 +80,7 @@ export const ProductsProductProvider = ({ children }) => {
     const cost = parseFloat(obj.cost) || 0;
     const price = parseFloat(obj.price) || 0;
     const profitMargin = ((price - cost) / price) * 100;
-    
+
     if(profitMargin < 0) 
       return 0;
 
@@ -142,7 +142,7 @@ export const ProductsProductProvider = ({ children }) => {
       elementList : elementListAux
     }
     
-    return mutateProduct({ variables: { product: objAux } })
+    return mutateProduct({ variables: { input: objAux } })
     .then(({ data }) => {
       const payload = data?.productsProductUpdate?.payload || [];
       return payload[0];
@@ -156,7 +156,7 @@ export const ProductsProductProvider = ({ children }) => {
     
     return mutateDeleteProduct({ variables: { id: obj.id } })
     .then(({ data }) => {
-      const payload = data?.productsProductUpdate?.payload || [];
+      const payload = data?.productsProductDelete?.payload || [];
       return payload[0];
     })
     .catch((error) => {

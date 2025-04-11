@@ -92,13 +92,13 @@ export const LoginPage = () => {
         <form onSubmit={handleSubmit}>
           <div className="mt-4 mb-3">
             <label className="form-label">Usuario:</label>
-            <input name="username" type="text" className={`form-control ${errors.username ? "is-invalid" : ""}`} placeholder="Ingrese su Email"  onChange={handleChange}/>
+            <input type="text" name="username" className={`form-control ${errors.username ? "is-invalid" : ""}`} placeholder="Ingrese su Email"  onChange={handleChange}/>
             {errors.username && <div className="custom-invalid-feedback">{errors.username}</div>}
           </div>
 
           <div className="mb-3">
             <label className="form-label">Contraseña:</label>
-            <input name="password" type="password" className={`form-control ${errors.password ? "is-invalid" : ""}`} placeholder="Ingrese su Contraseña" onChange={handleChange}/>
+            <input type="password" name="password" className={`form-control ${errors.password ? "is-invalid" : ""}`} placeholder="Ingrese su Contraseña" onChange={handleChange}/>
             {errors.password && <div className="custom-invalid-feedback">{errors.password}</div>}
           </div>
 

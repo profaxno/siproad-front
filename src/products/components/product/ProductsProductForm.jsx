@@ -24,9 +24,9 @@ export const ProductsProductForm = () => {
         <label className="form-label">Nombre:</label>
 
           <input
+            type="text"
             name="name"
             className={`form-control text-capitalize ${errors.name ? "is-invalid" : ""}`}
-            type="text"
             value={obj.name?.toLowerCase()}
             onChange={handleChange}
           />
@@ -37,9 +37,9 @@ export const ProductsProductForm = () => {
           <label className="form-label text-end">Código:</label>
 
           <input
+            type="text"
             name="code"
             className={"form-control"}
-            type="text"
             value={obj.code}
             onChange={handleChange}
           />

@@ -1,12 +1,20 @@
-import React, { useState, useEffect, useRef, use } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
-// import "../css/input-search.css";
-
-export const InputSearchWithTag = ({name, className, value, searchField, placeholder, onNotifyChangeEvent, onSearchOptions, onNotifySelectOption, onNotifyRemoveTag, switchRestart}) => {
+export const InputSearchWithTag = ({
+  name, 
+  className, 
+  placeholder, 
+  value, 
+  fieldToShow=[], 
+  onNotifyChangeEvent, 
+  onSearchOptions, 
+  onNotifySelectOption, 
+  onNotifyRemoveTag, 
+  switchRestart
+}) => {
 
   // * hooks
   const [inputValue, setInputValue] = useState(value);
-  // const [clean, setClean] = useState(isClean);
   const [tags, setTags] = useState([]);
   const [objList, setObjList] = useState([]);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -54,11 +62,17 @@ export const InputSearchWithTag = ({name, className, value, searchField, placeho
     }
   }
 
-  const handleSelectOption = (obj) => {
-    setTags([...tags, obj[searchField]]);
-    setInputValue("");
-    setObjList([]);
-    onNotifySelectOption(obj);
+  const buildItem = (obj) => {
+
+    if(fieldToShow.length == 0) 
+      return obj[name];
+
+    const item = fieldToShow.reduce((acc, field) => {
+      acc += `${obj[field]} `;
+      return acc;
+    }, '');
+    
+    return item;
   }
 
   const handleKeyDown = (e) => {
@@ -67,18 +81,24 @@ export const InputSearchWithTag = ({name, className, value, searchField, placeho
     } else if (e.key === "ArrowUp") {
       setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : prev));
     } else if (e.key === "Enter" && highlightedIndex >= 0) {
-      handleSelectOption(objList[highlightedIndex]);
+      handleSelectItem(objList[highlightedIndex]);
       setHighlightedIndex(-1);
     }
-  };
+  }
 
+  const handleSelectItem = (obj) => {
+    setTags([...tags, obj[name]]);
+    setInputValue("");
+    setObjList([]);
+    onNotifySelectOption(obj);
+  }
+  
   const removeTag = (index) => {
     setTags(tags.filter((_, i) => i !== index));
 
     if(onNotifyRemoveTag)
       onNotifyRemoveTag();
-  };
-
+  }
 
   // * return component
   return (
@@ -96,14 +116,13 @@ export const InputSearchWithTag = ({name, className, value, searchField, placeho
         {
           tags.length == 0 && 
           <input
-            name={name}
             type="text"
-            // className={"search-input"}
+            name={name}
             className={className}
             value={inputValue}
+            placeholder={placeholder}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            placeholder={placeholder}
             autoComplete="off"
           />
         }
@@ -116,13 +135,13 @@ export const InputSearchWithTag = ({name, className, value, searchField, placeho
             objList.map((obj, index) => {
               return (
                 <li
-                  ref={(li) => (optionRefs.current[index] = li)} // * Guarda la referencia del elemento en la lista
                   key={obj.id}
-                  onClick={() => handleSelectOption(obj)}
+                  ref={(li) => (optionRefs.current[index] = li)} // * Guarda la referencia del elemento en la lista
                   className={`list-group-item list-group-item-action ${highlightedIndex === index ? 'active' : ''}`} // * Highlight selected item
+                  onClick={() => handleSelectItem(obj)}
                   onMouseEnter={() => setHighlightedIndex(index)} // * Change highlighted index on mouse enter
                 >
-                  {obj[searchField]}
+                  {buildItem(obj)}
                 </li>
               )
             })
