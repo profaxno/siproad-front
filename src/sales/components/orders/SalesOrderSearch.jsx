@@ -13,7 +13,6 @@ export const SalesOrderSearch = () => {
   
   // * hooks
   const { updateTable, searchOrders } = useContext(SalesOrderContext);
-  // const [inputValue, setInputValue] = useState();
   const [objSearch, setObjSearch] = useState(initObjSearch);
 
   console.log(`rendered...`);
@@ -63,7 +62,7 @@ export const SalesOrderSearch = () => {
     <div className="d-flex gap-2 mb-2">
 
       <div className="col-3 flex-wrap">
-        <label className="form-label text-end">Codigo:</label>
+        <label className="form-label text-end">Código:</label>
 
         <input
           type="text"
@@ -74,6 +73,7 @@ export const SalesOrderSearch = () => {
           // onKeyDown={handleKeyDown}
           // placeholder={"Buscador..."}
           autoComplete="off"
+          maxLength={50}
         />
       </div>
 
@@ -87,8 +87,9 @@ export const SalesOrderSearch = () => {
           value={objSearch.customerNameIdDoc}
           onChange={handleChange}
           // onKeyDown={handleKeyDown}
-          // placeholder={"Buscador..."}
+          placeholder={"Nombre o RUT..."}
           autoComplete="off"
+          maxLength={50}
         />
       </div>
 
@@ -104,6 +105,7 @@ export const SalesOrderSearch = () => {
           // onKeyDown={handleKeyDown}
           // placeholder={"Buscador..."}
           autoComplete="off"
+          maxLength={100}
         />
       </div>
       

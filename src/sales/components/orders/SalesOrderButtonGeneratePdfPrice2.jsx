@@ -144,7 +144,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
       // 🔹 Generar tabla con productos
       autoTable(doc, {
         startY: finalY,
-        head: [["Codigo", "Producto", "Cantidad", "Precio", "Descuento", "SubTotal"]],
+        head: [["Código", "Producto", "Cantidad", "Precio", "Descuento", "SubTotal"]],
         body: productList,
         margin: { top: 10, left: margin, right: margin, bottom: 40},
         headStyles: {

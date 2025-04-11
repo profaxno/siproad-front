@@ -99,18 +99,16 @@ export const ProductsProductProvider = ({ children }) => {
   }
 
   // * api handles
-  const findProducts = (name) => {
+  const searchProducts = (nameCode, productTypeId) => {
 
-    const searchList = [name];
-
-    return fetchProducts({ variables: { searchList } })
+    return fetchProducts({ variables: { nameCode, productTypeId } })
     .then(({ data }) => {
-      const payload = data?.productsProductFind?.payload || [];
-      console.log(`findProducts: data=${JSON.stringify(payload)}`);
+      const payload = data?.productProductSearchByValues?.payload || [];
+      console.log(`searchProducts: data=${JSON.stringify(payload)}`);
       return payload;
     })
     .catch((error) => {
-      console.error('Error fetching products:', error);
+      console.error('Error searchProducts:', error);
     });
 
   }
@@ -181,7 +179,7 @@ export const ProductsProductProvider = ({ children }) => {
         setErrors, 
         setShowMessage,
 
-        findProducts, 
+        searchProducts, 
         saveProduct, 
         deleteProduct
       }}>

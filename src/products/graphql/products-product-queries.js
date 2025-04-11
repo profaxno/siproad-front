@@ -1,14 +1,14 @@
 import { gql } from "@apollo/client";
 
-export const GET_PRODUCTS = gql`
-  query Find($searchList: [String!]) {
-    productsProductFind(searchList: $searchList) {
+
+export const SEARCH_PRODUCTS = gql`
+  query ProductProductSearchByValues($nameCode: String, $productTypeId: String) {
+    productProductSearchByValues(nameCode: $nameCode, productTypeId: $productTypeId) {
       internalCode
       message
       qty
       payload {
         id
-        companyId
         name
         code
         description
@@ -16,6 +16,7 @@ export const GET_PRODUCTS = gql`
         price
         hasFormula
         active
+        companyId
         elementList {
           id
           qty
@@ -27,3 +28,31 @@ export const GET_PRODUCTS = gql`
     }
   }
 `;
+
+// export const GET_PRODUCTS = gql`
+//   query Find($searchList: [String!]) {
+//     productsProductFind(searchList: $searchList) {
+//       internalCode
+//       message
+//       qty
+//       payload {
+//         id
+//         companyId
+//         name
+//         code
+//         description
+//         cost
+//         price
+//         hasFormula
+//         active
+//         elementList {
+//           id
+//           qty
+//           name
+//           cost
+//           unit
+//         }
+//       }
+//     }
+//   }
+// `;

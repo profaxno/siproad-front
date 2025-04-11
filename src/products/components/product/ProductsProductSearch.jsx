@@ -3,27 +3,57 @@ import { useState, useEffect, useContext } from 'react'
 import { ProductsProductContext } from '../../context/ProductsProductContext';
 import { TableActionEnum } from '../../../common/enums/table-actions.enum';
 
+const initObjSearch = {
+  nameCode: "",
+  productTypeId: ""
+}
+
 export const ProductsProductSearch = () => {
   
   // * hooks
-  const { updateTable, findProducts } = useContext(ProductsProductContext);
-  const [inputValue, setInputValue] = useState();
+  const { updateTable, searchProducts } = useContext(ProductsProductContext);
+  const [objSearch, setObjSearch] = useState(initObjSearch);
+  // const [inputValue, setInputValue] = useState();
 
   console.log(`rendered...`);
 
-  // * handles
-  const handleInputChange = async(e) => {
-    const value = e.target.value;
-    console.log(`handleInputChange: value=${value}`);
-    setInputValue(value);
+  useEffect(() => {
+    search();
+  }, [objSearch]);
 
-    if(value.length < 3) {
-      updateTable([], TableActionEnum.LOAD);
+  // * handles
+  const handleChange = (e) => {
+    setObjSearch({ ...objSearch, [e.target.name]: e.target.value });
+  }
+
+  // const handleInputChange = async(e) => {
+  //   const value = e.target.value;
+  //   console.log(`handleInputChange: value=${value}`);
+  //   setInputValue(value);
+
+  //   if(value.length < 3) {
+  //     updateTable([], TableActionEnum.LOAD);
+  //     return;
+  //   }
+
+  //   const objListAux = await findProducts(value)
+  //   updateTable(objListAux, TableActionEnum.LOAD);
+  // }
+
+  const search = async() => {
+    // alert(`search: ${JSON.stringify(objSearch)}`);
+
+    const nameCode = objSearch.nameCode?.length > 3 ? objSearch.nameCode : undefined;
+    const productTypeId = objSearch.productTypeId?.length > 0 ? objSearch.productTypeId : undefined;
+
+    if(nameCode || productTypeId) {
+      const objListAux = await searchProducts(nameCode, productTypeId);
+      updateTable(objListAux, TableActionEnum.LOAD);
       return;
     }
 
-    const objListAux = await findProducts(value)
-    updateTable(objListAux, TableActionEnum.LOAD);
+    updateTable([], TableActionEnum.LOAD);
+    return;
   }
 
   // * return component
@@ -31,17 +61,18 @@ export const ProductsProductSearch = () => {
     <div className="d-flex gap-2 mb-2">
 
       <div className="col-6 flex-wrap">
-        <label className="form-label text-end">Nombre:</label>
+        <label className="form-label text-end">Producto:</label>
 
         <input
           type="text"
-          name="comment"
+          name="nameCode"
           className={"form-control"} 
-          value={inputValue}
-          onChange={handleInputChange}
+          value={objSearch.nameCode}
+          onChange={handleChange}
           // onKeyDown={handleKeyDown}
-          placeholder={"Buscador..."}
+          placeholder={"Nombre o Código..."}
           autoComplete="off"
+          maxLength={50}
         />
       </div>
       

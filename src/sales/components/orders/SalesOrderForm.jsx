@@ -20,7 +20,7 @@ export const SalesOrderForm = () => {
       <div className="d-flex gap-4">
 
         <div className="col-7 flex-wrap">
-          <label className="form-label text-end">Cliente:</label>
+          <label className="form-label text-end">Nombre:</label>
 
           <InputSearchWithTag
             name="customerName"
@@ -46,6 +46,7 @@ export const SalesOrderForm = () => {
             className={`form-control ${errors.customerIdDoc ? "is-invalid" : ""}`}
             value={obj.customerIdDoc?.toUpperCase()}
             onChange={handleChange}
+            maxLength={50}
           />
         </div>
 
@@ -60,6 +61,7 @@ export const SalesOrderForm = () => {
           className={"form-control form-control-sm"}
           value={obj.customerEmail?.toLowerCase()}
           onChange={handleChange}
+          maxLength={50}
         />
       </div>
 
@@ -72,6 +74,7 @@ export const SalesOrderForm = () => {
           className="form-control form-control-sm text-capitalize"
           value={obj.customerAddress?.toLowerCase()}
           onChange={handleChange}
+          maxLength={150}
         />
       </div>
 
@@ -82,6 +85,7 @@ export const SalesOrderForm = () => {
           className="form-control form-control-sm"
           value={obj.comment?.toLowerCase()}
           onChange={handleChange}
+          maxLength={100}
         />
       </div>
     </div>

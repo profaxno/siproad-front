@@ -29,6 +29,7 @@ export const ProductsProductForm = () => {
             className={`form-control text-capitalize ${errors.name ? "is-invalid" : ""}`}
             value={obj.name?.toLowerCase()}
             onChange={handleChange}
+            maxLength={50}
           />
           {errors.name && <div className="custom-invalid-feedback">{errors.name}</div>}
         </div>
@@ -42,6 +43,7 @@ export const ProductsProductForm = () => {
             className={"form-control"}
             value={obj.code}
             onChange={handleChange}
+            maxLength={50}
           />
         </div>
 
@@ -55,6 +57,7 @@ export const ProductsProductForm = () => {
           className="form-control form-control-sm"
           value={obj.description?.toLowerCase()}
           onChange={handleChange}
+          maxLength={100}
         />
       </div>
 
