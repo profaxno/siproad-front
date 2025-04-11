@@ -127,6 +127,7 @@ export const InputSearchWithTag = ({
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             autoComplete="off"
+            maxLength={100}
           />
         }
       </div>

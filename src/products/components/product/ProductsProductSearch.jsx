@@ -72,6 +72,7 @@ export const ProductsProductSearch = () => {
           // onKeyDown={handleKeyDown}
           placeholder={"Nombre o Código..."}
           autoComplete="off"
+          maxLength={50}
         />
       </div>
       
