@@ -4,7 +4,7 @@ import { SalesOrderContext } from './SalesOrderContext';
 
 import { tableReducer } from '../../common/hooks/TableReducer'
 import { TableActionEnum } from '../../common/enums/table-actions.enum';
-import { useDeleteOrder, useSearchOrder, useUpdateOrder } from '../hooks/useSalesOrder';
+import { useSearchOrder, useUpdateOrder } from '../hooks/useSalesOrder';
 
 const initObj = {
   code          : "",
@@ -30,7 +30,7 @@ export const SalesOrderProvider = ({ children }) => {
   const [showMessage, setShowMessage] = useState(false);
   const { fetchOrders/*, productList = [], loading, error*/ } = useSearchOrder();
   const { mutateOrder/*, data, loading, error*/ } = useUpdateOrder();
-  const { mutateDeleteOrder/*, data, loading, error*/ } = useDeleteOrder();
+  // const { mutateDeleteOrder/*, data, loading, error*/ } = useDeleteOrder();
   const [orderProductList, dispatchOrderProductList] = useReducer(tableReducer, []);
 
   useEffect(() => {
@@ -41,11 +41,8 @@ export const SalesOrderProvider = ({ children }) => {
 
   // * handles
   const updateTable = (obj, actionType) => { // * obj can be a value or an array
-
-    if(obj.length > 0)
-      console.log(`updateTable: obj=(${obj.length}), actionType=${actionType}`);
-    else console.log(`updateTable: obj=${JSON.stringify(obj)}, actionType=${actionType}`);
-
+    // alert(`updateTable: obj=${JSON.stringify(obj)}, actionType=${actionType}`);
+    
     const action = {
       type: actionType,
       payload: obj
@@ -63,33 +60,6 @@ export const SalesOrderProvider = ({ children }) => {
     updateTableOrderProduct([], TableActionEnum.CLEAN);
     setErrors({});
   }
-
-  // const calculateCost = (orderProductList) => {
-
-  //   if(orderProductList.length === 0) return 0;
-
-  //   const cost = orderProductList.reduce((acc, value) => {
-  //     // alert(`calculateCost: cost=${value.cost}, active=${value.active}`);
-  //     if(value.active){
-  //       acc += parseFloat(value.cost) * parseFloat(value.qty);
-  //     }
-  //     return acc;
-  //   }, 0);
-
-  //   // alert(`calculateCost: cost=${cost}`);
-  //   return cost;
-  // }
-
-  // const calculateProfitMargin = (obj) => {
-  //   const cost = parseFloat(obj.cost) || 0;
-  //   const price = parseFloat(obj.price) || 0;
-  //   const profitMargin = ((price - cost) / price) * 100;
-    
-  //   if(profitMargin < 0) 
-  //     return 0;
-
-  //   return profitMargin;
-  // }
 
   const updateTableOrderProduct = (obj, actionType) => { // * obj can be a value or an array
     const action = {
@@ -121,18 +91,16 @@ export const SalesOrderProvider = ({ children }) => {
   }
   
   // * api handles
-  const findOrders = (name) => {
+  const searchOrders = (code, customerNameIdDoc, comment) => {
 
-    const searchList = [name];
-
-    return fetchOrders({ variables: { searchList } })
+    return fetchOrders({ variables: { code, customerNameIdDoc, comment } })
     .then(({ data }) => {
-      const payload = data?.salesOrderFind?.payload || [];
-      console.log(`findOrders: data=${JSON.stringify(payload)}`);
+      const payload = data?.salesOrderSearchByValues?.payload || [];
+      console.log(`searchOrders: data=${JSON.stringify(payload)}`);
       return payload;
     })
     .catch((error) => {
-      console.error('Error fetching sales:', error);
+      console.error('Error searchOrders:', error);
     });
 
   }
@@ -164,27 +132,27 @@ export const SalesOrderProvider = ({ children }) => {
       productList     : productListAux
     }
     
-    return mutateOrder({ variables: { product: objAux } })
+    return mutateOrder({ variables: { input: objAux } })
     .then(({ data }) => {
       const payload = data?.salesOrderUpdate?.payload || [];
       return payload[0];
     })
     .catch((error) => {
-      console.error('Error saving product:', error);
+      console.error('Error saving product:', JSON.stringify(error));
     });
   }
 
-  const deleteOrder = (obj) => {
+  // const deleteOrder = (obj) => {
     
-    return mutateDeleteOrder({ variables: { id: obj.id } })
-    .then(({ data }) => {
-      const payload = data?.salesOrderUpdate?.payload || [];
-      return payload[0];
-    })
-    .catch((error) => {
-      console.error('Error deleting product:', error);
-    });
-  }
+  //   return mutateDeleteOrder({ variables: { id: obj.id } })
+  //   .then(({ data }) => {
+  //     const payload = data?.salesOrderDelete?.payload || [];
+  //     return payload[0];
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error deleting product:', error);
+  //   });
+  // }
 
   // * return component
   return (
@@ -202,9 +170,8 @@ export const SalesOrderProvider = ({ children }) => {
         setErrors, 
         setShowMessage,
 
-        findOrders, 
-        saveOrder, 
-        deleteOrder
+        searchOrders,
+        saveOrder
       }}>
       {children}
     </SalesOrderContext.Provider>

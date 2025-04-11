@@ -75,10 +75,10 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
 
       // 🔹 Datos del Cliente
       const customerData = [
-        ['RUT:'       , `${order.customerIdDoc}`],
-        ['Nombre:'    , `${order.customerName}`],
-        ['Email:'     , `${order.customerEmail}`],
-        ['Dirección:' , `${order.customerAddress}`],
+        ['RUT:'       , `${order.customerIdDoc?.toUpperCase()}`],
+        ['Nombre:'    , `${order.customerName?.toUpperCase()}`],
+        ['Email:'     , `${order.customerEmail?.toUpperCase()}`],
+        ['Dirección:' , `${order.customerAddress?.toUpperCase()}`],
       ];
 
       cursorY += 30;
@@ -129,7 +129,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
       // 🔹 Generar tabla con productos
       autoTable(doc, {
         startY: finalY,
-        head: [["Codigo", "Producto", "Cantidad", "Precio", "Descuento", "SubTotal"]],
+        head: [["Codigo", "Producto", "Cantidad", "Precio", "Dcto", "SubTotal"]],
         body: productList,
         margin: { top: 10, left: margin, right: margin, bottom: 40},
         headStyles: {
@@ -139,11 +139,11 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
           halign: "center"
         },
         columnStyles: {
-          0: { cellWidth: 20, halign: "center" }, // Ancho de la primera columna
-          1: { cellWidth: 70, halign: "letf" }, // Ancho de la segunda columna
+          0: { cellWidth: 30, halign: "center" }, // Ancho de la primera columna
+          1: { cellWidth: 65, halign: "letf" }, // Ancho de la segunda columna
           2: { cellWidth: 25, halign: "right" }, // Ancho de la segunda columna
           3: { cellWidth: 25, halign: "right" }, // Ancho de la segunda columna
-          4: { cellWidth: 25, halign: "right" }, // Ancho de la segunda columna
+          4: { cellWidth: 20, halign: "right" }, // Ancho de la segunda columna
           5: { cellWidth: 25, halign: "right" }, // Ancho de la segunda columna
         },
         styles: {
@@ -184,7 +184,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         ['Total:'     , `${total}`]
       ];
 
-      finalY += 8;
+      finalY += 30;
       autoTable(doc, {
         startY: finalY,
         body: data,

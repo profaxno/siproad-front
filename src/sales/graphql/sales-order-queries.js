@@ -1,32 +1,35 @@
 import { gql } from "@apollo/client";
 
-export const GET_ORDERS = gql`
-  query FindOrders($searchList: [String!]) {
-    salesOrderFind(searchList: $searchList) {
+export const SEARCH_ORDERS = gql`
+  query SalesOrderSearchByValues($code: String, $customerNameIdDoc: String, $comment: String) {
+    salesOrderSearchByValues(code: $code, customerNameIdDoc: $customerNameIdDoc, comment: $comment) {
       internalCode
       message
       qty
       payload {
         id
         code
+        companyId
         customerIdDoc
         customerName
         customerEmail
         customerPhone
         customerAddress
         comment
-        cost
         price
+        cost
+        discount
+        discountPct
         createdAt
         status
         productList {
           id
+          qty
+          comment
           name
           code
           cost
           price
-          qty
-          comment
           discount
           discountPct
           status
@@ -35,3 +38,39 @@ export const GET_ORDERS = gql`
     }
   }
 `;
+
+// export const GET_ORDERS = gql`
+//   query FindOrders($searchList: [String!]) {
+//     salesOrderFind(searchList: $searchList) {
+//       internalCode
+//       message
+//       qty
+//       payload {
+//         id
+//         code
+//         customerIdDoc
+//         customerName
+//         customerEmail
+//         customerPhone
+//         customerAddress
+//         comment
+//         cost
+//         price
+//         createdAt
+//         status
+//         productList {
+//           id
+//           name
+//           code
+//           cost
+//           price
+//           qty
+//           comment
+//           discount
+//           discountPct
+//           status
+//         }
+//       }
+//     }
+//   }
+// `;

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const UPDATE_PRODUCT = gql`
-  mutation Update($product: ProductsProductInput!) {
-    productsProductUpdate(product: $product) {
+  mutation Update($input: ProductsProductInput!) {
+    productsProductUpdate(product: $input) {
       internalCode
       message
       qty
@@ -30,9 +30,9 @@ export const UPDATE_PRODUCT = gql`
 
 export const DELETE_PRODUCT = gql`
   mutation Delete($id: String!) {
-  productsProductDelete(id: $id) {
-    internalCode
-    message
+    productsProductDelete(id: $id) {
+      internalCode
+      message
+    }
   }
-}
 `;

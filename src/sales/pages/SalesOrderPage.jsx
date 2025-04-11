@@ -40,7 +40,7 @@ export const SalesOrderPage = () => {
     if (!validate()) return;
     
     // * save
-    await saveOrder(obj);
+    const mutatedObj = await saveOrder(obj);
     
     // * update view
     const found = objList.find((value) => value.id === obj.id) 
@@ -53,31 +53,53 @@ export const SalesOrderPage = () => {
 
     // const objAux = {...obj, productList: productListAux}
 
+    const objAux = {
+      ...obj,
+      id: mutatedObj.id,
+      code: mutatedObj.code,
+      createdAt: mutatedObj.createdAt,
+    }
+
     cleanForm();
-    updateTable(obj, actionType);
+    updateTable(objAux, actionType);
     setShowMessage(true);
     setIsOpenOrderSection(true);
   }
 
   const deleteForm = async() => {
-        
-    // // * save
-    // await deleteOrder(obj);
-    
-    // // * update view
-    // const productListAux = obj.productList.reduce((acc, value) => {
-    //   if(value.active)
-    //     acc.push({id  : value.id, name: value.name, unit: value.unit, cost: parseFloat(value.cost), qty : parseFloat(value.qty)});
-    //   return acc;
-    // }, []);
+     
+    const objAux = {
+      ...obj,
+      status: 0,
+    }
 
-    // const objAux = {...obj, productList: productListAux, active: false}
+    // * save
+    await saveOrder(objAux);
 
-    // cleanForm();
-    // updateTable(objAux, TableActionEnum.DELETE);
-    // setShowMessage(true);
-    // setIsOpenOrderSection(true);
+    // * update view
+    cleanForm();
+    updateTable(objAux, TableActionEnum.DELETE);
+    setShowMessage(true);
+    setIsOpenOrderSection(true);
   }
+
+    
+  // const deleteForm = async() => {
+     
+  //   // * delete
+  //   await deleteOrder(obj);
+
+  //   // * update view
+  //   const objAux = {
+  //     ...obj,
+  //     status: 0,
+  //   }
+
+  //   cleanForm();
+  //   updateTable(objAux, TableActionEnum.DELETE);
+  //   setShowMessage(true);
+  //   setIsOpenOrderSection(true);
+  // }
 
   // * return component
   return (
@@ -130,7 +152,7 @@ export const SalesOrderPage = () => {
 
               
               <div className="col-1 col-sm d-flex justify-content-end gap-1">
-                { obj.status && obj.id &&
+                { obj.status != 0 && obj.id &&
                   <ButtonWithConfirm className={"btn btn-outline-danger"} title={"Confirmación"} message={"Eliminar el Ordero ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm} imgPath={'/assets/delete-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
                 }
                 <SalesOrderButtonGeneratePdfPrice className={"btn btn-outline-success"} onConfirm={validate} orderData={obj} tooltip={"Generar Cotización"} imgPath={'/assets/printer-green.png'} imgStyle={{ width: "20px", height: "20px" }}/>
@@ -189,7 +211,7 @@ export const SalesOrderPage = () => {
           <div className="d-flex mt-4 gap-1">
               <ButtonWithConfirm className={"btn btn-outline-danger w-100"} actionName={"Nuevo"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} onExecute={cleanForm} />
             
-              { obj.status && 
+              { obj.status == 1 && 
                 <ButtonWithConfirm className={"btn btn-success w-100"} actionName={"Guardar"} title={"Confirmación"} message={"Guardar el Ordero ¿Desea Continuar?"} onExecute={saveForm} />
               }
           </div>

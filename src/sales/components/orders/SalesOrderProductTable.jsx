@@ -26,7 +26,7 @@ export const SalesOrderProductTable = () => {
           <th style={{ width: "30%" }}>Producto</th>
           <th style={{ width: "10%" }}>Cantidad</th>
           <th style={{ width: "15%" }}>Precio</th>
-          <th style={{ width: "15%" }}>Descuento</th>
+          <th style={{ width: "15%" }}>Dcto</th>
           <th style={{ width: "15%" }}>SubTotal</th>
         </tr>
       </thead>

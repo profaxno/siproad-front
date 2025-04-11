@@ -34,8 +34,8 @@ export const ProductsProductSearch = () => {
         <label className="form-label text-end">Nombre:</label>
 
         <input
-          name="comment"
           type="text"
+          name="comment"
           className={"form-control"} 
           value={inputValue}
           onChange={handleInputChange}

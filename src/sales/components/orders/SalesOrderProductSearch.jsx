@@ -25,7 +25,7 @@ export const SalesOrderProductSearch = () => {
   
   // * hooks
   const { updateTableOrderProduct } = useContext(SalesOrderContext);
-  const { findProducts } = useContext(SalesProductContext);
+  const { searchProductsByNameCode } = useContext(SalesProductContext);
 
   const [orderProduct, setOrderProduct] = useState(initOrderProduct);
   const [errors, setErrors] = useState({});
@@ -100,11 +100,11 @@ export const SalesOrderProductSearch = () => {
         <InputSearchWithTag 
           name="name"
           className={`form-control ${errors.name ? "is-invalid" : ""}`}
-          searchField={"name"} 
+          fieldToShow={["code", "name"]}
           value={orderProduct.name}
           placeholder={"Buscador..."}
           onNotifyChangeEvent={handleChange}
-          onSearchOptions={findProducts}
+          onSearchOptions={searchProductsByNameCode}
           onNotifySelectOption={updateSelectObject}
           onNotifyRemoveTag={cleanInput}
         />

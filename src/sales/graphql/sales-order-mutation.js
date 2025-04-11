@@ -1,38 +1,46 @@
 import { gql } from "@apollo/client";
 
 export const UPDATE_ORDER = gql`
-  mutation Update($product: ProductsProductInput!) {
-    productsProductUpdate(product: $product) {
+  mutation Update($input: SalesOrderInput!) {
+    salesOrderUpdate(order: $input) {
       internalCode
       message
       qty
       payload {
         id
-        companyId
-        name
         code
-        description
+        customerIdDoc
+        customerName
+        customerEmail
+        customerPhone
+        customerAddress
+        comment
         cost
         price
-        hasFormula
-        active
-        elementList {
+        createdAt
+        status
+        productList {
           id
-          qty
           name
+          code
           cost
-          unit
+          price
+          qty
+          comment
+          discount
+          discountPct
+          status
         }
       }
     }
   }
 `;
 
-export const DELETE_ORDER = gql`
-  mutation Delete($id: String!) {
-  productsProductDelete(id: $id) {
-    internalCode
-    message
-  }
-}
-`;
+// export const DELETE_ORDER = gql`
+//   mutation Delete($id: String!) {
+//     salesOrderDelete(id: $id) {
+//       internalCode
+//       message
+//     }
+//   }
+// `;
