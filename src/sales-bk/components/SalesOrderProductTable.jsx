@@ -19,7 +19,7 @@ export const SalesOrderProductTable = ({orderProductList = [], onNotifyUpdateOrd
       <thead className="table-dark" style={{ position: "sticky", top: 0 }}>
         <tr style={{ textAlign: "center" }}>
           <th style={{ width: "5%" }}></th>
-          <th style={{ width: "10%" }}>Codigo</th>
+          <th style={{ width: "10%" }}>Código</th>
           <th style={{ width: "30%" }}>Producto</th>
           <th style={{ width: "10%" }}>Cantidad</th>
           <th style={{ width: "15%" }}>Precio</th>
