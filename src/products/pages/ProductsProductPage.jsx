@@ -171,12 +171,16 @@ export const ProductsProductPage = () => {
           </div>
 
           {/* principal buttons */}
-          <div className="d-flex mt-4 gap-1">
-            <ButtonWithConfirm className={"custom-btn-outline-danger w-100"} actionName={"Nuevo"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} onExecute={cleanForm} />
-            
-              { obj.active && 
+          <div className="row d-flex mt-4">
+            <div className="col-6 col-sm">
+              <ButtonWithConfirm className={"custom-btn-outline-danger w-100"} actionName={"Nuevo"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} onExecute={cleanForm} />
+            </div>
+
+            <div className="col-6 col-sm">
+              { obj.active == 1 && 
                 <ButtonWithConfirm className={"custom-btn-success w-100"} actionName={"Guardar"} title={"Confirmación"} message={"Guardar el Ordero ¿Desea Continuar?"} onExecute={saveForm} />
               }
+            </div>
           </div>
 
         </div>
