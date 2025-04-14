@@ -141,9 +141,8 @@ export const ProductsProductPage = () => {
               
               <div className="col-1 col-sm d-flex justify-content-end">
                 { obj.active && obj.id &&
-                  <ButtonWithConfirm className={"btn btn-outline-danger"} title={"Confirmación"} message={"Eliminar el Producto ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm} imgPath={'/assets/delete-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
+                  <ButtonWithConfirm className={"custom-btn-outline-danger-delete"} title={"Confirmación"} message={"Eliminar el Ordero ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm}/>
                 }
-                {/* <ButtonWithConfirm className={"btn btn-outline-success"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} tooltip={"Nuevo Registro"} onExecute={cleanForm} pathImg={'/assets/add-green.png'}/> */}
               </div>
             
             </div>
@@ -173,10 +172,10 @@ export const ProductsProductPage = () => {
 
           {/* principal buttons */}
           <div className="d-flex mt-4 gap-1">
-              <ButtonWithConfirm className={"btn btn-outline-danger w-100"} actionName={"Nuevo"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} onExecute={cleanForm} />
+            <ButtonWithConfirm className={"custom-btn-outline-danger w-100"} actionName={"Nuevo"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} onExecute={cleanForm} />
             
               { obj.active && 
-                <ButtonWithConfirm className={"btn btn-success w-100"} actionName={"Guardar"} title={"Confirmación"} message={"Guardar el Producto ¿Desea Continuar?"} onExecute={saveForm} />
+                <ButtonWithConfirm className={"custom-btn-success w-100"} actionName={"Guardar"} title={"Confirmación"} message={"Guardar el Ordero ¿Desea Continuar?"} onExecute={saveForm} />
               }
           </div>
 

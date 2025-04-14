@@ -54,12 +54,12 @@ export const ProductsProductElementTableItem = ({value = {}, selectedRow, onNoti
     <tr 
       key={item.key} 
       onClick={() => handleRowClick(item)}
-      className={selectedRow === item.key ? "table-dark" : ""}
+      className={selectedRow === item.key ? "custom-table-select" : ""}
       style={ item.active ?  { cursor: "pointer" } : { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5, cursor: "pointer" } }
     >
       <td>
         { item.active
-          ? <ButtonWithConfirm className={"btn btn-outline-danger btn-sm"}  title={"Confirmación"} message={"Eliminar item de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete} imgPath={'/assets/delete-red.png'} imgStyle={{ width: "15px", height: "15px" }}/>
+          ? <ButtonWithConfirm className={"custom-btn-outline-danger-delete-sm"}  title={"Confirmación"} message={"Eliminar item de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete} />
           : <div/>
         }
       </td>

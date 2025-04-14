@@ -60,7 +60,7 @@ export const ProductsProductTableItem = ({value = {}}) => {
     <tr 
       key={item.key} 
       onClick={() => handleRowClick()}
-      className={obj.key === item.key ? "table-dark" : ""} 
+      className={obj.key === item.key ? "custom-table-select" : ""} 
       style={ item.active ? { cursor: "pointer" } : { textDecoration: "line-through 1px red ", cursor: "pointer" } }
     >
       {/* <td >

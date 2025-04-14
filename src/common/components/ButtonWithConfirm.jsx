@@ -1,6 +1,6 @@
 import { useState, useEffect, useId } from "react";
 
-export const ButtonWithConfirm = ({ className, actionName, title, tooltip, message, onExecute, imgPath, imgStyle }) => {
+export const ButtonWithConfirm = ({ className, actionName, title, tooltip, message, onExecute, imgClassName, imgPath, imgStyle }) => {
   
   // * hooks
   const [modal, setModal] = useState(null);
@@ -25,12 +25,6 @@ export const ButtonWithConfirm = ({ className, actionName, title, tooltip, messa
     <>
       {/* action button */}
       <button className={className} onClick={() => modal?.show()} title={tooltip}>
-        {imgPath && (
-          <img
-            src={imgPath}
-            style={imgStyle}
-          />
-        )}
         {actionName}
       </button>
 
@@ -50,7 +44,7 @@ export const ButtonWithConfirm = ({ className, actionName, title, tooltip, messa
             {/* footer */}
             <div className="modal-footer modal-sm p-2">
               <button className="btn btn-outline-danger" data-bs-dismiss="modal">NO</button>
-              <button className="btn btn-outline-success" onClick={handleConfirm}>SI</button>
+              <button className="custom-btn-outline-success" onClick={handleConfirm}>SI</button>
             </div>
           </div>
         </div>

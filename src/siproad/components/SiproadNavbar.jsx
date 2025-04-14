@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth/context/AuthContext';
-import { SalesNavbar } from '../../sales/components/SalesNavbar';
 import { ButtonWithConfirm } from '../../common/components';
 
 export const SiproadNavbar = () => {
@@ -19,18 +18,30 @@ export const SiproadNavbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-dark py-1 px-3 border rounded">
-      <Link className="navbar-brand" to="/">SIPROAD</Link>
+    <nav className="navbar navbar-expand-sm rounded px-3 custom-bg-base">
+      <Link 
+        className="navbar-brand" 
+        to="/"
+      >
+        <img
+          src={"/assets/siproad.png"}
+          alt="Logo"
+          width="100"
+          height="17"
+          // className="d-inline-block align-top me-2"
+        />
+        
+      </Link>
 
       <button
-        className="navbar-toggler p-1"
+        className="custom-navbar-toggler-icon d-sm-none"
         type="button"
         onClick={toggleNavbar}
         aria-controls="navbarSupportedContent"
         aria-expanded={!isCollapsed}
         aria-label="Toggle navigation"
       >
-        <span className="navbar-toggler-icon"></span>
+        {/* <span className="navbar-toggler-icon"></span> */}
       </button>
 
       <div className={`collapse navbar-collapse ${!isCollapsed ? 'show' : ''}`} id="navbarSupportedContent">
@@ -41,8 +52,8 @@ export const SiproadNavbar = () => {
           <div className="row">
             
             <div className="col-1 d-flex">
-              <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to="/sales">Ventas</NavLink>
-              <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to="/products">Productos</NavLink>
+              <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''} custom-navlink-principal`} to="/sales">Ventas</NavLink>
+              <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''} custom-navlink-principal`} to="/products">Productos</NavLink>
             </div>
 
             <div className="col-11 d-flex justify-content-end">
@@ -51,7 +62,7 @@ export const SiproadNavbar = () => {
                 {authState.user?.name.toLowerCase()}
               </span>
 
-              <ButtonWithConfirm className={"btn btn-sm"} title={"Confirmación"} message={"Salir del Sistema ¿Desea Continuar?"} tooltip={"Salir del Sistema"} onExecute={handleLogout} imgPath={'/assets/logout-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
+              <ButtonWithConfirm className={"custom-btn-outline-danger-logout"} title={"Confirmación"} message={"Salir del Sistema ¿Desea Continuar?"} tooltip={"Salir del Sistema"} onExecute={handleLogout}/>
             </div>
 
           </div>
@@ -62,13 +73,13 @@ export const SiproadNavbar = () => {
         <div className="navbar-nav me-auto d-sm-none">
           {/* <label style={{ color: 'red' }}>MENU SMALL</label> */}
           
-          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/sales/orders" onClick={closeNavbar}>Ordenes</NavLink>
-          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/sales/customers" onClick={closeNavbar}>Clientes</NavLink>  
+          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''} custom-navlink-principal`} to="/sales/orders" onClick={closeNavbar}>Ordenes</NavLink>
+          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''} custom-navlink-principal`} to="/sales/customers" onClick={closeNavbar}>Clientes</NavLink>  
 
-          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products/products" onClick={closeNavbar}>Productos</NavLink>
+          <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''} custom-navlink-principal`} to="/products/products" onClick={closeNavbar}>Productos</NavLink>
           {/* <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/products/elements" onClick={closeNavbar}>Elementos</NavLink> */}
 
-          <ButtonWithConfirm className={"btn btn-sm"} title={"Confirmación"} message={"Salir del Sistema ¿Desea Continuar?"} tooltip={"Salir del Sistema"} onExecute={handleLogout} imgPath={'/assets/logout-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
+          <ButtonWithConfirm className={"custom-btn-outline-danger-logout"} title={"Confirmación"} message={"Salir del Sistema ¿Desea Continuar?"} tooltip={"Salir del Sistema"} onExecute={handleLogout}/>
         </div>
 
       </div>

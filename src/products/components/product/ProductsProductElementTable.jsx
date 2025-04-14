@@ -18,23 +18,25 @@ export const ProductsProductElementTable = () => {
 
   // * return component
   return (
-    <table className="table table-striped table-bordered table-sm">
-      <thead className="table-dark" style={{ position: "sticky", top: 0 }}>
-        <tr style={{ textAlign: "center" }}>
-          <th style={{ width: "5%" }}></th>
-          <th style={{ width: "55%" }}>Nombre</th>
-          <th style={{ width: "25%" }}>Cantidad</th>
-          <th style={{ width: "15%" }}>Unidad</th>
-        </tr>
-      </thead>
+    <div className='border rounded'>
+      <table className="table table-sm">
+        <thead className="custom-table-head" style={{ position: "sticky", top: 0 }}>
+          <tr style={{ textAlign: "center" }}>
+            <th style={{ width: "5%" }}></th>
+            <th style={{ width: "55%" }}>Nombre</th>
+            <th style={{ width: "25%" }}>Cantidad</th>
+            <th style={{ width: "15%" }}>Unidad</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        {
-          obj.elementList.map((value) => (
-            <ProductsProductElementTableItem key={value.key} value={value} selectedRow={selectedRow} onNotifyClick={handleRowClick}/>
-          ))
-        }
-      </tbody>
-    </table>
+        <tbody>
+          {
+            obj.elementList.map((value) => (
+              <ProductsProductElementTableItem key={value.key} value={value} selectedRow={selectedRow} onNotifyClick={handleRowClick}/>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
   )
 }

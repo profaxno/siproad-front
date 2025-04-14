@@ -14,23 +14,25 @@ export const SalesOrderTable = () => {
   
   // * return component
   return (
-    <table className="table table-md table-striped table-bordered">
-      <thead className="table-dark" style={{ position: "sticky", top: 0 }}>
-        <tr style={{ textAlign: "center" }}>
-          <th style={{ width: "30%" }}>Creación</th>
-          <th style={{ width: "15%" }}>Código</th>
-          <th style={{ width: "20%" }}>Cliente</th>
-          <th style={{ width: "35%" }}>Comentarios</th>
-        </tr>
-      </thead>
+    <div className='border rounded'>
+      <table className="table">
+        <thead className="custom-table-head" style={{ position: "sticky", top: 0 }}>
+          <tr>
+            <th style={{ width: "30%" }}>Creación</th>
+            <th style={{ width: "15%" }}>Código</th>
+            <th style={{ width: "20%" }}>Cliente</th>
+            <th style={{ width: "35%" }}>Comentarios</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        {
-          objList.map((value) => (
-            <SalesOrderTableItem key={value.key} value={value}/>
-          ))
-        }
-      </tbody>
-    </table>
+        <tbody>
+          {
+            objList.map((value) => (
+              <SalesOrderTableItem key={value.key} value={value}/>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
   )
 }
