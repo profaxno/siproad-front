@@ -3,18 +3,13 @@ import { useState, useEffect, useContext, use } from 'react'
 import { SalesOrderContext } from '../../context/SalesOrderContext';
 import { TableActionEnum } from '../../../common/enums/table-actions.enum';
 
-const initObjSearch = {
-  code: "",
-  customerNameIdDoc: "",
-  comment: ""
-}
+
 
 export const SalesOrderSearch = () => {
   
   // * hooks
-  const { updateTable, searchOrders } = useContext(SalesOrderContext);
-  const [objSearch, setObjSearch] = useState(initObjSearch);
-
+  const { objSearch, updateTable, searchOrders, setObjSearch } = useContext(SalesOrderContext);
+  
   console.log(`rendered...`);
 
   useEffect(() => {

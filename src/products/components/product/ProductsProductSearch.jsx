@@ -3,16 +3,10 @@ import { useState, useEffect, useContext } from 'react'
 import { ProductsProductContext } from '../../context/ProductsProductContext';
 import { TableActionEnum } from '../../../common/enums/table-actions.enum';
 
-const initObjSearch = {
-  nameCode: "",
-  productTypeId: ""
-}
-
 export const ProductsProductSearch = () => {
   
   // * hooks
-  const { updateTable, searchProducts } = useContext(ProductsProductContext);
-  const [objSearch, setObjSearch] = useState(initObjSearch);
+  const { objSearch, updateTable, searchProducts, setObjSearch } = useContext(ProductsProductContext);
   // const [inputValue, setInputValue] = useState();
 
   console.log(`rendered...`);

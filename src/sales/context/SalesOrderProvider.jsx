@@ -6,6 +6,12 @@ import { tableReducer } from '../../common/hooks/TableReducer'
 import { TableActionEnum } from '../../common/enums/table-actions.enum';
 import { useSearchOrder, useUpdateOrder } from '../hooks/useSalesOrder';
 
+const initObjSearch = {
+  code: "",
+  customerNameIdDoc: "",
+  comment: ""
+}
+
 const initObj = {
   code          : "",
   customerIdDoc : "",
@@ -25,6 +31,7 @@ export const SalesOrderProvider = ({ children }) => {
 
   // * hooks
   const [obj, setObj] = useState(initObj);
+  const [objSearch, setObjSearch] = useState(initObjSearch);
   const [objList, dispatchObjList] = useReducer(tableReducer, []); // * reducer, init state, init function
   const [errors, setErrors] = useState({});
   const [showMessage, setShowMessage] = useState(false);
@@ -158,7 +165,8 @@ export const SalesOrderProvider = ({ children }) => {
   return (
     <SalesOrderContext.Provider 
       value={{ 
-        obj, 
+        obj,
+        objSearch,
         objList, 
         errors, 
         showMessage, 
@@ -170,6 +178,7 @@ export const SalesOrderProvider = ({ children }) => {
         setErrors, 
         setShowMessage,
 
+        setObjSearch,
         searchOrders,
         saveOrder
       }}>
