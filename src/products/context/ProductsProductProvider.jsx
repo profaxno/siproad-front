@@ -6,6 +6,11 @@ import { useSearchProduct, useUpdateProduct, useDeleteProduct } from '../hooks/u
 import { tableReducer } from '../../common/hooks/TableReducer'
 import { TableActionEnum } from '../../common/enums/table-actions.enum';
 
+const initObjSearch = {
+  nameCode: "",
+  productTypeId: ""
+}
+
 const initObj = {
   id: undefined,
   name: "",
@@ -22,6 +27,7 @@ export const ProductsProductProvider = ({ children }) => {
 
   // * hooks
   const [obj, setObj] = useState(initObj);
+  const [objSearch, setObjSearch] = useState(initObjSearch);
   const [objList, dispatchObjList] = useReducer(tableReducer, []); // * reducer, init state, init function
   const [errors, setErrors] = useState({});
   const [showMessage, setShowMessage] = useState(false);
@@ -166,7 +172,8 @@ export const ProductsProductProvider = ({ children }) => {
   return (
     <ProductsProductContext.Provider 
       value={{ 
-        obj, 
+        obj,
+        objSearch,
         objList, 
         errors, 
         showMessage, 
@@ -179,6 +186,7 @@ export const ProductsProductProvider = ({ children }) => {
         setErrors, 
         setShowMessage,
 
+        setObjSearch,
         searchProducts, 
         saveProduct, 
         deleteProduct
