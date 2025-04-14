@@ -281,7 +281,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         {actionName}
       </button> */}
       
-      <button className={'custom-btn-outline-success-print'} onClick={handleGeneratePDF} title={tooltip}>
+      <button className={className} onClick={handleGeneratePDF} title={tooltip}>
         {/* {imgPath && (
           <img
             src={imgPath}

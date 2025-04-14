@@ -119,8 +119,8 @@ body {
   border: 1px solid #ff3333;
   border-radius: 5px;
   background-image: url('/assets/delete-red.png');
+  background-size: contain;
   background-repeat: no-repeat;
-  /* background-size: contain; */
   background-position: center;
   background-color: transparent;
   background-size: 45%;
