@@ -71,7 +71,7 @@ export const InputSearchWithTag = ({
       return obj[name];
 
     const item = fieldToShow.reduce((acc, field) => {
-      acc += `${obj[field]} `;
+      acc += obj[field] ? `${obj[field]} ` : '';
       return acc;
     }, '');
     
