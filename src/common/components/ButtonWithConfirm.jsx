@@ -22,7 +22,7 @@ export const ButtonWithConfirm = ({ className, actionName, title, tooltip, messa
 
 
   return (
-    <>
+    <div>
       {/* action button */}
       <button className={className} onClick={() => modal?.show()} title={tooltip}>
         {actionName}
@@ -49,6 +49,6 @@ export const ButtonWithConfirm = ({ className, actionName, title, tooltip, messa
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

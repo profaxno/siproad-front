@@ -157,7 +157,7 @@ export const SalesOrderPage = () => {
                   <ButtonWithConfirm className={"custom-btn-outline-danger-delete"} title={"Confirmación"} message={"Eliminar el Ordero ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm}/>
                 }
                 {/* <SalesOrderButtonGeneratePdfPrice className={"btn btn-outline-success"} onConfirm={validate} orderData={obj} tooltip={"Generar Cotización"} imgPath={'/assets/printer-green.png'} imgStyle={{ width: "20px", height: "20px" }}/> */}
-                <SalesOrderButtonGeneratePdfPrice className={"btn btn-outline-success"} onConfirm={validate} orderData={obj} tooltip={"Generar Cotización"}/>
+                <SalesOrderButtonGeneratePdfPrice className={"custom-btn-outline-success-print"} onConfirm={validate} orderData={obj} tooltip={"Generar Cotización"}/>
               </div>
             
             </div>
