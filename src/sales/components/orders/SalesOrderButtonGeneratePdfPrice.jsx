@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+
+import { AuthContext } from "../../../auth/context/AuthContext";
+
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
-import logo from "../../assets/headerVasco.jpg"; // Logo en el header
-import footerImg from "../../assets/footerVasco.jpg"; // Imagen del footer
-import Modal from "react-modal"; // Importamos la librería para modal
+import Modal from "react-modal";
+
+import defaultHeader from "../../assets/defaultHeader.jpg";
+import defaultFooter from "../../assets/defaultFooter.jpg";
+import defaultTransferData from "../../assets/defaultTransferData.jpg";
+
 
 Modal.setAppElement("#root"); // Especificamos el elemento principal de la app
 
 export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderData, onConfirm, tooltip, imgPath, imgStyle}) => {
 
   // * hooks
+  const { authState } = useContext(AuthContext);
   const [previewUrl, setPreviewUrl] = useState(null); // Estado para el preview
   const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para controlar el modal
   const [order, setOrder] = useState(orderData); // Estado para almacenar la orden
@@ -57,10 +64,16 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         return acc;
       }, [])
 
+
+      const imgUrlHeader        = authState.company.images?.find((value) => value.name === "header")?.image || defaultHeader;
+      const imgUrlFooter        = authState.company.images?.find((value) => value.name === "footer")?.image || defaultFooter;
+      const imgUrlTransferData  = authState.company.images?.find((value) => value.name === "transferData")?.image || defaultTransferData;
+
       // Cargar las imágenes de forma sincrónica
-      const [imgHeader, imgFooter] = await Promise.all([
-        loadImage(logo),
-        loadImage(footerImg),
+      const [imgHeader, imgFooter, imgTransferData] = await Promise.all([
+        loadImage(imgUrlHeader),
+        loadImage(imgUrlFooter),
+        loadImage(imgUrlTransferData)
       ]);
 
       const doc = new jsPDF({ format: "A4", unit: "mm" });
@@ -171,8 +184,20 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         },
       });
 
+      finalY += 30;
+
       // 🔹 Ir a la última página para agregar Totales
       
+      const espacioDisponible = pageHeight - finalY; // Espacio restante en la página
+      const alturaTablaTotales = 30; // Aproximadamente, o ajústalo si necesitas más precisión
+      
+      if (espacioDisponible < alturaTablaTotales + 40) {
+        doc.addPage();
+        finalY = 20; // Reinicia el cursor Y en la nueva página
+      }
+      
+
+
       // Totales
       const subTotal  = order.subTotal  ? parseFloat(order.subTotal).toFixed(2) : '0.00';
       const iva       = order.iva       ? parseFloat(order.iva).toFixed(2)      : '0.00';
@@ -184,7 +209,8 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         ['Total:'     , `${total}`]
       ];
 
-      finalY += 30;
+      doc.addImage(imgTransferData, "JPG", margin, finalY, 84, 30);
+
       autoTable(doc, {
         startY: finalY,
         body: data,
@@ -209,6 +235,19 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
             data.cell.styles.fontStyle = "bold";
           }
         },
+        didDrawPage: (data) => {
+          const pageNum = doc.internal.getNumberOfPages();
+          lastPage = pageNum;
+          const footerY = pageHeight - 35;
+          
+          // 🔹 Imagen en el Footer
+         
+          doc.addImage(imgFooter, "JPEG", margin, footerY, pageWidth - 2 * margin, 20);
+
+          // 🔹 Número de página en cada hoja
+          doc.setFontSize(10);
+          doc.text(`Página ${pageNum}`, pageWidth - margin, pageHeight - 10, { align: "right" });
+        }
       });
 
 
@@ -232,7 +271,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
   return (
     <div>
 
-      <button className={className} onClick={handleGeneratePDF} title={tooltip}>
+      {/* <button className={className} onClick={handleGeneratePDF} title={tooltip}>
         {imgPath && (
           <img
             src={imgPath}
@@ -240,8 +279,18 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
           />
         )}
         {actionName}
-      </button>
+      </button> */}
       
+      <button className={'custom-btn-outline-success-print'} onClick={handleGeneratePDF} title={tooltip}>
+        {/* {imgPath && (
+          <img
+            src={imgPath}
+            style={imgStyle}
+          />
+        )}
+        {actionName} */}
+      </button>
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

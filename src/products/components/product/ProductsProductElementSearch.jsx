@@ -60,16 +60,18 @@ export const ProductsProductElementSearch = ({onNotifyUpdateTable}) => {
     
   }
 
-  // const handleButtonAdd = (productElement) => {
-  //   // * validate
-  //   if(!validate()) return;
+  const search = async(value) => {
+    // alert(`search: ${JSON.stringify(objSearch)}`);
 
-  //   if(productElement.name === '') return;
-  //   if(productElement.qty < 1) return;
+    const name = value?.length > 3 ? value : undefined;
     
-  //   onNotifyUpdateTable(productElement, TableActionEnum.ADD);
-  //   setProductElement(initProductElement);
-  // }
+    if(name) {
+      const objListAux = await findElements(name);
+      return objListAux;
+    }
+
+    return [];
+  }
 
   const handleButtonAdd = (productElement) => {
     // * validate
@@ -98,7 +100,7 @@ export const ProductsProductElementSearch = ({onNotifyUpdateTable}) => {
           value={productElement.name}
           placeholder={"Buscador..."}
           onNotifyChangeEvent={handleChange}
-          onSearchOptions={findElements}
+          onSearchOptions={search}
           onNotifySelectOption={updateSelectObject}
           onNotifyRemoveTag={cleanInput}
         />
@@ -119,7 +121,7 @@ export const ProductsProductElementSearch = ({onNotifyUpdateTable}) => {
       <div className="col-1">
         <button 
           name='btnAddProductElement'
-          className="btn btn-outline-success"            
+          className="custom-btn-outline-success"
           onClick={() => handleButtonAdd(productElement) }
         >
           {/* <img

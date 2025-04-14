@@ -76,6 +76,19 @@ export const SalesOrderProductSearch = () => {
     
   }
 
+  const search = async(value) => {
+    // alert(`search: ${JSON.stringify(objSearch)}`);
+
+    const nameCode = value?.length > 3 ? value : undefined;
+    
+    if(nameCode) {
+      const objListAux = await searchProductsByNameCode(nameCode);
+      return objListAux;
+    }
+
+    return [];
+  }
+
   const handleButtonAdd = (orderProduct) => {
     // * validate
     if(!validate()) return;
@@ -83,7 +96,13 @@ export const SalesOrderProductSearch = () => {
     if(orderProduct.name === '') return;
     if(orderProduct.qty < 0) return;
     
-    updateTableOrderProduct(orderProduct, TableActionEnum.ADD);
+    // * update subtotal
+    const orderProductAux = {
+      ...orderProduct,
+      subTotal: orderProduct.qty * orderProduct.price
+    }
+
+    updateTableOrderProduct(orderProductAux, TableActionEnum.ADD);
     setOrderProduct(initOrderProduct);
   }
 
@@ -104,7 +123,7 @@ export const SalesOrderProductSearch = () => {
           value={orderProduct.name}
           placeholder={"Buscador..."}
           onNotifyChangeEvent={handleChange}
-          onSearchOptions={searchProductsByNameCode}
+          onSearchOptions={search}
           onNotifySelectOption={updateSelectObject}
           onNotifyRemoveTag={cleanInput}
         />
@@ -127,7 +146,7 @@ export const SalesOrderProductSearch = () => {
       <div className="col-1">
         <button 
           name='btnAddOrderProduct'
-          className="btn btn-outline-success"            
+          className="custom-btn-outline-success"
           onClick={() => handleButtonAdd(orderProduct) }
         >
           +

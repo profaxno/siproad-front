@@ -153,9 +153,11 @@ export const SalesOrderPage = () => {
               
               <div className="col-1 col-sm d-flex justify-content-end gap-1">
                 { obj.status != 0 && obj.id &&
-                  <ButtonWithConfirm className={"btn btn-outline-danger"} title={"Confirmación"} message={"Eliminar el Ordero ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm} imgPath={'/assets/delete-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
+                  // <ButtonWithConfirm className={"btn btn-outline-danger"} title={"Confirmación"} message={"Eliminar el Ordero ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm} imgPath={'/assets/delete-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
+                  <ButtonWithConfirm className={"custom-btn-outline-danger-delete"} title={"Confirmación"} message={"Eliminar el Ordero ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm}/>
                 }
-                <SalesOrderButtonGeneratePdfPrice className={"btn btn-outline-success"} onConfirm={validate} orderData={obj} tooltip={"Generar Cotización"} imgPath={'/assets/printer-green.png'} imgStyle={{ width: "20px", height: "20px" }}/>
+                {/* <SalesOrderButtonGeneratePdfPrice className={"btn btn-outline-success"} onConfirm={validate} orderData={obj} tooltip={"Generar Cotización"} imgPath={'/assets/printer-green.png'} imgStyle={{ width: "20px", height: "20px" }}/> */}
+                <SalesOrderButtonGeneratePdfPrice className={"btn btn-outline-success"} onConfirm={validate} orderData={obj} tooltip={"Generar Cotización"}/>
               </div>
             
             </div>
@@ -176,7 +178,7 @@ export const SalesOrderPage = () => {
                 
                 <div className="mt-3 overflow-auto" style={{ maxHeight: '400px'}}>
                   <SalesOrderProductTable/>
-                  {errors.productList && <div className="custom-invalid-feedback border rounded p-1">{errors.productList}</div>}
+                  {errors.productList && <div className="custom-invalid-feedback">{errors.productList}</div>}
                 </div>
               </div>
 
@@ -209,11 +211,11 @@ export const SalesOrderPage = () => {
 
           {/* principal buttons */}
           <div className="d-flex mt-4 gap-1">
-              <ButtonWithConfirm className={"btn btn-outline-danger w-100"} actionName={"Nuevo"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} onExecute={cleanForm} />
-            
-              { obj.status == 1 && 
-                <ButtonWithConfirm className={"btn btn-success w-100"} actionName={"Guardar"} title={"Confirmación"} message={"Guardar el Ordero ¿Desea Continuar?"} onExecute={saveForm} />
-              }
+            <ButtonWithConfirm className={"custom-btn-outline-danger w-100"} actionName={"Nuevo"} title={"Confirmación"} message={"Se perderán los datos no guardados ¿Desea Continuar?"} onExecute={cleanForm} />
+          
+            { obj.status == 1 && 
+              <ButtonWithConfirm className={"custom-btn-success w-100"} actionName={"Guardar"} title={"Confirmación"} message={"Guardar el Ordero ¿Desea Continuar?"} onExecute={saveForm} />
+            }
           </div>
 
         </div>

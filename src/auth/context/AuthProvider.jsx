@@ -10,6 +10,7 @@ const init = () => {
   return {
     logged: !!session,
     user: session?.user,
+    company: session?.company,
     token: session?.token
   }
 }
@@ -20,14 +21,15 @@ export const AuthProvider = ({ children }) => {
   const [authState, dispatch] = useReducer( authReducer, {}, init );
 
   // * handles
-  const onLogin = ( name = '', token ) => {
+  const onLogin = ( name = '', company, token ) => {
     const user = { name };
-    const session = { user, token };
+    const session = { user, company, token };
 
     const action = {
       type: types.login,
       payload: {
         user,
+        company,
         token
       }
     }

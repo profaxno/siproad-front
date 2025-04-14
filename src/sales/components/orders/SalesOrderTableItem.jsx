@@ -48,7 +48,7 @@ export const SalesOrderTableItem = ({value = {}}) => {
     <tr 
       key={item.key} 
       onClick={() => handleRowClick()}
-      className={obj.key === item.key ? "table-dark" : ""} 
+      className={obj.key === item.key ? "custom-table-select" : ""} 
       style={ item.status === 0 ? { textDecoration: "line-through solid 1px red", color: "gray", opacity: 0.5, cursor: "pointer" } : { cursor: "pointer" } }
     >
       <td>

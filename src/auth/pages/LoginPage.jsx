@@ -68,9 +68,11 @@ export const LoginPage = () => {
       console.log(data);
       if(data.internalCode == 200) {
         const { payload } = data;
-        const { user, token } = payload;
+        const { user, company, token } = payload;
         
-        onLogin(user.name, token);
+        // console.log(`Bienvenido ${user.name} ${JSON.stringify(payload)}`);
+
+        onLogin(user.name, company, token);
         navigate('/', { replace: true });
       }
 
@@ -83,12 +85,13 @@ export const LoginPage = () => {
 
   // * return component
   return (
-    <div className="d-flex vh-100 justify-content-center align-items-center bg-light">
-      <div className="p-4 rounded shadow bg-white" style={{ width: "350px" }}>
+    <div className="d-flex vh-100 justify-content-center align-items-center">
+      <div className="p-4 rounded shadow" style={{ width: "350px" }}>
         
-        <h3 className="text-center mb-4">Login</h3>
-        <hr/>
-
+        <div className='d-flex border rounded justify-content-center custom-bg-base p-3'>
+          <img src={"/assets/siproad.png"} alt="Logo" width="150" height="25"/>
+        </div>
+        
         <form onSubmit={handleSubmit}>
           <div className="mt-4 mb-3">
             <label className="form-label">Usuario:</label>
@@ -102,7 +105,7 @@ export const LoginPage = () => {
             {errors.password && <div className="custom-invalid-feedback">{errors.password}</div>}
           </div>
 
-          <button type="submit" className="btn btn-success w-100">Entrar</button>
+          <button type="submit" className="custom-btn-success w-100">Entrar</button>
 
           {errors.login && <div className="custom-invalid-feedback mt-3">{errors.login}</div>}
         </form>
