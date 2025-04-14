@@ -110,7 +110,7 @@ export const ProductsProductPage = () => {
           <div className="border rounded mt-3 p-3">
             <ProductsProductSearch/>
             
-            <div className="mt-3 overflow-auto" style={{ maxHeight: '550px'}}>
+            <div className="mt-3 border rounded overflow-auto" style={{ maxHeight: '550px'}}>
               <ProductsProductTable/>
             </div>
           </div>
@@ -161,7 +161,7 @@ export const ProductsProductPage = () => {
                   <ProductsProductElementSearch/>
                 </ProductsElementProvider>
                 
-                <div className="mt-3 overflow-auto" style={{ maxHeight: '400px'}}>
+                <div className="mt-3 border rounded overflow-auto" style={{ maxHeight: '400px'}}>
                   <ProductsProductElementTable/>
                   {/* {errors.elementList && <div className="custom-invalid-feedback border rounded p-1">{errors.elementList}</div>} */}
                 </div>

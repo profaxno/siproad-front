@@ -122,7 +122,7 @@ export const SalesOrderPage = () => {
           <div className="border rounded mt-3 p-3">
             <SalesOrderSearch/>
             
-            <div className="mt-3 overflow-auto" style={{ maxHeight: '550px'}}>
+            <div className="mt-3 border rounded overflow-auto" style={{ maxHeight: '550px'}}>
               <SalesOrderTable/>
             </div>
           </div>
@@ -176,7 +176,7 @@ export const SalesOrderPage = () => {
                   <SalesOrderProductSearch/>
                 </SalesProductProvider>
                 
-                <div className="mt-3 overflow-auto" style={{ maxHeight: '400px'}}>
+                <div className="mt-3 border rounded overflow-auto" style={{ maxHeight: '400px'}}>
                   <SalesOrderProductTable/>
                   {errors.productList && <div className="custom-invalid-feedback">{errors.productList}</div>}
                 </div>

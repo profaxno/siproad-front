@@ -18,7 +18,7 @@ export const SalesOrderProductTable = () => {
 
   // * return component
   return (
-    <div className='border rounded'>
+    <div>
       <table className="table table-sm">
         <thead className="custom-table-head" style={{ position: "sticky", top: 0 }}>
           <tr style={{ textAlign: "center" }}>
