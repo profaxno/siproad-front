@@ -22,7 +22,7 @@ export const SalesOrderPage = () => {
   const [isOpenSearchSection, setIsOpenSearchSection] = useState(true);
   const [isOpenOrderSection, setIsOpenOrderSection] = useState(true);
   
-  console.log(`rendered...`);
+  // console.log(`rendered...`);
   
   // * handles
   const validate = () => {
