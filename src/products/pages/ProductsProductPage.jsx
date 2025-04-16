@@ -10,7 +10,7 @@ import { ProductsProductContext } from '../context/ProductsProductContext';
 import { ProductsElementProvider } from '../context/ProductsElementProvider';
 
 import { ProductsProductSearch } from '../components/product/ProductsProductSearch';
-import { ProductsProductTable } from '../components/product/ProductsProductTable';
+import { ProductsProductSearchTable } from '../components/product/ProductsProductSearchTable';
 
 import { ProductsProductForm } from '../components/product/ProductsProductForm';
 import { ProductsProductElementSearch } from '../components/product/ProductsProductElementSearch';
@@ -19,7 +19,7 @@ import { ProductsProductElementTable } from '../components/product/ProductsProdu
 export const ProductsProductPage = () => {
 
   // * hooks
-  const { obj, objList, updateTable, updateForm, updateTableProductElement, cleanForm, saveProduct, deleteProduct, errors, setErrors, showMessage, setShowMessage } = useContext(ProductsProductContext);
+  const { obj, objList, updateTable, cleanForm, saveProduct, deleteProduct, setErrors, screenMessage, setScreenMessage, resetScreenMessage } = useContext(ProductsProductContext);
   const [isOpenSearchSection, setIsOpenSearchSection] = useState(true);
   const [isOpenProductSection, setIsOpenProductSection] = useState(true);
   
@@ -39,54 +39,108 @@ export const ProductsProductPage = () => {
     return Object.keys(newErrors).length === 0; // Devuelve true si no hay errores
   }
 
-  const saveForm = async() => {
-    if (!validate()) return;
+  const saveForm = () => {
+    if (!validate()) 
+      return;
     
-    // * save
-    const mutatedObj = await saveProduct(obj);
+    saveProduct(obj)
+    .then( (mutatedObj) => {
+      
+      const found = objList.find((value) => value.id === obj.id) 
+      const actionType = found ? TableActionEnum.UPDATE : TableActionEnum.ADD;
+      
+      const elementListAux = obj.elementList.reduce((acc, value) => {
+        if(value.active)
+          acc.push({id  : value.id, name: value.name, unit: value.unit, cost: parseFloat(value.cost), qty : parseFloat(value.qty)});
+          return acc;
+      }, []);
+
+      const objAux = {
+        ...obj, 
+        id: mutatedObj.id, 
+        elementList: elementListAux
+      }
+
+      cleanForm();
+      updateTable(objAux, actionType);
+      setIsOpenProductSection(true);
+      setScreenMessage({type: "success", title: "Información", message: "Guardado Exitoso!", show: true});
+
+    })
+    .catch((error) => {
+      setScreenMessage({type: "error", title: "Problema", message: 'No se completó la operación, intente de nuevo', show: true});
+    });
+
+    // // * save
+    // const mutatedObj = await saveProduct(obj);
     
-    // * update view
-    const found = objList.find((value) => value.id === obj.id) 
-    const actionType = found ? TableActionEnum.UPDATE : TableActionEnum.ADD;
-    const elementListAux = obj.elementList.reduce((acc, value) => {
-      if(value.active)
-        acc.push({id  : value.id, name: value.name, unit: value.unit, cost: parseFloat(value.cost), qty : parseFloat(value.qty)});
-      return acc;
-    }, []);
+    // // * update view
+    // const found = objList.find((value) => value.id === obj.id) 
+    // const actionType = found ? TableActionEnum.UPDATE : TableActionEnum.ADD;
+    // const elementListAux = obj.elementList.reduce((acc, value) => {
+    //   if(value.active)
+    //     acc.push({id  : value.id, name: value.name, unit: value.unit, cost: parseFloat(value.cost), qty : parseFloat(value.qty)});
+    //   return acc;
+    // }, []);
 
-    const objAux = {
-      ...obj, 
-      id: mutatedObj.id, 
-      elementList: elementListAux
-    }
+    // const objAux = {
+    //   ...obj, 
+    //   id: mutatedObj.id, 
+    //   elementList: elementListAux
+    // }
 
-    cleanForm();
-    updateTable(objAux, actionType);
-    setShowMessage(true);
-    setIsOpenProductSection(true);
+    // cleanForm();
+    // updateTable(objAux, actionType);
+    // setShowMessage(true);
+    // setIsOpenProductSection(true);
   }
 
-  const deleteForm = async() => {
-        
-    await deleteProduct(obj);
+  const deleteForm = () => {
     
-    // * update view
-    const elementListAux = obj.elementList.reduce((acc, value) => {
-      if(value.active)
-        acc.push({id  : value.id, name: value.name, unit: value.unit, cost: parseFloat(value.cost), qty : parseFloat(value.qty)});
-      return acc;
-    }, []);
+    deleteProduct(obj)
+    .then( (mutatedObj) => {
 
-    const objAux = {
-      ...obj, 
-      elementList: elementListAux, 
-      active: false
-    }
+      const elementListAux = obj.elementList.reduce((acc, value) => {
+        if(value.active)
+          acc.push({id  : value.id, name: value.name, unit: value.unit, cost: parseFloat(value.cost), qty : parseFloat(value.qty)});
+        return acc;
+      }, []);
+  
+      const objAux = {
+        ...obj, 
+        elementList: elementListAux, 
+        active: false
+      }
 
-    cleanForm();
-    updateTable(objAux, TableActionEnum.DELETE);
-    setShowMessage(true);
-    setIsOpenProductSection(true);
+      cleanForm();
+      updateTable(objAux, TableActionEnum.DELETE);
+      setIsOpenProductSection(true);
+      setScreenMessage({type: "success", title: "Información", message: "Eliminado Exitoso!", show: true});
+    })
+    .catch((error) => {
+      setScreenMessage({type: "error", title: "Problema", message: 'No se completó la operación, intente de nuevo', show: true});
+    })
+
+
+    // await deleteProduct(obj);
+    
+    // // * update view
+    // const elementListAux = obj.elementList.reduce((acc, value) => {
+    //   if(value.active)
+    //     acc.push({id  : value.id, name: value.name, unit: value.unit, cost: parseFloat(value.cost), qty : parseFloat(value.qty)});
+    //   return acc;
+    // }, []);
+
+    // const objAux = {
+    //   ...obj, 
+    //   elementList: elementListAux, 
+    //   active: false
+    // }
+
+    // cleanForm();
+    // updateTable(objAux, TableActionEnum.DELETE);
+    // setShowMessage(true);
+    // setIsOpenProductSection(true);
   }
 
   // * return component
@@ -107,11 +161,11 @@ export const ProductsProductPage = () => {
           </div>
 
           {isOpenSearchSection && (
-          <div className="border rounded mt-3 p-3">
+          <div className="mt-3">
             <ProductsProductSearch/>
             
-            <div className="mt-3 border rounded overflow-auto" style={{ maxHeight: '550px'}}>
-              <ProductsProductTable/>
+            <div className="mt-4 border rounded overflow-auto" style={{ maxHeight: '450px'}}>
+              <ProductsProductSearchTable/>
             </div>
           </div>
           )}
@@ -141,7 +195,7 @@ export const ProductsProductPage = () => {
               
               <div className="col-1 col-sm d-flex justify-content-end">
                 { obj.active && obj.id &&
-                  <ButtonWithConfirm className={"custom-btn-outline-danger-delete"} title={"Confirmación"} message={"Eliminar el Ordero ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm}/>
+                  <ButtonWithConfirm className={"custom-btn-outline-danger-delete"} title={"Confirmación"} message={"Eliminar el Producto ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm}/>
                 }
               </div>
             
@@ -178,7 +232,7 @@ export const ProductsProductPage = () => {
 
             <div className="col-6 col-sm">
               { obj.active == 1 && 
-                <ButtonWithConfirm className={"custom-btn-success w-100"} actionName={"Guardar"} title={"Confirmación"} message={"Guardar el Ordero ¿Desea Continuar?"} onExecute={saveForm} />
+                <ButtonWithConfirm className={"custom-btn-success w-100"} actionName={"Guardar"} title={"Confirmación"} message={"Guardar el Producto ¿Desea Continuar?"} onExecute={saveForm} />
               }
             </div>
           </div>
@@ -187,7 +241,7 @@ export const ProductsProductPage = () => {
         
       </div>
 
-      <Message show={showMessage} onUpdateShowMessage={setShowMessage}/>
+      <Message screenMessage={screenMessage} onResetScreenMessage={resetScreenMessage}/>
     </div>
   )
 }

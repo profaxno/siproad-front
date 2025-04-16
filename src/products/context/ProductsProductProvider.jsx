@@ -3,24 +3,32 @@ import { useState, useEffect, useReducer } from 'react'
 import { ProductsProductContext } from './ProductsProductContext';
 import { useSearchProduct, useUpdateProduct, useDeleteProduct } from '../hooks/useProductsProduct';
 
-import { tableReducer } from '../../common/hooks/TableReducer'
 import { TableActionEnum } from '../../common/enums/table-actions.enum';
+import { tableReducer } from '../../common/helpers/TableReducer'
+import { searchResultsTableReducer } from '../../common/helpers/SearchResultsTableReducer';
 
 const initObjSearch = {
-  nameCode: "",
-  productTypeId: ""
+  nameCode      : "",
+  productTypeId : ""
 }
 
 const initObj = {
-  id: undefined,
-  name: "",
-  code: "",
-  description: "",
-  cost: 0,
-  price: 0,
-  hasFormula: false,
-  active: true,
+  id          : undefined,
+  name        : "",
+  code        : "",
+  description : "",
+  cost        : 0,
+  price       : 0,
+  hasFormula  : false,
+  active      : true,
   elementList: []
+}
+
+const initScreenMessage = {
+  type    : "", // "success", "error", "info"
+  title   : "",
+  message : "",
+  show    : false
 }
 
 export const ProductsProductProvider = ({ children }) => {
@@ -28,9 +36,9 @@ export const ProductsProductProvider = ({ children }) => {
   // * hooks
   const [obj, setObj] = useState(initObj);
   const [objSearch, setObjSearch] = useState(initObjSearch);
-  const [objList, dispatchObjList] = useReducer(tableReducer, []); // * reducer, init state, init function
+  const [objList, dispatchObjList] = useReducer(searchResultsTableReducer, []); // * reducer, init state, init function
   const [errors, setErrors] = useState({});
-  const [showMessage, setShowMessage] = useState(false);
+  const [screenMessage, setScreenMessage] = useState(initScreenMessage);
   const { fetchProducts/*, productList = [], loading, error*/ } = useSearchProduct();
   const { mutateProduct/*, data, loading, error*/ } = useUpdateProduct();
   const { mutateDeleteProduct/*, data, loading, error*/ } = useDeleteProduct();
@@ -43,10 +51,6 @@ export const ProductsProductProvider = ({ children }) => {
 
   // * handles
   const updateTable = (obj, actionType) => { // * obj can be a value or an array
-
-    if(obj.length > 0)
-      console.log(`updateTable: obj=(${obj.length}), actionType=${actionType}`);
-    else console.log(`updateTable: obj=${JSON.stringify(obj)}, actionType=${actionType}`);
 
     const action = {
       type: actionType,
@@ -109,18 +113,29 @@ export const ProductsProductProvider = ({ children }) => {
 
     return fetchProducts({ variables: { nameCode, productTypeId } })
     .then(({ data }) => {
+      
+      const { internalCode, message } = data?.productProductSearchByValues || {};
+
+      if( !(
+        internalCode == 200 ||
+        internalCode == 400 ||
+        internalCode == 404)
+      ) {
+        throw new Error(message);
+      }
+
       const payload = data?.productProductSearchByValues?.payload || [];
-      console.log(`searchProducts: data=${JSON.stringify(payload)}`);
       return payload;
     })
     .catch((error) => {
-      console.error('Error searchProducts:', error);
+      console.error('Error searchOrders:', error);
+      throw error;
     });
 
   }
 
   const saveProduct = (obj) => {
-    console.log(`saveProduct: obj=${JSON.stringify(obj)}`);
+    // console.log(`saveProduct: obj=${JSON.stringify(obj)}`);
     
     const elementListAux = obj.elementList.reduce((acc, value) => {
       if(value.active){
@@ -148,24 +163,55 @@ export const ProductsProductProvider = ({ children }) => {
     
     return mutateProduct({ variables: { input: objAux } })
     .then(({ data }) => {
-      const payload = data?.productsProductUpdate?.payload || [];
-      return payload[0];
+
+      const { internalCode, message, payload } = data?.productsProductUpdate || {};
+      
+      if( !(
+        internalCode == 200 ||
+        internalCode == 400 ||
+        internalCode == 404)
+      ) {
+        throw new Error(message);
+      }
+
+      return payload ? payload[0] : null;
     })
     .catch((error) => {
-      console.error('Error saving product:', error);
+      console.error('Error saveProduct:', error);
+      throw error;
     });
+
   }
 
   const deleteProduct = (obj) => {
     
     return mutateDeleteProduct({ variables: { id: obj.id } })
     .then(({ data }) => {
-      const payload = data?.productsProductDelete?.payload || [];
-      return payload[0];
+
+      const { internalCode, message, payload } = data?.productsProductDelete || {};
+      
+      if( !(
+        internalCode == 200 ||
+        internalCode == 400 ||
+        internalCode == 404)
+      ) {
+        throw new Error(message);
+      }
+
+      return payload ? payload[0] : null;
     })
     .catch((error) => {
-      console.error('Error deleting product:', error);
+      console.error('Error deleteProduct:', error);
+      throw error;
     });
+
+    // .then(({ data }) => {
+    //   const payload = data?.productsProductDelete?.payload || [];
+    //   return payload[0];
+    // })
+    // .catch((error) => {
+    //   console.error('Error deleting product:', error);
+    // });
   }
 
   // * return component
@@ -176,7 +222,7 @@ export const ProductsProductProvider = ({ children }) => {
         objSearch,
         objList, 
         errors, 
-        showMessage, 
+        screenMessage, 
         
         updateTable, 
         updateForm, 
@@ -184,7 +230,7 @@ export const ProductsProductProvider = ({ children }) => {
         calculateProfitMargin, 
         updateTableProductElement, 
         setErrors, 
-        setShowMessage,
+        setScreenMessage,
 
         setObjSearch,
         searchProducts, 

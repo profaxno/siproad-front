@@ -8,10 +8,10 @@ export const InputSearch = ({name, className, value, searchField, placeholder, o
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const optionRefs = useRef([]); // * Referencias a los elementos de la lista
 
-  console.log(`rendered... value=${value}, inputValue=${inputValue}`);
+  // console.log(`rendered... value=${value}, inputValue=${inputValue}`);
   
   useEffect(() => {
-    console.log(`useEffect: executed, value=${value}, inputValue=${inputValue}`);
+    // console.log(`useEffect: executed, value=${value}, inputValue=${inputValue}`);
     setInputValue(value);
   }, [value]);
 
@@ -28,7 +28,7 @@ export const InputSearch = ({name, className, value, searchField, placeholder, o
   // * handles
   const handleInputChange = async(e) => {
     const value = e.target.value;
-    console.log(`handleInputChange: value="${value}"`);
+    // console.log(`handleInputChange: value="${value}"`);
 
     setInputValue(value);
     
@@ -40,7 +40,6 @@ export const InputSearch = ({name, className, value, searchField, placeholder, o
 
     } else {
       const foundObjList = await onSearchOptions(value);
-      console.log(`handleInputChange: foundObjList=(${foundObjList.length})${JSON.stringify(foundObjList)}`);
       setObjList(foundObjList);
     }
   }
@@ -48,7 +47,6 @@ export const InputSearch = ({name, className, value, searchField, placeholder, o
   const handleSelectOption = (obj) => {
     setInputValue(obj[searchField]);
     setObjList([]);
-    console.log(`handleSelectOption: notifying to...`);
     onNotifySelectOption(obj);
   }
 

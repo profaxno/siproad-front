@@ -6,8 +6,8 @@ import { setContext } from "@apollo/client/link/context";
 import { onError } from '@apollo/client/link/error';
 import { useNavigate } from 'react-router-dom';
 
+import { SiproadContext } from "../context/SiproadContext";
 import { AuthContext } from "../../auth/context/AuthContext";
-import { Message } from "../../common/components/Message";
 
 import config from "../../config/app.config";
 
@@ -19,16 +19,20 @@ export const ApolloWrapper = ({ children }) => {
   
   // hooks
   const { authState, onLogout } = useContext(AuthContext);
+  const { setScreenMessage } = useContext(SiproadContext);
+
   const navigate = useNavigate(); 
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
+      
       graphQLErrors.forEach(({ message, extensions }) => {
         
         console.error(`[GraphQL error]: Message: ${message}`);
 
         if (extensions?.code === 'UNAUTHENTICATED') {
-          alert('Tu sesión ha expirado. Por favor inicia sesión de nuevo.'); // TODO: falta crear un componente de mensaje
+
+          setScreenMessage({type: "success", title: "Información", message: "Tu sesión ha expirado. Por favor inicia sesión de nuevo.", show: true});          
           onLogout();
           navigate('/login');
         }

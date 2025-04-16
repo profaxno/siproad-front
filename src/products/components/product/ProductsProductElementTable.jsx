@@ -9,7 +9,7 @@ export const ProductsProductElementTable = () => {
   const { obj } = useContext(ProductsProductContext);
   const [selectedRow, setSelectedRow] = useState(null);
 
-  console.log(`rendered... value=(${obj.elementList.length})${JSON.stringify(obj.elementList)}`);
+  // console.log(`rendered... value=(${obj.elementList.length})${JSON.stringify(obj.elementList)}`);
   
   // * handles
   const handleRowClick = (item) => {

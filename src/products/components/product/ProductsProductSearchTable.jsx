@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from 'react'
 
 import { ProductsProductContext } from '../../context/ProductsProductContext';
-import { ProductsProductTableItem } from './ProductsProductTableItem';
+import { ProductsProductSearchTableItem } from './ProductsProductSearchTableItem';
 
-export const ProductsProductTable = () => {
+export const ProductsProductSearchTable = () => {
 
   // * hooks
   const { objList = [] } = useContext(ProductsProductContext);
     
-  console.log(`rendered... objList=(${objList.length})${JSON.stringify(objList)}`);
+  // console.log(`rendered... objList=(${objList.length})${JSON.stringify(objList)}`);
 
   // * handles
   
@@ -29,7 +29,7 @@ export const ProductsProductTable = () => {
         <tbody>
           {
             objList.map((value) => (
-              <ProductsProductTableItem key={value.key} value={value}/>
+              <ProductsProductSearchTableItem key={value.key} value={value}/>
             ))
           }
         </tbody>

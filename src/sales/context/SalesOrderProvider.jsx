@@ -1,40 +1,55 @@
 import { useState, useEffect, useReducer } from 'react'
 
+// import * as moment from 'moment-timezone';
+import moment from 'moment-timezone';
+
 import { SalesOrderContext } from './SalesOrderContext';
 
-import { tableReducer } from '../../common/hooks/TableReducer'
+import { DateEnum } from '../../common/enums/date.enum';
 import { TableActionEnum } from '../../common/enums/table-actions.enum';
+import { tableReducer } from '../../common/helpers/TableReducer'
+import { searchResultsTableReducer } from '../../common/helpers/SearchResultsTableReducer';
+
 import { useSearchOrder, useUpdateOrder } from '../hooks/useSalesOrder';
 
 const initObjSearch = {
-  code: "",
-  customerNameIdDoc: "",
-  comment: ""
+  createdAtInit     : "", // moment().format(DateEnum.DATE_FORMAT),
+  createdAtEnd      : "", // moment().add(1, 'days').format(DateEnum.DATE_FORMAT),
+  code              : "",
+  customerNameIdDoc : "",
+  comment           : ""
 }
 
 const initObj = {
-  code          : "",
-  customerIdDoc : "",
-  customerName  : "",
-  customerEmail : "",
-  customerPhone : "",
-  customerAddress: "",
-  comment       : "",
-  productList   : [],
-  subTotal      : 0,
-  iva           : 0,
-  total         : 0,
-  status        : 1
+  code            : "",
+  customerIdDoc   : "",
+  customerName    : "",
+  customerEmail   : "",
+  customerPhone   : "",
+  customerAddress : "",
+  comment         : "",
+  productList     : [],
+  subTotal        : 0,
+  iva             : 0,
+  total           : 0,
+  status          : 1
 }
+
+const initScreenMessage = {
+  type    : "", // "success", "error", "info"
+  title   : "",
+  message : "",
+  show    : false
+}  
 
 export const SalesOrderProvider = ({ children }) => {
 
   // * hooks
   const [obj, setObj] = useState(initObj);
   const [objSearch, setObjSearch] = useState(initObjSearch);
-  const [objList, dispatchObjList] = useReducer(tableReducer, []); // * reducer, init state, init function
+  const [objList, dispatchObjList] = useReducer(searchResultsTableReducer, []); // * reducer, init state, init function
   const [errors, setErrors] = useState({});
-  const [showMessage, setShowMessage] = useState(false);
+  const [screenMessage, setScreenMessage] = useState(initScreenMessage);
   const { fetchOrders/*, productList = [], loading, error*/ } = useSearchOrder();
   const { mutateOrder/*, data, loading, error*/ } = useUpdateOrder();
   // const { mutateDeleteOrder/*, data, loading, error*/ } = useDeleteOrder();
@@ -97,38 +112,52 @@ export const SalesOrderProvider = ({ children }) => {
     })
   }
   
-  // * api handles
-  const searchOrders = (code, customerNameIdDoc, comment) => {
+  const resetScreenMessage = () => {
+    setScreenMessage(initScreenMessage);
+  }
 
-    return fetchOrders({ variables: { code, customerNameIdDoc, comment } })
+  // * api handles
+  const searchOrders = (createdAtInit, createdAtEnd, code, customerNameIdDoc, comment) => {
+
+    return fetchOrders({ variables: { createdAtInit, createdAtEnd, code, customerNameIdDoc, comment } })
     .then(({ data }) => {
-      const payload = data?.salesOrderSearchByValues?.payload || [];
-      console.log(`searchOrders: data=${JSON.stringify(payload)}`);
-      return payload;
+      
+      const { internalCode, message, payload } = data?.salesOrderSearchByValues || {};
+
+      if( !(
+        internalCode == 200 ||
+        internalCode == 400 ||
+        internalCode == 404)
+      ) {
+        throw new Error(message);
+      }
+
+      return payload || [];
     })
     .catch((error) => {
       console.error('Error searchOrders:', error);
+      throw error;
     });
 
   }
 
   const saveOrder = (obj) => {
-    console.log(`saveOrder: obj=${JSON.stringify(obj)}`);
+    // console.log(`saveOrder: obj=${JSON.stringify(obj)}`);
     
     const productListAux = obj.productList.map((value) => {
       return {
-        id: value.id,
-        name: value.name,
-        cost: parseFloat(value.cost),
-        price: parseFloat(value.price),
-        qty: parseFloat(value.qty),
+        id    : value.id,
+        name  : value.name,
+        cost  : parseFloat(value.cost),
+        price : parseFloat(value.price),
+        qty   : parseFloat(value.qty),
         status: value.status
       }
     });
 
     const objAux = {
-      id              : obj.id ? obj.id : undefined,
-      code            : obj.code ? obj.code : undefined,
+      id              : obj.id    ? obj.id    : undefined,
+      code            : obj.code  ? obj.code  : undefined,
       customerIdDoc   : obj.customerIdDoc,
       customerName    : obj.customerName,
       customerEmail   : obj.customerEmail,
@@ -141,11 +170,22 @@ export const SalesOrderProvider = ({ children }) => {
     
     return mutateOrder({ variables: { input: objAux } })
     .then(({ data }) => {
-      const payload = data?.salesOrderUpdate?.payload || [];
-      return payload[0];
+
+      const { internalCode, message, payload } = data?.salesOrderUpdate || {};
+      
+      if( !(
+        internalCode == 200 ||
+        internalCode == 400 ||
+        internalCode == 404)
+      ) {
+        throw new Error(message);
+      }
+
+      return payload ? payload[0] : null;
     })
     .catch((error) => {
-      console.error('Error saving product:', JSON.stringify(error));
+      console.error('Error saveOrder:', error);
+      throw error;
     });
   }
 
@@ -169,14 +209,17 @@ export const SalesOrderProvider = ({ children }) => {
         objSearch,
         objList, 
         errors, 
-        showMessage, 
+        // showMessage, 
+        screenMessage, 
         
         updateTable, 
         updateForm, 
         cleanForm,
         updateTableOrderProduct, 
         setErrors, 
-        setShowMessage,
+        // setShowMessage,
+        setScreenMessage,
+        resetScreenMessage,
 
         setObjSearch,
         searchOrders,

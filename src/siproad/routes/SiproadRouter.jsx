@@ -1,12 +1,14 @@
-import React from 'react'
+import { useContext } from 'react'
 
 import { Navigate, Route, Routes } from 'react-router'
+
+import { SiproadContext } from '../context/SiproadContext'
 
 import { SiproadPublicRoute } from './SiproadPublicRoute'
 import { SiproadPrivateRoute } from './SiproadPrivateRoute'
 
 import { AuthProvider } from '../../auth/context/AuthProvider'
-import { ApolloWrapper } from '../../graphql/components/ApolloWrapper'
+import { ApolloWrapper } from '../graphql/ApolloWrapper'
 
 import { LoginPage } from '../../auth/pages/LoginPage'
 
@@ -18,8 +20,13 @@ import { SalesOrderPage } from '../../sales/pages/SalesOrderPage'
 import { ProductsNavbar } from '../../products/components/ProductsNavbar'
 import { ProductsProductProvider } from '../../products/context/ProductsProductProvider'
 import { ProductsProductPage } from '../../products/pages/ProductsProductPage'
+import { Message } from '../../common/components'
+
 
 export const SiproadRouter = () => {
+
+  const { screenMessage, resetScreenMessage } = useContext(SiproadContext);
+
   return (
     <>
       <AuthProvider>
@@ -92,6 +99,8 @@ export const SiproadRouter = () => {
 
         </Routes>
       </AuthProvider>
+
+      <Message screenMessage={screenMessage} onResetScreenMessage={resetScreenMessage}/>
     </>
   )
 }
