@@ -28,7 +28,8 @@ export const ApolloWrapper = ({ children }) => {
       
       graphQLErrors.forEach(({ message, extensions }) => {
         
-        console.error(`[GraphQL error]: Message: ${message}`);
+        // console.error(`[GraphQL error]: Message: ${message}`);
+        console.error(`Error [G]: ${message}`);
 
         if (extensions?.code === 'UNAUTHENTICATED') {
 
@@ -40,7 +41,7 @@ export const ApolloWrapper = ({ children }) => {
     }
 
     if (networkError) {
-      console.error(`[Network error]: ${networkError}`);
+      console.error(`Error [N]: ${networkError}`);
     }
   });
 
