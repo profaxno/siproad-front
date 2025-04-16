@@ -108,6 +108,10 @@ export const ProductsProductProvider = ({ children }) => {
     dispatchProductElementList( action );
   }
 
+  const resetScreenMessage = () => {
+    setScreenMessage(initScreenMessage);
+  }
+
   // * api handles
   const searchProducts = (nameCode, productTypeId) => {
 
@@ -231,6 +235,7 @@ export const ProductsProductProvider = ({ children }) => {
         updateTableProductElement, 
         setErrors, 
         setScreenMessage,
+        resetScreenMessage,
 
         setObjSearch,
         searchProducts, 
