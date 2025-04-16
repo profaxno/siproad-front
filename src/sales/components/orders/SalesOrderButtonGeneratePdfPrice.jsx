@@ -6,9 +6,10 @@ import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import Modal from "react-modal";
 
-import defaultHeader from "../../assets/defaultHeader.jpg";
-import defaultFooter from "../../assets/defaultFooter.jpg";
-import defaultTransferData from "../../assets/defaultTransferData.jpg";
+import defaultLogo from "../../assets/defaultLogo590x105.png";
+import defaultHeader from "../../assets/defaultHeader2550x355.jpg";
+import defaultFooter from "../../assets/defaultFooter2550x355.jpg";
+import defaultTransferData from "../../assets/defaultTransferData1100x400.jpg";
 
 
 Modal.setAppElement("#root"); // Especificamos el elemento principal de la app
@@ -63,12 +64,14 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
       }, [])
 
 
+      const imgUrlLogo          = authState.company.images?.find((value) => value.name === "logo")?.image || defaultLogo;
       const imgUrlHeader        = authState.company.images?.find((value) => value.name === "header")?.image || defaultHeader;
       const imgUrlFooter        = authState.company.images?.find((value) => value.name === "footer")?.image || defaultFooter;
       const imgUrlTransferData  = authState.company.images?.find((value) => value.name === "transferData")?.image || defaultTransferData;
 
       // Cargar las imágenes de forma sincrónica
-      const [imgHeader, imgFooter, imgTransferData] = await Promise.all([
+      const [imgLogo, imgHeader, imgFooter, imgTransferData] = await Promise.all([
+        loadImage(imgUrlLogo),
         loadImage(imgUrlHeader),
         loadImage(imgUrlFooter),
         loadImage(imgUrlTransferData)
@@ -82,7 +85,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
 
       // 🔹 Header con Logo
       doc.addImage(imgHeader, "JPEG", margin, cursorY, pageWidth - 2 * margin, 20);
-      
+      doc.addImage(imgLogo, "JPEG", margin + 5, cursorY + 5, 30, 5);
 
       // 🔹 Datos del Cliente
       const customerData = [
