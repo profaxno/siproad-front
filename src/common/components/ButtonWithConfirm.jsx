@@ -32,14 +32,15 @@ export const ButtonWithConfirm = ({ className, actionName, title, tooltip, messa
       <div className="modal fade" id={modalId} tabIndex="-1">
         <div className="modal-dialog modal-sm modal-dialog-centered">
           <div className="modal-content">
+            
             {/* header */}
-            <div className="modal-header bg-dark text-white p-2">
+            <div className="border rounded p-2 message-header-success">
               <h5 className="modal-title fs-6">{title}</h5>
               {/* <button className="btn-close btn-close-white" data-bs-dismiss="modal"></button> */}
             </div>
             
             {/* body */}
-            <div className="modal-body bg-white text-dark text-center p-2">{message}</div>
+            <div className="modal-body text-center p-2 message-body-success">{message}</div>
             
             {/* footer */}
             <div className="modal-footer modal-sm p-2">

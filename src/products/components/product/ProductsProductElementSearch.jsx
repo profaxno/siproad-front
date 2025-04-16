@@ -26,7 +26,7 @@ export const ProductsProductElementSearch = ({onNotifyUpdateTable}) => {
   const [errors, setErrors] = useState({});
   const [clean, setClean] = useState(false);
   
-  console.log(`rendered...`);
+  // console.log(`rendered...`);
 
   // * handles
   const handleChange = (e) => {

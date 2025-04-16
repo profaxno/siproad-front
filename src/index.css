@@ -220,3 +220,25 @@ body {
   cursor: pointer;
   font-size: 16px;
 }
+
+
+/* message */
+.message-header-success {
+  background-color: #111111;
+  color: #08f5fb;
+}
+
+.message-body-sucess {
+  background-color: #f8f9fa;
+  color: #111111;
+}
+
+.message-header-error {
+  background-color: #838181;
+  color: #f8f9fa;
+}
+
+.message-body-error {
+  background-color: #f8f9fa;
+  color: #dc3545;
+}

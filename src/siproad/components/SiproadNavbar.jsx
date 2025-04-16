@@ -19,18 +19,14 @@ export const SiproadNavbar = () => {
 
   return (
     <nav className="navbar navbar-expand-sm rounded px-3 custom-bg-base">
-      <Link 
-        className="navbar-brand" 
-        to="/"
-      >
+      <Link to="/">
         <img
           src={"/assets/siproad.png"}
           alt="Logo"
-          width="100"
-          height="17"
-          // className="d-inline-block align-top me-2"
+          width="105"
+          height="18"
+          className="align-top me-3"
         />
-        
       </Link>
 
       <button
@@ -59,7 +55,7 @@ export const SiproadNavbar = () => {
             <div className="col-11 d-flex justify-content-end">
               
               <span className="nav-item nav-link text-light text-capitalize">
-                {authState.user?.name.toLowerCase()}
+                { `${authState.company?.name.toLowerCase()}, ${authState.user?.name.toLowerCase()}` }
               </span>
 
               <ButtonWithConfirm className={"custom-btn-outline-danger-logout"} title={"Confirmación"} message={"Salir del Sistema ¿Desea Continuar?"} tooltip={"Salir del Sistema"} onExecute={handleLogout}/>

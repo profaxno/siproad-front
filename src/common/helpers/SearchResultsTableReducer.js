@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { TableActionEnum } from '../../common/enums/table-actions.enum'
+import { TableActionEnum } from '../enums/table-actions.enum'
 
-export const tableReducer = (state, action) => {
+export const searchResultsTableReducer = (state, action) => {
 
   // alert(`tableReducer: state=${JSON.stringify(state)}, action=${JSON.stringify(action)}`);
   
@@ -20,7 +20,7 @@ export const tableReducer = (state, action) => {
     case TableActionEnum.UPDATE:
     case TableActionEnum.DELETE:
       return state.map((value) => {
-        if(value.key === action.payload.key)
+        if(value.id === action.payload.id)
           return action.payload;
         return value;
       })

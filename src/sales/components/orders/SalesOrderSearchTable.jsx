@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from 'react'
 
 import { SalesOrderContext } from '../../context/SalesOrderContext';
-import { SalesOrderTableItem } from './SalesOrderTableItem';
+import { SalesOrderSearchTableItem } from './SalesOrderSearchTableItem';
 
-export const SalesOrderTable = () => {
+export const SalesOrderSearchTable = () => {
 
   // * hooks
   const { objList = [] } = useContext(SalesOrderContext);
     
-  console.log(`rendered... objList=(${objList.length})${JSON.stringify(objList)}`);
+  // console.log(`rendered... objList=(${objList.length})${JSON.stringify(objList)}`);
 
   // * handles
   
@@ -28,7 +28,7 @@ export const SalesOrderTable = () => {
         <tbody>
           {
             objList.map((value) => (
-              <SalesOrderTableItem key={value.key} value={value}/>
+              <SalesOrderSearchTableItem key={value.key} value={value}/>
             ))
           }
         </tbody>

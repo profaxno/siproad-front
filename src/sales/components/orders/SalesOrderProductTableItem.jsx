@@ -13,10 +13,10 @@ export const SalesOrderProductTableItem = ({value = {}, selectedRow, onNotifyCli
     ...value
   });
   
-  console.log(`rendered... item=${JSON.stringify(item)}`); 
+  // console.log(`rendered... item=${JSON.stringify(item)}`); 
 
   useEffect(() => {
-    console.log(`rendered... value=${JSON.stringify(value)}`); 
+    // console.log(`rendered... value=${JSON.stringify(value)}`); 
     setItem({
       ...value
     });

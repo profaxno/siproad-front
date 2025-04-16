@@ -3,7 +3,7 @@ import { useState, useReducer } from 'react'
 import { ProductsElementContext } from './ProductsElementContext';
 import { useSearchElements } from '../hooks/useProductsElement';
 
-import { tableReducer } from '../../common/hooks/TableReducer'
+import { tableReducer } from '../../common/helpers/TableReducer'
 import { TableActionEnum } from '../../common/enums/table-actions.enum';
 
 const initObj = {
@@ -28,16 +28,11 @@ export const ProductsElementProvider = ({ children }) => {
 
   // * handles
   const updateForm = (obj = initObj) => {
-    console.log(`updateForm: ${JSON.stringify(obj)}`);
+    // console.log(`updateForm: ${JSON.stringify(obj)}`);
     setObj(obj);
   }
 
   const updateTable = (obj, actionType) => { // * obj can be a value or an array
-
-    if(obj.length > 0)
-      console.log(`updateTable: obj=(${obj.length}), actionType=${actionType}`);
-    else console.log(`updateTable: obj=${JSON.stringify(obj)}, actionType=${actionType}`);
-
     if(actionType === TableActionEnum.DELETE)
       sendDelete(obj);
 
@@ -91,7 +86,6 @@ export const ProductsElementProvider = ({ children }) => {
     return fetchElements({ variables: { searchList } })
     .then(({ data }) => {
       const payload = data?.productsElementFind?.payload || [];
-      console.log(`fetchElements: data=${JSON.stringify(payload)}`);
       return payload;
     })
     .catch((error) => {
@@ -102,7 +96,16 @@ export const ProductsElementProvider = ({ children }) => {
 
   // * return component
   return (
-    <ProductsElementContext.Provider value={{ obj, objList, updateForm, updateTable, /*saveElement,*/ findElements, errors, setErrors }}>
+    <ProductsElementContext.Provider value={{ 
+      obj, 
+      objList, 
+      updateForm, 
+      updateTable, 
+      /*saveElement,*/ 
+      findElements, 
+      errors, 
+      setErrors 
+    }}>
       {children}
     </ProductsElementContext.Provider>
   )

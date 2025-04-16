@@ -6,16 +6,16 @@ import { TableActionEnum } from '../../../common/enums/table-actions.enum';
 
 import { SalesOrderContext } from '../../context/SalesOrderContext';
 
-export const SalesOrderTableItem = ({value = {}}) => {
+export const SalesOrderSearchTableItem = ({value = {}}) => {
 
   // * hooks
   const { obj, updateForm, updateTableOrderProduct } = useContext(SalesOrderContext);
   const [item, setItem] = useState({...value});
   
-  console.log(`rendered... item=${JSON.stringify(value)}`);
+  // console.log(`rendered... item=${JSON.stringify(value)}`);
 
   useEffect(() => {
-    console.log(`rendered... useEffect item=${JSON.stringify(value)}`);
+    // console.log(`rendered... useEffect item=${JSON.stringify(value)}`);
     setItem({...value});
   }, [value]);
 

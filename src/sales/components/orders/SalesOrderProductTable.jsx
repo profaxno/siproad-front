@@ -9,7 +9,7 @@ export const SalesOrderProductTable = () => {
   const { obj } = useContext(SalesOrderContext);
   const [selectedRow, setSelectedRow] = useState(null);
 
-  console.log(`rendered...`);
+  // console.log(`rendered...`);
   
   // * handles
   const handleRowClick = (item) => {

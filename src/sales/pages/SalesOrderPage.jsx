@@ -8,7 +8,7 @@ import { TableActionEnum } from '../../common/enums/table-actions.enum';
 import { SalesOrderContext, SalesProductProvider } from '../context';
 
 import { SalesOrderSearch } from '../components/orders/SalesOrderSearch';
-import { SalesOrderTable } from '../components/orders/SalesOrderTable';
+import { SalesOrderSearchTable } from '../components/orders/SalesOrderSearchTable';
 
 import { SalesOrderForm } from '../components/orders/SalesOrderForm';
 import { SalesOrderProductSearch } from '../components/orders/SalesOrderProductSearch';
@@ -18,11 +18,11 @@ import { SalesOrderButtonGeneratePdfPrice } from '../components/orders/SalesOrde
 export const SalesOrderPage = () => {
 
   // * hooks
-  const { obj, objList, updateTable, updateForm, updateTableOrderProduct, cleanForm, saveOrder, deleteOrder, errors, setErrors, showMessage, setShowMessage } = useContext(SalesOrderContext);
+  const { obj, objList, updateTable, cleanForm, saveOrder, errors, setErrors, screenMessage, setScreenMessage, resetScreenMessage } = useContext(SalesOrderContext);
   const [isOpenSearchSection, setIsOpenSearchSection] = useState(true);
   const [isOpenOrderSection, setIsOpenOrderSection] = useState(true);
   
-  // console.log(`rendered... obj=${JSON.stringify(obj)}`);
+  console.log(`rendered...`);
   
   // * handles
   const validate = () => {
@@ -36,51 +36,84 @@ export const SalesOrderPage = () => {
     return Object.keys(newErrors).length === 0; // Devuelve true si no hay errores
   }
 
-  const saveForm = async() => {
-    if (!validate()) return;
+  const saveForm = () => {
+    if (!validate()) 
+      return;
     
-    // * save
-    const mutatedObj = await saveOrder(obj);
+    saveOrder(obj)
+    .then( (mutatedObj) => {
+      
+      const found = objList.find((value) => value.id === obj.id) 
+      const actionType = found ? TableActionEnum.UPDATE : TableActionEnum.ADD;
+      
+      const objAux = {
+        ...obj,
+        id: mutatedObj.id,
+        code: mutatedObj.code,
+        createdAt: mutatedObj.createdAt,
+      }
+
+      cleanForm();
+      updateTable(objAux, actionType);
+      setIsOpenOrderSection(true);
+      setScreenMessage({type: "success", title: "Información", message: "Guardado Exitoso!", show: true});
+
+    })
+    .catch((error) => {
+      setScreenMessage({type: "error", title: "Problema", message: 'No se completó la operación, intente de nuevo', show: true});
+    });
+
+    // // * save
+    // const mutatedObj = await saveOrder(obj);
+    // alert(`mutatedObj: ${JSON.stringify(mutatedObj)}`);
     
-    // * update view
-    const found = objList.find((value) => value.id === obj.id) 
-    const actionType = found ? TableActionEnum.UPDATE : TableActionEnum.ADD;
-    // const productListAux = obj.productList.reduce((acc, value) => {
-    //   if(value.active) fds
-    //     acc.push({id: value.id, name: value.name, unit: value.unit, cost: parseFloat(value.cost), qty : parseFloat(value.qty)});
-    //   return acc;
-    // }, []);
+    // // * update view
+    // const found = objList.find((value) => value.id === obj.id) 
+    // const actionType = found ? TableActionEnum.UPDATE : TableActionEnum.ADD;
+    
+    // const objAux = {
+    //   ...obj,
+    //   id: mutatedObj.id,
+    //   code: mutatedObj.code,
+    //   createdAt: mutatedObj.createdAt,
+    // }
 
-    // const objAux = {...obj, productList: productListAux}
-
-    const objAux = {
-      ...obj,
-      id: mutatedObj.id,
-      code: mutatedObj.code,
-      createdAt: mutatedObj.createdAt,
-    }
-
-    cleanForm();
-    updateTable(objAux, actionType);
-    setShowMessage(true);
-    setIsOpenOrderSection(true);
+    // cleanForm();
+    // updateTable(objAux, actionType);
+    // // setShowMessage(true);
+    // setScreenMessage({type: "success", title: "Información", message: "Operación Exitosa", show: true});
+    // setIsOpenOrderSection(true);
   }
 
-  const deleteForm = async() => {
+  const deleteForm = () => {
      
     const objAux = {
       ...obj,
       status: 0,
     }
 
-    // * save
-    await saveOrder(objAux);
+    saveOrder(objAux)
+    .then( (mutatedObj) => {
+      
+      cleanForm();
+      updateTable(objAux, TableActionEnum.DELETE);
+      setIsOpenOrderSection(true);
+      setScreenMessage({type: "success", title: "Información", message: "Eliminación Exitosa!", show: true});
 
-    // * update view
-    cleanForm();
-    updateTable(objAux, TableActionEnum.DELETE);
-    setShowMessage(true);
-    setIsOpenOrderSection(true);
+    })
+    .catch((error) => {
+      setScreenMessage({type: "error", title: "Problema", message: 'No se completó la operación, intente de nuevo', show: true});
+    });
+
+    // // * save
+    // await saveOrder(objAux);
+
+    // // * update view
+    // cleanForm();
+    // updateTable(objAux, TableActionEnum.DELETE);
+    // setScreenMessage({type: "success", title: "Información", message: "Operación Exitosa", show: true});
+    // // setShowMessage(true);
+    // setIsOpenOrderSection(true);
   }
 
     
@@ -119,11 +152,11 @@ export const SalesOrderPage = () => {
           </div>
 
           {isOpenSearchSection && (
-          <div className="border rounded mt-3 p-3">
+          <div className="mt-3">
             <SalesOrderSearch/>
             
-            <div className="mt-3 border rounded overflow-auto" style={{ maxHeight: '550px'}}>
-              <SalesOrderTable/>
+            <div className="mt-4 border rounded overflow-auto" style={{ maxHeight: '450px'}}>
+              <SalesOrderSearchTable/>
             </div>
           </div>
           )}
@@ -154,7 +187,7 @@ export const SalesOrderPage = () => {
               <div className="col-1 col-sm d-flex justify-content-end gap-1">
                 { obj.status != 0 && obj.id &&
                   // <ButtonWithConfirm className={"btn btn-outline-danger"} title={"Confirmación"} message={"Eliminar el Ordero ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm} imgPath={'/assets/delete-red.png'} imgStyle={{ width: "20px", height: "20px" }}/>
-                  <ButtonWithConfirm className={"custom-btn-outline-danger-delete"} title={"Confirmación"} message={"Eliminar el Ordero ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm}/>
+                  <ButtonWithConfirm className={"custom-btn-outline-danger-delete"} title={"Confirmación"} message={"Eliminar la Orden ¿Desea Continuar?"} tooltip={"Eliminar Registro"} onExecute={deleteForm}/>
                 }
                 {/* <SalesOrderButtonGeneratePdfPrice className={"btn btn-outline-success"} onConfirm={validate} orderData={obj} tooltip={"Generar Cotización"} imgPath={'/assets/printer-green.png'} imgStyle={{ width: "20px", height: "20px" }}/> */}
                 <SalesOrderButtonGeneratePdfPrice className={"custom-btn-outline-success-print"} onConfirm={validate} orderData={obj} tooltip={"Generar Cotización"}/>
@@ -217,7 +250,7 @@ export const SalesOrderPage = () => {
 
             <div className="col-6 col-sm">
               { obj.status == 1 && 
-                <ButtonWithConfirm className={"custom-btn-success w-100"} actionName={"Guardar"} title={"Confirmación"} message={"Guardar el Ordero ¿Desea Continuar?"} onExecute={saveForm} />
+                <ButtonWithConfirm className={"custom-btn-success w-100"} actionName={"Guardar"} title={"Confirmación"} message={"Guardar la Orden ¿Desea Continuar?"} onExecute={saveForm} />
               }
             </div>
           </div>
@@ -226,7 +259,7 @@ export const SalesOrderPage = () => {
         
       </div>
 
-      <Message show={showMessage} onUpdateShowMessage={setShowMessage}/>
+      <Message screenMessage={screenMessage} onResetScreenMessage={resetScreenMessage}/>
     </div>
   )
 }

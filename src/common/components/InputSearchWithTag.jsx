@@ -20,7 +20,7 @@ export const InputSearchWithTag = ({
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const optionRefs = useRef([]); // * Referencias a los elementos de la lista
 
-  console.log(`rendered: value=${value}, inputValue=${inputValue}`);
+  // console.log(`rendered: value=${value}, inputValue=${inputValue}`);
   
   useEffect(() => {
     // console.log(`useEffect: value=${value}, inputValue=${inputValue}`);
@@ -55,14 +55,6 @@ export const InputSearchWithTag = ({
 
     const foundObjList = await onSearchOptions(value);
     setObjList(foundObjList);
-
-    // if (value.length > 3) {
-    //   const foundObjList = await onSearchOptions(value);
-    //   setObjList(foundObjList);
-
-    // } else {
-    //   setObjList([]);
-    // }
   }
 
   const buildItem = (obj) => {

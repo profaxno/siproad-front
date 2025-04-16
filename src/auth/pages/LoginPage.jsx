@@ -41,10 +41,11 @@ export const LoginPage = () => {
     
     try{
       // * requesto to login api
-      const response = await fetch(`${config.SIPROAD_LOGIN_HOST}/siproad-login/auth/login`, { //"http://localhost:3004/siproad-login/auth/login"
+      const response = await fetch(`${config.SIPROAD_LOGIN_HOST}/siproad-login/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "x-api-key": `${config.SIPROAD_LOGIN_API_KEY}`,
         },
         body: JSON.stringify(form),
       });
@@ -65,7 +66,6 @@ export const LoginPage = () => {
         return;
       }
 
-      console.log(data);
       if(data.internalCode == 200) {
         const { payload } = data;
         const { user, company, token } = payload;

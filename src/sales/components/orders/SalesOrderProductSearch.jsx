@@ -31,7 +31,7 @@ export const SalesOrderProductSearch = () => {
   const [errors, setErrors] = useState({});
   const [clean, setClean] = useState(false);
   
-  console.log(`rendered...`);
+  // console.log(`rendered...`);
 
   // * handles
   const handleChange = (e) => {
@@ -76,17 +76,20 @@ export const SalesOrderProductSearch = () => {
     
   }
 
-  const search = async(value) => {
+  const search = (value) => {
     // alert(`search: ${JSON.stringify(objSearch)}`);
 
     const nameCode = value?.length > 3 ? value : undefined;
     
-    if(nameCode) {
-      const objListAux = await searchProductsByNameCode(nameCode);
-      return objListAux;
+    if(!nameCode) {
+      return [];
     }
 
-    return [];
+    return searchProductsByNameCode(nameCode)
+    .catch( (error) => {
+      setScreenMessage({type: "error", title: "Problema", message: 'No se completó la operación, intente de nuevo', show: true});
+    });
+
   }
 
   const handleButtonAdd = (orderProduct) => {

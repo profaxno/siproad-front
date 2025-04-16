@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const SEARCH_ORDERS = gql`
-  query SalesOrderSearchByValues($code: String, $customerNameIdDoc: String, $comment: String) {
-    salesOrderSearchByValues(code: $code, customerNameIdDoc: $customerNameIdDoc, comment: $comment) {
+  query SalesOrderSearchByValues($createdAtInit: String, $createdAtEnd: String, $code: String, $customerNameIdDoc: String, $comment: String) {
+    salesOrderSearchByValues(createdAtInit: $createdAtInit, createdAtEnd: $createdAtEnd, code: $code, customerNameIdDoc: $customerNameIdDoc, comment: $comment) {
       internalCode
       message
       qty

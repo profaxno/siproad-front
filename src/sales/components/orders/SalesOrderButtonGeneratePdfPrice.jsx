@@ -21,7 +21,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
   const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para controlar el modal
   const [order, setOrder] = useState(orderData); // Estado para almacenar la orden
 
-  console.log(`rendered...`);
+  // console.log(`rendered...`);
 
   useEffect(() => {
     // console.log(`useEffect...`);
