@@ -50,8 +50,6 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
       const productList = order.productList.reduce( (acc, value) => {
         if(value.status == 0)
           return acc;
-    
-        console.log(`generatePDF: value=${JSON.stringify(value)}`);
   
         const code        = value.code        ? value.code : ""; 
         const qty         = value.qty         ? parseFloat(value.qty).toFixed(2)          : '0.00';
