@@ -82,7 +82,8 @@ body {
 .custom-btn-outline-success {
   border: 1px solid #08f5fb; 
   background-color: transparent;
-  color: #08f5fb;
+  /* color: #08f5fb; */
+  color: #111111;
   padding: 6px 12px;
   border-radius: 5px;
   font-weight: 500;
@@ -150,7 +151,8 @@ body {
 .custom-btn-outline-success-print {
   border: 1px solid #08f5fb;
   border-radius: 5px;
-  background-image: url('/assets/printer-blue.png');
+  /* background-image: url('/assets/printer-blue.png'); */
+  background-image: url('/assets/printer-black.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -162,6 +164,24 @@ body {
 
 .custom-btn-outline-success-print:hover {
   background-image: url('/assets/printer-black.png');
+  background-color: #08f5fb;
+}
+
+.custom-btn-outline-success-edit-sm {
+  border: 1px solid #08f5fb;
+  border-radius: 5px;
+  background-image: url('/assets/edit-black.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  background-size: 60%;
+  width: 30px;
+  height: 30px;
+}
+
+.custom-btn-outline-success-edit-sm:hover {
+  background-image: url('/assets/edit-black.png');
   background-color: #08f5fb;
 }
 

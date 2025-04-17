@@ -24,10 +24,10 @@ export const SalesOrderProductTable = () => {
           <tr style={{ textAlign: "center" }}>
             <th style={{ width: "5%" }}></th>
             <th style={{ width: "10%" }}>Código</th>
-            <th style={{ width: "30%" }}>Producto</th>
+            <th style={{ width: "35%" }}>Producto</th>
             <th style={{ width: "10%" }}>Cantidad</th>
             <th style={{ width: "15%" }}>Precio</th>
-            <th style={{ width: "15%" }}>Descuento</th>
+            <th style={{ width: "10%" }}>Descuento</th>
             <th style={{ width: "15%" }}>SubTotal</th>
           </tr>
         </thead>
