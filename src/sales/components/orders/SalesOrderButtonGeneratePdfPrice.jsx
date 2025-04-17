@@ -6,11 +6,8 @@ import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import Modal from "react-modal";
 
-import defaultLogo from "../../assets/defaultLogo590x105.png";
-import defaultHeader from "../../assets/defaultHeader2550x355.jpg";
-import defaultFooter from "../../assets/defaultFooter2550x355.jpg";
-import defaultTransferData from "../../assets/defaultTransferData1100x400.jpg";
-
+import defaultHeader from "../../assets/defaultHeader210x27mm.jpg";
+import defaultFooter from "../../assets/defaultFooter210x26mm.jpg";
 
 Modal.setAppElement("#root"); // Especificamos el elemento principal de la app
 
@@ -65,17 +62,12 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
       }, [])
 
 
-      // const imgUrlLogo          = authState.company.images?.find((value) => value.name === "logo")?.image || defaultLogo;
-      const imgUrlHeader        = authState.company.images?.find((value) => value.name === "header")?.image || defaultHeader;
-      const imgUrlFooter        = /*authState.company.images?.find((value) => value.name === "footer")?.image ||*/ defaultFooter;
-      // const imgUrlTransferData  = authState.company.images?.find((value) => value.name === "transferData")?.image || defaultTransferData;
-
+      const imgUrlHeader = authState.company.images?.find((value) => value.name === "header")?.image || defaultHeader;
+            
       // Cargar las imágenes de forma sincrónica
-      const [imgHeader, imgFooter, imgTransferData] = await Promise.all([
-        // loadImage(imgUrlLogo),
+      const [imgHeader, imgFooter] = await Promise.all([
         loadImage(imgUrlHeader),
-        loadImage(imgUrlFooter),
-        // loadImage(imgUrlTransferData)
+        loadImage(defaultFooter),
       ]);
 
       const doc = new jsPDF({ format: "A4", unit: "mm" });
@@ -85,7 +77,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
       let cursorY = 10;
 
       // 🔹 Header con Logo
-      doc.addImage(imgHeader, "JPEG", margin, cursorY, pageWidth - 2 * margin, 20);
+      doc.addImage(imgHeader, "JPEG", 0, 0, 210, 27);
       // doc.addImage(imgLogo, "PNG", margin + 5, cursorY + 5, 30, 5);
 
       // 🔹 Datos del Cliente
@@ -178,15 +170,15 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
           const footerY = pageHeight - 35; // Espacio para footer
           
           // 🔹 Imagen en el Footer
-          doc.addImage(imgFooter, "JPEG", margin, footerY, pageWidth - 2 * margin, 20);
+          doc.addImage(imgFooter, "JPEG", 0, footerY, 210, 26);
           doc.setFontSize(11);
           doc.setTextColor(255, 255, 255);
-          doc.text(footerData, pageWidth / 2, footerY + 13, { align: "center" }); // Texto encima
+          doc.text(footerData, pageWidth / 2, footerY + 16, { align: "center" }); // Texto encima
 
           // 🔹 Número de página en cada hoja
           doc.setFontSize(10);
           doc.setTextColor(0, 0, 0);
-          doc.text(`Página ${pageNum}`, pageWidth - margin, pageHeight - 10, { align: "right" });
+          doc.text(`Página ${pageNum}`, pageWidth - margin, pageHeight - 5, { align: "right" });
         },
         didDrawCell: (data) => {
           finalY = data.cursor.y; // Guarda la posición final de la tabla
@@ -290,15 +282,15 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
           
           // 🔹 Imagen en el Footer
           
-          doc.addImage(imgFooter, "JPEG", margin, footerY, pageWidth - 2 * margin, 20);
+          doc.addImage(imgFooter, "JPEG", 0, footerY, 210, 26);
           doc.setFontSize(11);
           doc.setTextColor(255, 255, 255);
-          doc.text(footerData, pageWidth / 2, footerY + 13, { align: "center" }); // Texto encima
+          doc.text(footerData, pageWidth / 2, footerY + 16, { align: "center" }); // Texto encima
 
           // 🔹 Número de página en cada hoja
           doc.setFontSize(10);
           doc.setTextColor(0, 0, 0);
-          doc.text(`Página ${pageNum}`, pageWidth - margin, pageHeight - 10, { align: "right" });
+          doc.text(`Página ${pageNum}`, pageWidth - margin, pageHeight - 5, { align: "right" });
         }
       });
 
