@@ -66,14 +66,14 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
       }, [])
 
 
-      const imgUrlLogo          = authState.company.images?.find((value) => value.name === "logo")?.image || defaultLogo;
+      // const imgUrlLogo          = authState.company.images?.find((value) => value.name === "logo")?.image || defaultLogo;
       const imgUrlHeader        = authState.company.images?.find((value) => value.name === "header")?.image || defaultHeader;
       const imgUrlFooter        = authState.company.images?.find((value) => value.name === "footer")?.image || defaultFooter;
       const imgUrlTransferData  = authState.company.images?.find((value) => value.name === "transferData")?.image || defaultTransferData;
 
       // Cargar las imágenes de forma sincrónica
-      const [imgLogo, imgHeader, imgFooter, imgTransferData] = await Promise.all([
-        loadImage(imgUrlLogo),
+      const [imgHeader, imgFooter, imgTransferData] = await Promise.all([
+        // loadImage(imgUrlLogo),
         loadImage(imgUrlHeader),
         loadImage(imgUrlFooter),
         loadImage(imgUrlTransferData)
@@ -87,7 +87,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
 
       // 🔹 Header con Logo
       doc.addImage(imgHeader, "JPEG", margin, cursorY, pageWidth - 2 * margin, 20);
-      doc.addImage(imgLogo, "PNG", margin + 5, cursorY + 5, 30, 5);
+      // doc.addImage(imgLogo, "PNG", margin + 5, cursorY + 5, 30, 5);
 
       // 🔹 Datos del Cliente
       const customerData = [
