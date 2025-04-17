@@ -52,13 +52,15 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         if(value.status == 0)
           return acc;
   
-        const code        = value.code        ? value.code : ""; 
+        const code        = value.code        ? value.code.toUpperCase() : ""; 
+        const product     = value.comment     ? `${formatCapitalized(value.name)} ${formatCapitalized(value.comment)}` : formatCapitalized(value.name);
         const qty         = value.qty         ? parseFloat(value.qty).toFixed(2)          : '0.00';
         const price       = value.price       ? parseFloat(value.price).toFixed(2)        : '0.00';
         const discountPct = value.discountPct ? parseFloat(value.discountPct).toFixed(2)  : '0.00';
         const subTotal    = value.subTotal    ? parseFloat(value.subTotal).toFixed(2)     : '0.00';
-    
-        acc.push([code, value.name, qty, price, `${discountPct} %`, subTotal]);
+
+        
+        acc.push([code, product, qty, price, `${discountPct} %`, subTotal]);
     
         return acc;
       }, [])
@@ -85,14 +87,14 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
 
       // 🔹 Header con Logo
       doc.addImage(imgHeader, "JPEG", margin, cursorY, pageWidth - 2 * margin, 20);
-      doc.addImage(imgLogo, "JPEG", margin + 5, cursorY + 5, 30, 5);
+      doc.addImage(imgLogo, "PNG", margin + 5, cursorY + 5, 30, 5);
 
       // 🔹 Datos del Cliente
       const customerData = [
         ['RUT:'       , `${order.customerIdDoc?.toUpperCase()}`],
-        ['Nombre:'    , `${order.customerName?.toUpperCase()}`],
-        ['Email:'     , `${order.customerEmail?.toUpperCase()}`],
-        ['Dirección:' , `${order.customerAddress?.toUpperCase()}`],
+        ['Nombre:'    , `${formatCapitalized(order.customerName)}`],
+        ['Email:'     , `${order.customerEmail?.toLowerCase()}`],
+        ['Dirección:' , `${formatCapitalized(order.customerAddress)}`],
       ];
 
       cursorY += 30;
@@ -153,8 +155,8 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
           halign: "center"
         },
         columnStyles: {
-          0: { cellWidth: 30, halign: "center" }, // Ancho de la primera columna
-          1: { cellWidth: 65, halign: "letf" }, // Ancho de la segunda columna
+          0: { cellWidth: 30, halign: "left" }, // Ancho de la primera columna
+          1: { cellWidth: 65, halign: "left" }, // Ancho de la segunda columna
           2: { cellWidth: 25, halign: "right" }, // Ancho de la segunda columna
           3: { cellWidth: 25, halign: "right" }, // Ancho de la segunda columna
           4: { cellWidth: 20, halign: "right" }, // Ancho de la segunda columna
@@ -210,7 +212,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         ['Total:'     , `${total}`]
       ];
 
-      doc.addImage(imgTransferData, "JPG", margin, finalY, 84, 30);
+      doc.addImage(imgTransferData, "JPG", margin, finalY, 85, 30);
 
       autoTable(doc, {
         startY: finalY,
@@ -268,6 +270,46 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
   const closeModal = () => {
     setModalIsOpen(false); // Cerrar el modal
   };
+
+  const formatParagraph = (text) => {
+    if (!text) 
+      return "";
+    
+    const cleanText = text.trim().replace(/\s+/g, " ");
+    return cleanText.charAt(0).toUpperCase() + cleanText.slice(1);
+  }
+
+  const formatCapitalized = (text) => {
+    if (!text) return "";
+  
+    return text
+      .toLowerCase()
+      .split(" ")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
+  // const formatParagraphCapitalized = (text) => {
+  //   if (!text) 
+  //     return "";
+  
+  //   const cleanText = text.trim().replace(/\s+/g, " ");
+  
+  //   // Divide en oraciones usando punto seguido, signos de interrogación o exclamación
+  //   const sentences = cleanText.split(/([.!?]+)\s*/g);
+  
+  //   // Recorre cada parte y capitaliza solo las frases (ignora signos que quedan como tokens sueltos)
+  //   const formatted = sentences
+  //     .map((part, index) => {
+  //       if (index % 2 === 0) {
+  //         return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+  //       }
+  //       return part; // devuelve los signos intactos
+  //     })
+  //     .join("");
+  
+  //   return formatted;
+  // };
 
   return (
     <div>

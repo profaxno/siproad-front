@@ -146,12 +146,14 @@ export const SalesOrderProvider = ({ children }) => {
     
     const productListAux = obj.productList.map((value) => {
       return {
-        id    : value.id,
-        name  : value.name,
-        cost  : parseFloat(value.cost),
-        price : parseFloat(value.price),
-        qty   : parseFloat(value.qty),
-        status: value.status
+        id      : value.id,
+        qty     : parseFloat(value.qty),
+        comment : value.comment ? value.comment : undefined,
+        name    : value.name,
+        code    : value.code ? value.code : undefined,
+        cost    : parseFloat(value.cost),
+        price   : parseFloat(value.price),
+        status  : value.status
       }
     });
 
