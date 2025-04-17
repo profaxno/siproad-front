@@ -55,7 +55,7 @@ export const SiproadNavbar = () => {
             <div className="col-11 d-flex justify-content-end">
               
               <span className="nav-item nav-link text-light text-capitalize">
-                { `${authState.company?.name.toLowerCase()}, ${authState.user?.name.toLowerCase()}` }
+                { `${authState.company.fantasyName?.toLowerCase()}, ${authState.user.name?.toLowerCase()}` }
               </span>
 
               <ButtonWithConfirm className={"custom-btn-outline-danger-logout"} title={"Confirmación"} message={"Salir del Sistema ¿Desea Continuar?"} tooltip={"Salir del Sistema"} onExecute={handleLogout}/>

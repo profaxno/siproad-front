@@ -59,7 +59,6 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         const discountPct = value.discountPct ? parseFloat(value.discountPct).toFixed(2)  : '0.00';
         const subTotal    = value.subTotal    ? parseFloat(value.subTotal).toFixed(2)     : '0.00';
 
-        
         acc.push([code, product, qty, price, `${discountPct} %`, subTotal]);
     
         return acc;
@@ -68,15 +67,15 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
 
       // const imgUrlLogo          = authState.company.images?.find((value) => value.name === "logo")?.image || defaultLogo;
       const imgUrlHeader        = authState.company.images?.find((value) => value.name === "header")?.image || defaultHeader;
-      const imgUrlFooter        = authState.company.images?.find((value) => value.name === "footer")?.image || defaultFooter;
-      const imgUrlTransferData  = authState.company.images?.find((value) => value.name === "transferData")?.image || defaultTransferData;
+      const imgUrlFooter        = /*authState.company.images?.find((value) => value.name === "footer")?.image ||*/ defaultFooter;
+      // const imgUrlTransferData  = authState.company.images?.find((value) => value.name === "transferData")?.image || defaultTransferData;
 
       // Cargar las imágenes de forma sincrónica
       const [imgHeader, imgFooter, imgTransferData] = await Promise.all([
         // loadImage(imgUrlLogo),
         loadImage(imgUrlHeader),
         loadImage(imgUrlFooter),
-        loadImage(imgUrlTransferData)
+        // loadImage(imgUrlTransferData)
       ]);
 
       const doc = new jsPDF({ format: "A4", unit: "mm" });
@@ -139,6 +138,9 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
       doc.setFontSize(16);
       doc.text("COTIZACIÓN", pageWidth / 2, cursorY, { align: "center" });
       
+
+      const footerData = `${formatCapitalized(authState.company.address)} / ${authState.company.email?.toLowerCase()} / ${authState.company.phone}`;
+
       let finalY = cursorY + 5;
       let lastPage = 1;
 
@@ -177,9 +179,13 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
           
           // 🔹 Imagen en el Footer
           doc.addImage(imgFooter, "JPEG", margin, footerY, pageWidth - 2 * margin, 20);
+          doc.setFontSize(11);
+          doc.setTextColor(255, 255, 255);
+          doc.text(footerData, pageWidth / 2, footerY + 13, { align: "center" }); // Texto encima
 
           // 🔹 Número de página en cada hoja
           doc.setFontSize(10);
+          doc.setTextColor(0, 0, 0);
           doc.text(`Página ${pageNum}`, pageWidth - margin, pageHeight - 10, { align: "right" });
         },
         didDrawCell: (data) => {
@@ -198,8 +204,47 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         doc.addPage();
         finalY = 20; // Reinicia el cursor Y en la nueva página
       }
-      
 
+      // * transfer data
+      const transferData = [
+        ['Nombre:', `${formatCapitalized(authState.company.name)}`],
+        ['RUT:'   , `${authState.company.idDoc?.toUpperCase()}`],
+        ['Tipo:'  , `${formatCapitalized(authState.company.bank?.accountType)}`],
+        ['Cuenta:', `${authState.company.bank?.accountNumber}`],
+        ['Banco:' , `${formatCapitalized(authState.company.bank?.name)}`],
+        ['Email:' , `${authState.company.email?.toLowerCase()}`],
+      ];
+
+      doc.setFontSize(14);
+      doc.text("Datos de Transferencia:", 10, finalY, { align: "left" });
+
+      autoTable(doc, {
+        startY: finalY + 5,
+        body: transferData,
+        margin: { left: 10 },
+        columnStyles: {
+          0: { cellWidth: 20 }, // Ancho de la primera columna
+          1: { cellWidth: 80 }, // Ancho de la segunda columna
+        },
+        styles: {
+          // Definir bordes
+          fontSize: 11,
+          textColor: [0, 0, 0],
+          lineColor: [255, 255, 255], // Color de los bordes (negro en este caso)
+          lineWidth: 1, // Grosor del borde
+          cellPadding: 0, // Espacio entre el contenido de la celda y los bordes
+          halign: "left", // Alinear el texto horizontalmente en el centro
+        },
+        didParseCell: function (data) {
+          if (data.section === "body" && data.column.index === 0) {
+            // data.cell.styles.fillColor = [0, 0, 0];
+            // data.cell.styles.textColor = [255, 255, 255];
+            data.cell.styles.fontStyle = "bold";
+          }
+
+          data.cell.styles.fillColor = [255, 255, 255]
+        },
+      });
 
       // Totales
       const subTotal  = order.subTotal  ? parseFloat(order.subTotal).toFixed(2) : '0.00';
@@ -212,7 +257,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         ['Total:'     , `${total}`]
       ];
 
-      doc.addImage(imgTransferData, "JPG", margin, finalY, 85, 30);
+      // doc.addImage(imgTransferData, "JPG", margin, finalY, 85, 30);
 
       autoTable(doc, {
         startY: finalY,
@@ -244,11 +289,15 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
           const footerY = pageHeight - 35;
           
           // 🔹 Imagen en el Footer
-         
+          
           doc.addImage(imgFooter, "JPEG", margin, footerY, pageWidth - 2 * margin, 20);
+          doc.setFontSize(11);
+          doc.setTextColor(255, 255, 255);
+          doc.text(footerData, pageWidth / 2, footerY + 13, { align: "center" }); // Texto encima
 
           // 🔹 Número de página en cada hoja
           doc.setFontSize(10);
+          doc.setTextColor(0, 0, 0);
           doc.text(`Página ${pageNum}`, pageWidth - margin, pageHeight - 10, { align: "right" });
         }
       });
