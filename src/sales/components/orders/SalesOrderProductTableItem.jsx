@@ -20,31 +20,57 @@ export const SalesOrderProductTableItem = ({value = {}, selectedRow, onNotifyCli
   }, [value]);
   
 
-  // * handles
-  const handleInputChange = (fieldName, qty, price, discountPct, comment) => {     
-
-    // validate discountPct value (min 0 and max 100)
-    if(fieldName === 'discountPct' && (discountPct < 0 || discountPct > 100) ) 
-      return;
-
+  useEffect(() => {
     // * calculate subtotal
-    const discount = (qty * price) * (discountPct / 100);
-    const subTotal = (qty * price) - discount;
-
+    const amount = item.qty * item.price;
+    const discount = amount * (item.discountPct / 100);
+    const subTotal = amount - discount;
     
-
     const itemAux = {
       ...item,
-      qty, 
-      price, 
-      discountPct,
       subTotal,
-      comment
     }
 
     setItem(itemAux);
     updateTableOrderProduct(itemAux, TableActionEnum.UPDATE);
+
+  }, [item.qty, item.price, item.discountPct]);
+
+  // * handles
+  const handleChange = (e) => {
+    setItem({ ...item, [e.target.name]: e.target.value });
   }
+
+  // const handleInputChange = (fieldName, qty, price, discountPct, comment) => {
+    
+  //   qty = parseFloat(qty);
+  //   price = parseFloat(price);
+  //   discountPct = parseFloat(discountPct);
+    
+  //   alert(`fieldName=${fieldName} qty=${qty} price=${price} discountPct=${discountPct} comment=${comment}`);
+
+  //   // validate discountPct value (min 0 and max 100)
+  //   if(fieldName === 'discountPct' && (discountPct < 0 || discountPct > 100) ) 
+  //     return;
+
+  //   // * calculate subtotal
+  //   const discount = (qty * price) * (discountPct / 100);
+  //   const subTotal = (qty * price) - discount;
+
+    
+
+  //   const itemAux = {
+  //     ...item,
+  //     qty, 
+  //     price, 
+  //     discountPct,
+  //     subTotal,
+  //     comment
+  //   }
+
+  //   setItem(itemAux);
+  //   updateTableOrderProduct(itemAux, TableActionEnum.UPDATE);
+  // }
 
   const handleButtonDelete = () => {
     const itemAux = {
@@ -105,7 +131,8 @@ export const SalesOrderProductTableItem = ({value = {}, selectedRow, onNotifyCli
             name={"qty"} 
             className={"form-control form-control-sm"} 
             value={item.qty}
-            onChange={(event) => handleInputChange(event.target.name, event.target.value, item.price, item.discountPct, item.comment)}
+            // onChange={(event) => handleInputChange(event.target.name, event.target.value, item.price, item.discountPct, item.comment)}
+            onChange={handleChange}
             readOnly={item.status === 0}
           />
         </td>
@@ -115,7 +142,8 @@ export const SalesOrderProductTableItem = ({value = {}, selectedRow, onNotifyCli
             name={"price"} 
             className={"form-control form-control-sm"} 
             value={item.price}
-            onChange={(event) => handleInputChange(event.target.name, item.qty, event.target.value, item.discountPct, item.comment)}
+            // onChange={(event) => handleInputChange(event.target.name, item.qty, event.target.value, item.discountPct, item.comment)}
+            onChange={handleChange}
             readOnly={item.status === 0}
           />
         </td>
@@ -127,7 +155,8 @@ export const SalesOrderProductTableItem = ({value = {}, selectedRow, onNotifyCli
               className={"form-control form-control-sm"} 
               value={item.discountPct}
               max={100}
-              onChange={(event) => handleInputChange(event.target.name, item.qty, item.price, event.target.value, item.comment)}
+              // onChange={(event) => handleInputChange(event.target.name, item.qty, item.price, event.target.value, item.comment)}
+              onChange={handleChange}
               readOnly={item.status === 0}
             />
             %
@@ -152,7 +181,8 @@ export const SalesOrderProductTableItem = ({value = {}, selectedRow, onNotifyCli
               className="form-control form-control-sm text-capitalize"
               value={item.comment?.toLowerCase()}
               placeholder={"Comentario..."}
-              onChange={(event) => handleInputChange(event.target.name, item.qty, item.price, item.discountPct, event.target.value)}
+              // onChange={(event) => handleInputChange(event.target.name, item.qty, item.price, item.discountPct, event.target.value)}
+              onChange={handleChange}
               maxLength={100}
             />
           </td>
