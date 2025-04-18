@@ -6,7 +6,7 @@ import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import Modal from "react-modal";
 
-import defaultHeader from "../../assets/defaultHeader210x27mm.jpg";
+import defaultHeader from "../../assets/defaultHeader210x26mm.jpg";
 import defaultFooter from "../../assets/defaultFooter210x26mm.jpg";
 
 Modal.setAppElement("#root"); // Especificamos el elemento principal de la app
