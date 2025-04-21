@@ -50,7 +50,7 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
           return acc;
   
         const code        = value.code        ? value.code.toUpperCase() : ""; 
-        const product     = value.comment     ? `${formatCapitalized(value.name)} (${value.comment.toLowerCase})` : formatCapitalized(value.name);
+        const product     = value.comment     ? `${formatCapitalized(value.name)} (${value.comment.toLowerCase()})` : formatCapitalized(value.name);
         const qty         = value.qty         ? parseFloat(value.qty).toFixed(2)          : '0.00';
         const price       = value.price       ? parseFloat(value.price).toFixed(2)        : '0.00';
         const discountPct = value.discountPct ? parseFloat(value.discountPct).toFixed(2)  : '0.00';
