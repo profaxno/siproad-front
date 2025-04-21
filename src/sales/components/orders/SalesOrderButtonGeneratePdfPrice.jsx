@@ -197,7 +197,44 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
         finalY = 20; // Reinicia el cursor Y en la nueva página
       }
 
+      doc.setFontSize(14);
+      {order.comment ? doc.text("Información General:", 10, finalY, { align: "left" }) : ""};
+
       // * transfer data
+      const orderData = [
+        ['', `${formatParagraph(order.comment.toLowerCase())}`],
+      ];
+
+      autoTable(doc, {
+        startY: finalY + 5,
+        body: orderData,
+        margin: { left: 10 },
+        columnStyles: {
+          0: { cellWidth: 1 }, // Ancho de la primera columna
+          1: { cellWidth: 99 }, // Ancho de la segunda columna
+        },
+        styles: {
+          // Definir bordes
+          fontSize: 11,
+          textColor: [0, 0, 0],
+          lineColor: [255, 255, 255], // Color de los bordes (negro en este caso)
+          lineWidth: 1, // Grosor del borde
+          cellPadding: 0, // Espacio entre el contenido de la celda y los bordes
+          halign: "left", // Alinear el texto horizontalmente en el centro
+        },
+        didParseCell: function (data) {
+          if (data.section === "body" && data.column.index === 0) {
+            // data.cell.styles.fillColor = [0, 0, 0];
+            // data.cell.styles.textColor = [255, 255, 255];
+            data.cell.styles.fontStyle = "bold";
+          }
+
+          data.cell.styles.fillColor = [255, 255, 255]
+        },
+      });  
+
+
+
       const transferData = [
         ['Nombre:', `${formatCapitalized(authState.company.name)}`],
         ['RUT:'   , `${authState.company.idDoc?.toUpperCase()}`],
@@ -208,15 +245,15 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
       ];
 
       doc.setFontSize(14);
-      doc.text("Datos de Transferencia:", 10, finalY, { align: "left" });
+      doc.text("Datos de Transferencia:", 140, finalY + 40, { align: "left" });
 
       autoTable(doc, {
-        startY: finalY + 5,
+        startY: finalY + 45,
         body: transferData,
-        margin: { left: 10 },
+        margin: { left: 140 },
         columnStyles: {
           0: { cellWidth: 20 }, // Ancho de la primera columna
-          1: { cellWidth: 80 }, // Ancho de la segunda columna
+          1: { cellWidth: 50 }, // Ancho de la segunda columna
         },
         styles: {
           // Definir bordes
@@ -316,8 +353,10 @@ export const SalesOrderButtonGeneratePdfPrice = ({className, actionName, orderDa
     if (!text) 
       return "";
     
-    const cleanText = text.trim().replace(/\s+/g, " ");
-    return cleanText.charAt(0).toUpperCase() + cleanText.slice(1);
+    // const cleanText = text.trim().replace(/\s+/g, " ");
+    // return cleanText.charAt(0).toUpperCase() + cleanText.slice(1);
+    
+    return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
   const formatCapitalized = (text) => {

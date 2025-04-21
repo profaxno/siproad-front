@@ -44,7 +44,7 @@ export const SalesOrderForm = () => {
             type="text"
             name="customerIdDoc"
             className={`form-control ${errors.customerIdDoc ? "is-invalid" : ""}`}
-            value={obj.customerIdDoc?.toUpperCase()}
+            value={obj.customerIdDoc ? obj.customerIdDoc.toUpperCase() : ""}
             onChange={handleChange}
             maxLength={50}
           />
@@ -59,7 +59,7 @@ export const SalesOrderForm = () => {
           type="text"
           name="customerEmail"
           className={"form-control form-control-sm"}
-          value={obj.customerEmail?.toLowerCase()}
+          value={obj.customerEmail ? obj.customerEmail.toLowerCase() : ""}
           onChange={handleChange}
           maxLength={50}
         />
@@ -72,7 +72,7 @@ export const SalesOrderForm = () => {
           type="text"
           name="customerAddress"
           className="form-control form-control-sm text-capitalize"
-          value={obj.customerAddress?.toLowerCase()}
+          value={obj.customerAddress ? obj.customerAddress.toLowerCase() : ""}
           onChange={handleChange}
           maxLength={150}
         />
@@ -83,9 +83,9 @@ export const SalesOrderForm = () => {
         <textarea
           name="comment"
           className="form-control form-control-sm"
-          value={obj.comment?.toLowerCase()}
+          value={obj.comment ? obj.comment.toLowerCase() : ""}
           onChange={handleChange}
-          maxLength={100}
+          maxLength={250}
         />
       </div>
     </div>
