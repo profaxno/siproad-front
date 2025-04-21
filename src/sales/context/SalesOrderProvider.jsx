@@ -120,8 +120,9 @@ export const SalesOrderProvider = ({ children }) => {
   const searchOrders = (createdAtInit, createdAtEnd, code, customerNameIdDoc, comment) => {
 
     return fetchOrders({ variables: { createdAtInit, createdAtEnd, code, customerNameIdDoc, comment } })
-    .then(({ data }) => {
-      
+    .then( (response) => {
+      console.log(`response`, response);
+      const { data } = response;
       const { internalCode, message, payload } = data?.salesOrderSearchByValues || {};
 
       if( !(
@@ -142,8 +143,6 @@ export const SalesOrderProvider = ({ children }) => {
   }
 
   const saveOrder = (obj) => {
-    // console.log(`saveOrder: obj=${JSON.stringify(obj)}`);
-    
     const productListAux = obj.productList.map((value) => {
       return {
         id      : value.id,

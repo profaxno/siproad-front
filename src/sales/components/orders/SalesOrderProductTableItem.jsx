@@ -28,13 +28,13 @@ export const SalesOrderProductTableItem = ({value = {}, selectedRow, onNotifyCli
     
     const itemAux = {
       ...item,
-      subTotal,
+      subTotal
     }
 
     setItem(itemAux);
     updateTableOrderProduct(itemAux, TableActionEnum.UPDATE);
 
-  }, [item.qty, item.price, item.discountPct]);
+  }, [item.qty, item.price, item.discountPct, item.comment]);
 
   // * handles
   const handleChange = (e) => {
@@ -178,7 +178,7 @@ export const SalesOrderProductTableItem = ({value = {}, selectedRow, onNotifyCli
             <input
               type="text"
               name="comment"
-              className="form-control form-control-sm text-capitalize"
+              className="form-control form-control-sm"
               value={item.comment?.toLowerCase()}
               placeholder={"Comentario..."}
               // onChange={(event) => handleInputChange(event.target.name, item.qty, item.price, item.discountPct, event.target.value)}
