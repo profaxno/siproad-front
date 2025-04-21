@@ -9,7 +9,7 @@ import { SalesOrderContext } from '../../context/SalesOrderContext';
 export const SalesOrderSearchTableItem = ({value = {}}) => {
 
   // * hooks
-  const { obj, updateForm, updateTableOrderProduct } = useContext(SalesOrderContext);
+  const { obj, cleanForm, updateForm, updateTableOrderProduct } = useContext(SalesOrderContext);
   const [item, setItem] = useState({...value});
   
   // console.log(`rendered... item=${JSON.stringify(value)}`);
@@ -39,6 +39,7 @@ export const SalesOrderSearchTableItem = ({value = {}}) => {
       productList: productListAux
     }
 
+    cleanForm();
     updateForm(itemAux);
     updateTableOrderProduct(productListAux, TableActionEnum.LOAD);
   }
@@ -60,11 +61,11 @@ export const SalesOrderSearchTableItem = ({value = {}}) => {
       </td>
 
       <td className="text-capitalize">
-        {item.customerName?.toLowerCase()}
+        {item.customerName ? item.customerName.toLowerCase() : ""}
       </td>
 
       <td className="text-first-uppercase">
-        {item.comment?.toLowerCase()}
+        {item.comment ? item.comment.toLowerCase() : ""}
       </td>
     </tr>
   )
