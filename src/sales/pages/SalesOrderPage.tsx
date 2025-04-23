@@ -14,7 +14,7 @@ import { SalesOrderSearchTable } from '../components/orders/SalesOrderSearchTabl
 import { SalesOrderForm } from '../components/orders/SalesOrderForm';
 import { SalesOrderProductSearch } from '../components/orders/SalesOrderProductSearch';
 import { SalesOrderProductTable } from '../components/orders/SalesOrderProductTable';
-// import { SalesOrderButtonGeneratePdfPrice } from '../components/orders/SalesOrderButtonGeneratePdfPrice';
+import { SalesOrderButtonGeneratePdfPrice } from '../components/orders/SalesOrderButtonGeneratePdfPrice';
 import { FormSalesOrderInterface, FormSalesOrderErrorInterface, SalesOrderInterface } from '../interfaces';
 import { ScreenMessageTypeEnum } from '../../common/enums/screen-message-type-enum';
 import { SalesOrderStatusEnum } from '../enums/sales-order-status.enum';
@@ -110,10 +110,18 @@ export const SalesOrderPage: FC = () => {
       <div className="col-sm-6 mb-3">
         <div className="border rounded p-3" style={{ maxHeight: '750px' }}>
           <div className="d-flex align-items-center gap-2">
-            <span className="d-block d-md-none fs-2" onClick={() => setIsOpenSearchSection(!isOpenSearchSection)} style={{ cursor: "pointer" }}>
-              {/* <FaBars className="text-dark" /> */}
-            </span>
-            <h4 className="text-dark m-0">Búsqueda de Órdenes</h4>
+            
+            <button
+              className="d-block d-md-none custom-btn-outline-black-hamburger"
+              onClick={() => setIsOpenSearchSection(!isOpenSearchSection)}
+            />
+
+            {/* <span className="d-block d-md-none fs-2" onClick={() => setIsOpenSearchSection(!isOpenSearchSection)} style={{ cursor: "pointer" }}>
+              <FaBars className="text-dark" />
+            </span> */}
+            
+            <h4 className="text-dark m-0">Búsqueda de Ordenes</h4>
+
           </div>
 
           {isOpenSearchSection && (
@@ -132,29 +140,37 @@ export const SalesOrderPage: FC = () => {
           <div className="overflow-auto" style={{ height: '650px' }}>
             <div className="d-flex align-items-center gap-2">
               <div className="col-10 col-sm d-flex align-items-center gap-2">
-                <span className="fs-4" onClick={() => setIsOpenOrderSection(!isOpenOrderSection)} style={{ cursor: "pointer" }}>
-                  {/* <FaBars className="text-dark" /> */}
-                </span>
+
+                <button
+                  className="custom-btn-outline-black-hamburger"
+                  onClick={() => setIsOpenOrderSection(!isOpenOrderSection)}
+                />
+
+                {/* <span className="fs-4" onClick={() => setIsOpenOrderSection(!isOpenOrderSection)} style={{ cursor: "pointer" }}>
+                  <FaBars className="text-dark" />
+                </span> */}
+
                 <h5 className="text-dark m-0">Orden</h5>
+
               </div>
 
-              <div className="col-1 col-sm d-flex justify-content-end gap-1">
-                {obj.status !== SalesOrderStatusEnum.CANCELLED && obj.id && (
-                  <ButtonWithConfirm
-                    className="custom-btn-outline-danger-delete"
-                    title="Confirmación"
-                    message="Eliminar la Orden ¿Desea Continuar?"
-                    tooltip="Eliminar Registro"
-                    onExecute={deleteForm}
+              {obj.status !== SalesOrderStatusEnum.CANCELLED && obj.id && (
+                <div className="col-1 col-sm d-flex justify-content-end gap-2">
+                  
+                    <ButtonWithConfirm
+                      className="custom-btn-outline-danger-delete"
+                      title="Confirmación"
+                      message="Eliminar la Orden ¿Desea Continuar?"
+                      tooltip="Eliminar Registro"
+                      onExecute={deleteForm}
+                    />
+                  
+                  <SalesOrderButtonGeneratePdfPrice
+                    className="custom-btn-outline-success-print"
+                    tooltip="Generar Cotización"
                   />
-                )}
-                {/* <SalesOrderButtonGeneratePdfPrice
-                  className="custom-btn-outline-success-print"
-                  onConfirm={validate}
-                  orderData={obj}
-                  tooltip="Generar Cotización"
-                /> */}
-              </div>
+                </div>
+              )}
             </div>
 
             {isOpenOrderSection && <SalesOrderForm />}
@@ -165,9 +181,14 @@ export const SalesOrderPage: FC = () => {
 
             <div className="border rounded mt-2">
               <div className="p-3">
-                <SalesProductProvider>
-                  <SalesOrderProductSearch />
-                </SalesProductProvider>
+                { obj.status === SalesOrderStatusEnum.CANCELLED
+                  ? ( <div/> ) //<div className="alert alert-danger text-center">Orden Cancelada</div>
+                  : ( 
+                      <SalesProductProvider>
+                        <SalesOrderProductSearch />
+                      </SalesProductProvider>
+                    )
+                }                
 
                 <div className="mt-3 border rounded overflow-auto" style={{ maxHeight: '400px' }}>
                   <SalesOrderProductTable />
@@ -180,17 +201,17 @@ export const SalesOrderPage: FC = () => {
                 <div className="col-7">
                   <div className="d-flex align-items-center gap-2">
                     <label className="form-label mt-2 w-50 text-end">SubTotal:</label>
-                    <InputAmount className="form-control form-control-sm" value={obj.subTotal} readOnly={true} />
+                    <InputAmount className="form-control" value={obj.subTotal} readOnly={true} />
                   </div>
 
                   <div className="d-flex align-items-center gap-2">
                     <label className="form-label mt-2 w-50 text-end">IVA:</label>
-                    <InputAmount className="form-control form-control-sm mt-2" value={obj.iva} readOnly={true} />
+                    <InputAmount className="form-control mt-2" value={obj.iva} readOnly={true} />
                   </div>
 
                   <div className="d-flex align-items-center gap-2">
                     <label className="form-label mt-2 w-50 text-end">Total:</label>
-                    <InputAmount className="form-control form-control-sm mt-2" value={obj.total} readOnly={true} />
+                    <InputAmount className="form-control mt-2" value={obj.total} readOnly={true} />
                   </div>
                 </div>
               </div>

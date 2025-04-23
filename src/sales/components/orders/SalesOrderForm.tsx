@@ -3,6 +3,7 @@ import { ChangeEvent, useContext } from 'react';
 
 import { InputSearchWithTag } from '../../../common/components';
 import { SalesOrderContext } from '../../context/SalesOrderContext';
+import { SalesOrderStatusEnum } from '../../enums/sales-order-status.enum';
 
 export const SalesOrderForm: FC = () => {
 
@@ -57,6 +58,7 @@ export const SalesOrderForm: FC = () => {
               updateForm({ ...obj, customerName: obj.customerName?.toLowerCase() });
               setFormError({ ...formError, customerName: "" });
             }}
+            readOnly={obj.status === SalesOrderStatusEnum.CANCELLED}
           />
           {formError.customerName && (
             <div className="custom-invalid-feedback">{formError.customerName}</div>
@@ -73,6 +75,7 @@ export const SalesOrderForm: FC = () => {
             value={obj.customerIdDoc?.toUpperCase() ?? ''}
             onChange={handleChange}
             maxLength={50}
+            readOnly={obj.status === SalesOrderStatusEnum.CANCELLED}
           />
         </div>
       </div>
@@ -86,6 +89,7 @@ export const SalesOrderForm: FC = () => {
           value={obj.customerEmail?.toLowerCase() ?? ''}
           onChange={handleChange}
           maxLength={50}
+          readOnly={obj.status === SalesOrderStatusEnum.CANCELLED}
         />
       </div>
 
@@ -98,6 +102,7 @@ export const SalesOrderForm: FC = () => {
           value={obj.customerAddress?.toLowerCase() ?? ''}
           onChange={handleChange}
           maxLength={150}
+          readOnly={obj.status === SalesOrderStatusEnum.CANCELLED}
         />
       </div>
 
@@ -109,6 +114,7 @@ export const SalesOrderForm: FC = () => {
           value={obj.comment ?? ''}
           onChange={handleChange}
           maxLength={250}
+          readOnly={obj.status === SalesOrderStatusEnum.CANCELLED}
         />
       </div>
     </div>

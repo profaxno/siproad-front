@@ -12,6 +12,7 @@ interface Props<T = any> {
   onNotifyChangeSelection: (obj: T) => void;
   onNotifyRemoveTag?: () => void;
   switchRestart?: any;
+  readOnly: boolean;
 }
 
 export const InputSearchWithTag: FC<Props> = ({ 
@@ -24,7 +25,9 @@ export const InputSearchWithTag: FC<Props> = ({
   onSearch,
   onNotifyChangeSelection, 
   onNotifyRemoveTag, 
-  switchRestart }) => {
+  switchRestart ,
+  readOnly
+}) => {
     
   // * hooks
   const [inputValue, setInputValue] = useState<string>(value);
@@ -126,6 +129,7 @@ export const InputSearchWithTag: FC<Props> = ({
             onKeyDown={handleKeyDown}
             autoComplete="off"
             maxLength={100}
+            readOnly={readOnly}
           />
         )}
       </div>

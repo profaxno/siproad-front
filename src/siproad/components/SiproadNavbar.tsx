@@ -34,13 +34,13 @@ export const SiproadNavbar = () => {
       </Link>
 
       <button
-        className="custom-navbar-toggler-icon d-sm-none"
+        className="custom-btn-outline-white-hamburger d-sm-none"
         type="button"
         onClick={toggleNavbar}
         aria-controls="navbarSupportedContent"
         aria-expanded={!isCollapsed}
         aria-label="Toggle navigation"
-      ></button>
+      />
 
       <div
         className={`collapse navbar-collapse ${!isCollapsed ? 'show' : ''}`}

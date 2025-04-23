@@ -7,6 +7,7 @@ import { TableActionEnum } from '../../../common/enums/table-actions.enum';
 import { SalesOrderContext } from '../../context/SalesOrderContext';
 import { FormSalesOrderProductInterface } from '../../interfaces';
 import { SalesOrderProductStatusEnum } from '../../enums/sales-order-product-status.enum';
+import { SalesOrderStatusEnum } from "../../enums/sales-order-status.enum";
 
 interface Props {
   value: FormSalesOrderProductInterface;
@@ -25,7 +26,7 @@ export const SalesOrderProductTableItem: FC<Props> = ({
   if (!context) 
     throw new Error("SalesOrderProductTableItem: SalesOrderContext must be used within an SalesOrderProvider");
   
-  const { updateTableOrderProduct } = context;
+  const { obj, updateTableOrderProduct } = context;
   const [formOrderProduct, setFormOrderProduct] = useState<FormSalesOrderProductInterface>({ ...value });
   const [isShowComment, setIsShowComment] = useState<boolean>(!!value.comment);
 
@@ -94,7 +95,7 @@ export const SalesOrderProductTableItem: FC<Props> = ({
       >
         <td>
           {
-            formOrderProduct.status === SalesOrderProductStatusEnum.CANCELLED
+            obj.status === SalesOrderStatusEnum.CANCELLED || formOrderProduct.status === SalesOrderProductStatusEnum.CANCELLED
             ? ( <div/> ) 
             : (
                 <div className="d-flex gap-1">
@@ -113,7 +114,7 @@ export const SalesOrderProductTableItem: FC<Props> = ({
           }
         </td>
 
-        <td>{formOrderProduct.code || ''}</td>
+        <td>{formOrderProduct.code ?? ''}</td>
 
         <td className="text-capitalize">{formOrderProduct.name?.toLowerCase()}</td>
 
@@ -123,7 +124,7 @@ export const SalesOrderProductTableItem: FC<Props> = ({
             className="form-control form-control-sm"
             value={formOrderProduct.qty}
             onChange={handleChange}
-            readOnly={formOrderProduct.status === SalesOrderProductStatusEnum.CANCELLED}
+            readOnly={obj.status === SalesOrderStatusEnum.CANCELLED || formOrderProduct.status === SalesOrderProductStatusEnum.CANCELLED}
           />
         </td>
 
@@ -133,7 +134,7 @@ export const SalesOrderProductTableItem: FC<Props> = ({
             className="form-control form-control-sm"
             value={formOrderProduct.price}
             onChange={handleChange}
-            readOnly={formOrderProduct.status === SalesOrderProductStatusEnum.CANCELLED}
+            readOnly={obj.status === SalesOrderStatusEnum.CANCELLED || formOrderProduct.status === SalesOrderProductStatusEnum.CANCELLED}
           />
         </td>
 
@@ -145,7 +146,7 @@ export const SalesOrderProductTableItem: FC<Props> = ({
               value={formOrderProduct.discountPct}
               onChange={handleChange}
               max={100}
-              readOnly={formOrderProduct.status === SalesOrderProductStatusEnum.CANCELLED}
+              readOnly={obj.status === SalesOrderStatusEnum.CANCELLED || formOrderProduct.status === SalesOrderProductStatusEnum.CANCELLED}
             />
             %
           </div>
@@ -183,7 +184,7 @@ export const SalesOrderProductTableItem: FC<Props> = ({
               placeholder="Comentario..."
               onChange={handleChange}
               maxLength={100}
-              readOnly={formOrderProduct.status === SalesOrderProductStatusEnum.CANCELLED}
+              readOnly={obj.status === SalesOrderStatusEnum.CANCELLED || formOrderProduct.status === SalesOrderProductStatusEnum.CANCELLED}
             />
           </td>
         </tr>

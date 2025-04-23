@@ -24,7 +24,8 @@ export const Message: FC<Props> = ({ screenMessage, onResetScreenMessage }) => {
   }, [modalId]);
 
   useEffect(() => {
-    if (screenMessage.show) showSuccessMessage();
+    if (screenMessage.show) 
+      showSuccessMessage();
   }, [screenMessage]);
 
   const showSuccessMessage = () => {

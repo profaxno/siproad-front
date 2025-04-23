@@ -27,7 +27,7 @@ export const SiproadRouter: FC = () => {
   
   const context = useContext(AuthContext);
   if (!context) 
-    throw new Error("AuthContext must be used within an AuthProvider");
+    throw new Error("SiproadRouter: AuthContext must be used within an AuthProvider");
 
   const { screenMessage, resetScreenMessage } = context;
 

@@ -114,8 +114,8 @@ export const SalesOrderProductSearch: FC = () => {
   const cleanInput = () => setFormOrderProductSearch(initOrderProduct);
 
   return (
-    <div className="d-flex justify-content-end gap-2">
-      <div className="col-6 col-sm">
+    <div className="d-flex gap-2">
+      <div className="col-6">
         <InputSearchWithTag
           name="name"
           className={`form-control ${errors.name ? 'is-invalid' : ''}`}
@@ -126,6 +126,7 @@ export const SalesOrderProductSearch: FC = () => {
           onSearch={search}
           onNotifyChangeSelection={updateForm}
           onNotifyRemoveTag={cleanInput}
+          readOnly={false}
         />
         {errors.name && <div className="custom-invalid-feedback">{errors.name}</div>}
       </div>
@@ -141,14 +142,12 @@ export const SalesOrderProductSearch: FC = () => {
         {errors.qty && <div className="custom-invalid-feedback">{errors.qty}</div>}
       </div>
 
-      <div className="col-1">
+      <div className="col-1 col-sm">
         <button
           name="btnAddOrderProduct"
-          className="custom-btn-outline-success"
+          className="custom-btn-outline-success-add"
           onClick={handleButtonAdd}
-        >
-          +
-        </button>
+        />
       </div>
     </div>
   );
