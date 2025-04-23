@@ -243,7 +243,7 @@ export const SalesOrderButtonGeneratePdfPrice: FC<Props> = ({
           doc.setTextColor(0, 0, 0);
           doc.text(`Página ${pageNum}`, pageWidth - margin, pageHeight - 5, { align: "right" });
         },
-        didDrawCell: (data) => {
+        didDrawCell: () => {
           // console.log("didDrawCell", data?.cursor?.y ?? 'a');
           // cursorY = data?.cursor?.y ?? cursorY; // Guarda la posición final de la tabla
         }
@@ -361,12 +361,12 @@ export const SalesOrderButtonGeneratePdfPrice: FC<Props> = ({
       .join(" ");
   };
 
-  const formatParagraph = (value?: string) => {
-    if (!value) 
-      return "";
+  // const formatParagraph = (value?: string) => {
+  //   if (!value) 
+  //     return "";
 
-    return value.charAt(0).toUpperCase() + value.slice(1);
-  }
+  //   return value.charAt(0).toUpperCase() + value.slice(1);
+  // }
 
   const formatNumber = (value: number | string) => {
     const number = typeof value === "string" ? parseFloat(value) : value;

@@ -52,6 +52,7 @@ export const SalesOrderForm: FC = () => {
             fieldToShow={['customerIdDoc', 'customerName']}
             onNotifyChange={handleChange}
             onSearch={ (search):any => {
+              console.log('onSearch', search);
               return [];
             }}
             onNotifyChangeSelection={(obj) => {
