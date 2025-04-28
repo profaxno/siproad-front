@@ -9,8 +9,8 @@ export interface SalesOrderInterface {
   customerAddress?:string;
   comment?:        string;
   productList:     SalesOrderProductInterface[];
-  price:           number;
-  cost:            number;
+  price?:           number;
+  cost?:            number;
   discount?:       number;
   discountPct:     number;
   createdAt?:      string;

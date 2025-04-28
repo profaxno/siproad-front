@@ -159,9 +159,7 @@ export const SalesOrderProvider: FC<Props> = ({ children }) => {
       discount        : 0,
       discountPct     : 0,
       status          : form.status,
-      productList     : productList,
-      cost            : 0,
-      price           : 0,
+      productList     : productList
     };
 
     return mutateOrder({ variables: { input: obj } })
@@ -181,6 +179,7 @@ export const SalesOrderProvider: FC<Props> = ({ children }) => {
       return payload[0];
     })
     .catch((error: any) => {
+      console.error(`saveOrder: ${JSON.stringify(error)}`);
       console.error('saveOrder: Error', error);
       throw error;
     });
