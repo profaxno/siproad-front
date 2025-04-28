@@ -1,5 +1,6 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import { SalesProductInterface } from "../interfaces";
+import { ResponseInterface } from "../../../common/graphql/response";
 
 // * hooks
 export const useSearchProduct = () => {
@@ -39,5 +40,5 @@ export const SEARCH_PRODUCTS = gql`
 
 // * interfaces
 export interface ResponseSalesProductSearchByValues {
-  salesProductSearchByValues: SalesProductInterface[];
+  salesProductSearchByValues: ResponseInterface<SalesProductInterface[]>;
 }

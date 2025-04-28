@@ -9,10 +9,10 @@ export interface SalesOrderInterface {
   customerAddress?:string;
   comment?:        string;
   productList:     SalesOrderProductInterface[];
-  price?:          number;
-  cost?:           number;
+  price:           number;
+  cost:            number;
   discount?:       number;
-  discountPct?:    number;
+  discountPct:     number;
   createdAt?:      string;
   status:          number;
 }
@@ -25,7 +25,7 @@ export interface SalesOrderProductInterface {
   code?:       string;
   cost:        number;
   price:       number;
-  discount?:   number;
-  discountPct?:number;
+  discount:    number;
+  discountPct: number;
   status:      number;
 }
