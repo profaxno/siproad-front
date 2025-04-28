@@ -2,26 +2,23 @@ import { useContext } from "react";
 import type { FC } from "react";
 import { Navigate, Route, Routes } from "react-router";
 
-import { AuthContext } from "../../auth/context/AuthContext";
-import { SiproadPublicRoute } from "./SiproadPublicRoute";
-import { SiproadPrivateRoute } from "./SiproadPrivateRoute";
-
-import { LoginPage } from "../../auth/pages/LoginPage";
 import { Message } from "../../common/components/Message";
 
+import { SiproadNavbar } from "../components/SiproadNavbar";
+import { SiproadPublicRoute } from "./SiproadPublicRoute";
+import { SiproadPrivateRoute } from "./SiproadPrivateRoute";
 import { ApolloWrapper } from "../graphql/ApolloWrapper";
 
-import { SiproadNavbar } from "../components/SiproadNavbar";
-import { SalesNavbar } from "../../sales/components/SalesNavbar";
-import { SalesOrderProvider } from "../../sales/context/SalesOrderContext";
-import { SalesOrderPage } from "../../sales/pages/SalesOrderPage";
-// import { SalesOrderProvider } from "../../sales/context";
-// import { SalesOrderPage } from "../../sales/pages/SalesOrderPage";
+import { AuthContext } from "../../auth/context/AuthContext";
+import { LoginPage } from "../../auth/pages/LoginPage";
 
-// import { ProductsNavbar } from "../../products/components/ProductsNavbar";
-// import { ProductsProductProvider } from "../../products/context/ProductsProductProvider";
-// import { ProductsProductPage } from "../../products/pages/ProductsProductPage";
+import { SalesNavbar } from "../../sales/common/components/SalesNavbar";
+import { SalesOrderProvider } from "../../sales/order/context/SalesOrderContext";
+import { SalesOrderPage } from "../../sales/order/pages/SalesOrderPage";
 
+import { ProductsNavbar } from "../../products/common/components/ProductsNavbar";
+import { ProductsProductProvider } from "../../products/product/context/ProductsProductContext";
+import { ProductsProductPage } from "../../products/product/pages/ProductsProductPage";
 
 export const SiproadRouter: FC = () => {
   
@@ -66,7 +63,7 @@ export const SiproadRouter: FC = () => {
           </SiproadPrivateRoute>
         } /> */}
 
-        {/* <Route path="/products/*" element={
+        <Route path="/products/*" element={
           <SiproadPrivateRoute>
             <SiproadNavbar />
             <ProductsNavbar />
@@ -76,7 +73,7 @@ export const SiproadRouter: FC = () => {
               </ProductsProductProvider>
             </ApolloWrapper>
           </SiproadPrivateRoute>
-        } /> */}
+        } />
 
         {/* <Route path="/products/elements" element={
           <SiproadPrivateRoute>
