@@ -21,18 +21,6 @@ body {
 
 
 /* navbar */
-.custom-navbar-toggler-icon {
-  border: 1px solid #111111;
-  border-radius: 5px;
-  background-image: url('/assets/hamburger-white.png'); /* o .png */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: transparent;
-  background-size: 80%;
-  width: 40px;
-  height: 40px;
-}
-
 .custom-navlink-principal {
   color: #ffffff !important; /* tu color personalizado */
   text-decoration: none;     /* opcional: saca el subrayado */
@@ -162,8 +150,23 @@ body {
   height: 40px;
 }
 
-.custom-btn-outline-success-print:hover {
-  background-image: url('/assets/printer-black.png');
+.custom-btn-outline-success-add {
+  border: 1px solid #08f5fb;
+  border-radius: 5px;
+  /* background-image: url('/assets/printer-blue.png'); */
+  background-image: url('/assets/add-black.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  background-size: 60%;
+  width: 40px;
+  height: 40px;
+}
+
+.custom-btn-outline-success-print:hover,
+.custom-btn-outline-success-add:hover {
+  /* background-image: url('/assets/printer-black.png'); */
   background-color: #08f5fb;
 }
 
@@ -197,7 +200,30 @@ body {
   height: 40px;
 }
 
+.custom-btn-outline-white-hamburger {
+  border: 0px solid #111111;
+  border-radius: 5px;
+  background-image: url('/assets/hamburger-white.png'); /* o .png */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  background-size: 80%;
+  width: 40px;
+  height: 40px;
+}
 
+.custom-btn-outline-black-hamburger {
+  border: 0px solid #000000;
+  border-radius: 5px;
+  background-image: url('/assets/hamburger-black.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  background-size: 80%;
+  width: 40px;
+  height: 40px;
+}
 
 /* form */
 .custom-invalid-feedback {
@@ -261,4 +287,14 @@ body {
 .message-body-error {
   background-color: #f8f9fa;
   color: #dc3545;
+}
+
+.custom-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
 }

@@ -1,9 +1,0 @@
-.text-first-uppercase::first-letter {
-  text-transform: uppercase;
-}
-
-/* .strikethrough {
-  text-decoration: line-through 1px red !important;
-  color: gray !important;
-  cursor: pointer;
-} */
