@@ -140,9 +140,10 @@ export const SalesOrderProvider: FC<Props> = ({ children }) => {
       comment : value.comment || undefined,
       name    : value.name,
       code    : value.code || undefined,
-      cost    : parseFloat(value.cost.toString()),
-      price   : parseFloat(value.price.toString()),
-      // TODO: posiblemente aca deba enviar el discountPct y el discount
+      cost    : value.cost,
+      price   : value.price,
+      discount: 0,
+      discountPct: value.discountPct,
       status  : value.status
     }) );
 
@@ -155,8 +156,12 @@ export const SalesOrderProvider: FC<Props> = ({ children }) => {
       customerPhone   : form.customerPhone,
       customerAddress : form.customerAddress,
       comment         : form.comment,
+      discount        : 0,
+      discountPct     : 0,
       status          : form.status,
-      productList     : productList
+      productList     : productList,
+      cost            : 0,
+      price           : 0,
     };
 
     return mutateOrder({ variables: { input: obj } })
