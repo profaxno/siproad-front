@@ -1,6 +1,17 @@
 export enum SalesOrderStatusEnum {
   CANCELLED,
-  IN_PROGRESS,
-  PAID,
-  INVOICED
+  NEW,
+  QUOTATION,
+  ORDER,
+  INVOICED,
+  PAID
+}
+
+export enum SalesOrderStatusNameEnum {
+  CANCELLED = 'CANCELADO',
+  NEW       = 'NUEVO',
+  QUOTATION = 'COTIZACION',
+  ORDER     = 'ORDEN',
+  INVOICED  = 'FACTURADO',
+  PAID      = 'PAGADO'
 }

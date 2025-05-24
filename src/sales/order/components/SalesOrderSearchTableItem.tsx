@@ -3,7 +3,7 @@ import { useContext } from 'react';
 
 import { SalesOrderContext } from '../context/SalesOrderContext';
 import { FormSalesOrderInterface } from '../interfaces';
-import { SalesOrderStatusEnum } from '../enums/sales-order-status.enum';
+import { SalesOrderStatusEnum, SalesOrderStatusNameEnum } from '../enums/sales-order-status.enum';
 
 interface Props {
   value: FormSalesOrderInterface;
@@ -16,10 +16,13 @@ export const SalesOrderSearchTableItem: FC<Props> = ({ value }) => {
   if (!context) 
     throw new Error("SalesOrderSearchTableItem: SalesOrderContext must be used within an SalesOrderProvider");
 
-  const { form, updateForm } = context;
+  const { form, setIsOpenOrderSection, updateForm } = context;
   
   // * handles
-  const handleClick = () => updateForm(value);
+  const handleClick = () => {
+    updateForm(value);
+    setIsOpenOrderSection(true);
+  }
 
   // const handleRowClick = () => {
 
@@ -65,6 +68,7 @@ export const SalesOrderSearchTableItem: FC<Props> = ({ value }) => {
       <td className="text-capitalize">{value.customerName?.toLowerCase() ?? ''}</td>
       <td>{value.comment ?? ''}</td>
       {/* <td className="text-first-uppercase">{value.comment?.toLowerCase()}</td> */}
+      <td>{Object.values(SalesOrderStatusNameEnum)[value.status]}</td>
     </tr>
   );
 };

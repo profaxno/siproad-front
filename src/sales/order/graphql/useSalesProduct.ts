@@ -22,18 +22,22 @@ export const useSearchProduct = () => {
 
 // * GraphQL Queries
 export const SEARCH_PRODUCTS = gql`
-  query SalesProductSearchByValues($nameCodeList: [String!], $productTypeId: String) {
-    salesProductSearchByValues(nameCodeList: $nameCodeList, productTypeId: $productTypeId) {
+  query SalesProductSearchByValues($nameCodeList: [String!], $enable4Sale: Boolean, $productCategoryId: String, $page: Float, $limit: Float) {
+    salesProductSearchByValues(nameCodeList: $nameCodeList, enable4Sale: $enable4Sale, productCategoryId: $productCategoryId, page: $page, limit: $limit) {
       internalCode
       message
-      qty
       payload {
         id
+        companyId
         name
         code
+        description
         cost
         price
+        type
+        enable4Sale
       }
+      qty
     }
   }
 `;

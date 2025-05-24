@@ -21,10 +21,10 @@ export const SalesOrderForm: FC = () => {
   };
 
   return (
-    <div className="border rounded mt-2 p-3">
+    <>
       <div className="d-flex gap-4">
         <div className="col-7 flex-wrap">
-          <label className="form-label text-end">Nombre:</label>
+          <label className="form-label text-end">Cliente:</label>
           <InputSearchWithTag
             name="customerName"
             className={`form-control text-capitalize ${formError.customerName ? 'is-invalid' : ''}`}
@@ -99,6 +99,19 @@ export const SalesOrderForm: FC = () => {
           readOnly={form.status === SalesOrderStatusEnum.CANCELLED}
         />
       </div>
-    </div>
+
+      {/* <div className='d-flex gap-2 mt-2'>
+        <input
+          type="checkbox"
+          className='form-check-input'
+          // checked={checked}
+          // onChange={(e) => setChecked(e.target.checked)}
+        />
+        
+        <label>
+          Guardar Cliente
+        </label>
+      </div> */}
+    </>
   );
 };

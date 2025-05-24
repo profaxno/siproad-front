@@ -96,9 +96,10 @@ export const SalesOrderSearch: FC = () => {
 
   // * return component
   return (
-    <div className="border rounded p-3 mb-2">
-      <div className="d-flex gap-1 mb-2">
-        <div className="col-4 col-sm flex-wrap">
+    <>
+      <div className="d-flex gap-2 align-items-center">
+
+        {/* <div className="col-6 col-sm flex-wrap">
           <label className="form-label text-end">Código:</label>
           <input
             type="text"
@@ -109,10 +110,10 @@ export const SalesOrderSearch: FC = () => {
             autoComplete="off"
             maxLength={50}
           />
-        </div>
+        </div> */}
 
-        <div className="col-4 col-sm flex-wrap">
-          <label className="form-label text-end">Cliente:</label>
+        {/* <div className="col-6 col-sm flex-wrap"> */}
+          {/* <label className="form-label text-end">Busqueda:</label> */}
           <input
             type="text"
             name="customerNameIdDoc"
@@ -123,9 +124,9 @@ export const SalesOrderSearch: FC = () => {
             autoComplete="off"
             maxLength={50}
           />
-        </div>
+        {/* </div> */}
 
-        <div className="col-4 col-sm flex-wrap">
+        {/* <div className="col-4 col-sm flex-wrap">
           <label className="form-label text-end">Comentarios:</label>
           <input
             type="text"
@@ -136,10 +137,11 @@ export const SalesOrderSearch: FC = () => {
             autoComplete="off"
             maxLength={100}
           />
-        </div>
+        </div> */}
+
       </div>
 
-      <div>
+      <div className="mt-3">
         <label className="form-label text-end">Rango Creación:</label>
         <div className="d-flex gap-1">
           <div className="col-6 col-sm">
@@ -163,6 +165,6 @@ export const SalesOrderSearch: FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

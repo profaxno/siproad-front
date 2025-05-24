@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import type { FC } from 'react';
-
+import '../styles/input-search-with-tag.css';
 interface Props<T = any> {
   name: string;
   className?: string;

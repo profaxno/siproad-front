@@ -26,7 +26,7 @@ export const SalesProductProvider: FC<Props> = ({ children }) => {
 
     const nameCodeList = [nameCode];
 
-    return fetchProducts({ variables: { nameCodeList } })
+    return fetchProducts({ variables: { nameCodeList, enable4Sale: true } })
     .then( (response) => {
 
       const { salesProductSearchByValues } = response.data || {};

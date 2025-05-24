@@ -17,13 +17,20 @@ interface SalesOrderContextType {
   searchOrders  : (createdAtInit?: string, createdAtEnd?: string, code?: string, customerNameIdDoc?: string, comment?: string) => Promise<SalesOrderInterface[]>;
   updateTable   : (actionType: TableActionEnum, payload?: FormSalesOrderInterface | FormSalesOrderInterface[]) => void;
 
+  isOpenOrderSection: boolean;
   form        : FormSalesOrderInterface;
   formError   : FormSalesOrderErrorInterface;
+  setIsOpenOrderSection: (isOpenOrderSection: boolean) => void; 
   updateForm  : (form: FormSalesOrderInterface) => void;
   updateTableOrderProduct: (actionType: TableActionEnum, payload?: FormSalesOrderProductInterface | FormSalesOrderProductInterface[]) => void;
-  saveOrder   : (form: FormSalesOrderInterface) => Promise<SalesOrderInterface>;
-  setFormError: (formError: FormSalesOrderErrorInterface) => void;
-  cleanForm   : () => void;
+  //saveOrder   : (form: FormSalesOrderInterface) => Promise<SalesOrderInterface>;
+  
+  // validate    : () => boolean;
+  saveForm      : () => void;
+  saveFormStatus: (status: SalesOrderStatusEnum) => void;
+  deleteForm    : () => void;
+  setFormError  : (formError: FormSalesOrderErrorInterface) => void;
+  cleanForm     : () => void;
   
   screenMessage     : ScreenMessageInterface;
   setScreenMessage  : (msg: ScreenMessageInterface) => void;
@@ -56,7 +63,7 @@ const initForm: FormSalesOrderInterface = {
   iva           : 0,
   total         : 0,
   createdAt     : '',
-  status        : SalesOrderStatusEnum.IN_PROGRESS,
+  status        : SalesOrderStatusEnum.NEW,
 };
 
 const initFormError: FormSalesOrderErrorInterface = {
@@ -77,11 +84,12 @@ interface Props {
 
 export const SalesOrderProvider: FC<Props> = ({ children }) => {
   
-  const [formSearch, setFormSearch]   = useState<FormSalesOrderSearchInterface>(initFormSearch);
-  const { fetchOrders } = useSearchOrder();
-  const [formList, dispatchFormList]  = useReducer(tableReducer<FormSalesOrderInterface>, []);
+  const [formSearch, setFormSearch] = useState<FormSalesOrderSearchInterface>(initFormSearch);
+  const { fetchOrders }             = useSearchOrder();
+  const [formList, dispatchFormList]= useReducer(tableReducer<FormSalesOrderInterface>, []);
 
-  const [form, setForm]               = useState<FormSalesOrderInterface>(initForm);
+  const [isOpenOrderSection, setIsOpenOrderSection] = useState<boolean>(false);
+  const [form, setForm]             = useState<FormSalesOrderInterface>(initForm);
   const [formOrderProductList, dispatchFormOrderProductList] = useReducer(tableReducerWithKey<FormSalesOrderProductInterface>, []);
   const { mutateOrder }             = useUpdateOrder();
   const [formError, setFormError]   = useState<FormSalesOrderErrorInterface>(initFormError);
@@ -130,6 +138,100 @@ export const SalesOrderProvider: FC<Props> = ({ children }) => {
   const updateForm = (form: FormSalesOrderInterface = initForm) => {
     setForm(form);
     updateTableOrderProduct(TableActionEnum.LOAD, form.productList);
+  };
+
+  const validate = (): boolean => {
+    const newErrors: FormSalesOrderErrorInterface = {};
+
+    if (!form.customerName) newErrors.customerName = "Ingrese el nombre del cliente";
+    if (form.productList.length === 0) newErrors.productList = "Ingrese uno ó más productos a la lista";
+
+    setFormError(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const saveForm = () => {
+    if (!validate()) return;
+
+    // const status = form.status === SalesOrderStatusEnum.NEW ? SalesOrderStatusEnum.QUOTATION : form.status;
+
+    // let formAux = {
+    //   ...form, 
+    //   status
+    // }
+
+    saveOrder(form)
+    .then( (mutatedObj: SalesOrderInterface) => {
+      const found = formList.find((value) => value.id === form.id);
+      const actionType = found ? TableActionEnum.UPDATE : TableActionEnum.ADD;
+
+      const formMutated: FormSalesOrderInterface = {
+        ...form,
+        id: mutatedObj.id,
+        code: mutatedObj.code,
+        createdAt: mutatedObj.createdAt,
+        status: mutatedObj.status
+      };
+
+      // cleanForm();
+      updateForm(formMutated);
+      updateTable(actionType, formMutated);
+      setIsOpenOrderSection(true);
+      setScreenMessage({ type: ScreenMessageTypeEnum.SUCCESS, title: "Información", message: "Guardado Exitoso!", show: true });
+    })
+    .catch(() => {
+      setScreenMessage({ type: ScreenMessageTypeEnum.ERROR, title: "Problema", message: 'No se completó la operación, intente de nuevo', show: true });
+    });
+  };
+
+  const saveFormStatus = (status: SalesOrderStatusEnum) => {
+    if (!validate()) return;
+
+    let formAux = {
+      ...form, 
+      status
+    }
+
+    saveOrder(formAux)
+    .then( (mutatedObj: SalesOrderInterface) => {
+      const found = formList.find((value) => value.id === form.id);
+      const actionType = found ? TableActionEnum.UPDATE : TableActionEnum.ADD;
+
+      const formMutated: FormSalesOrderInterface = {
+        ...formAux,
+        id: mutatedObj.id,
+        code: mutatedObj.code,
+        createdAt: mutatedObj.createdAt,
+      };
+
+      // cleanForm();
+      updateForm(formMutated);
+      updateTable(actionType, formMutated);
+      setIsOpenOrderSection(true);
+      setScreenMessage({ type: ScreenMessageTypeEnum.SUCCESS, title: "Información", message: "Guardado Exitoso!", show: true });
+    })
+    .catch(() => {
+      setScreenMessage({ type: ScreenMessageTypeEnum.ERROR, title: "Problema", message: 'No se completó la operación, intente de nuevo', show: true });
+    });
+  };
+
+  const deleteForm = () => {
+    const formAux = {
+      ...form,
+      status: SalesOrderStatusEnum.CANCELLED,
+    };
+
+    saveOrder(formAux)
+    .then(() => {
+      cleanForm();
+      updateTable(TableActionEnum.DELETE, formAux);
+      setIsOpenOrderSection(true);
+      setScreenMessage({ type: ScreenMessageTypeEnum.SUCCESS, title: "Información", message: "Eliminación Exitosa!", show: true });
+    })
+    .catch(() => {
+      setScreenMessage({ type: ScreenMessageTypeEnum.ERROR, title: "Problema", message: 'No se completó la operación, intente de nuevo', show: true });
+    });
   };
 
   const saveOrder = (form: FormSalesOrderInterface): Promise<SalesOrderInterface> => {
@@ -232,11 +334,16 @@ export const SalesOrderProvider: FC<Props> = ({ children }) => {
         searchOrders,
         updateTable,
 
+        isOpenOrderSection,
         form,
         formError,
+        setIsOpenOrderSection,
         updateForm,
         updateTableOrderProduct,
-        saveOrder,
+        // saveOrder,
+        saveFormStatus,
+        saveForm,
+        deleteForm,
         setFormError,
         cleanForm,
 

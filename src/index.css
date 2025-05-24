@@ -220,10 +220,68 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-color: transparent;
-  background-size: 80%;
+  background-size: 70%;
   width: 40px;
   height: 40px;
 }
+
+
+.custom-btn-outline-success-return {
+  border: 1px solid #08f5fb;
+  border-radius: 5px;
+  background-image: url('/assets/return-black.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  background-size: 60%;
+  width: 40px;
+  height: 40px;
+}
+
+.custom-btn-outline-success-return:hover {
+  background-image: url('/assets/return-black.png');
+  background-color: #08f5fb;
+}
+
+
+.custom-btn-outline-success-new {
+  border: 1px solid #08f5fb;
+  border-radius: 5px;
+  background-image: url('/assets/new-black.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  background-size: 60%;
+  width: 40px;
+  height: 40px;
+}
+
+.custom-btn-outline-success-new:hover {
+  background-image: url('/assets/new-black.png');
+  background-color: #08f5fb;
+}
+
+
+.custom-btn-outline-success-save {
+  border: 1px solid #08f5fb;
+  border-radius: 5px;
+  background-image: url('/assets/save-black.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  background-size: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.custom-btn-outline-success-save:hover {
+  background-image: url('/assets/save-black.png');
+  background-color: #08f5fb;
+}
+
 
 /* form */
 .custom-invalid-feedback {
@@ -234,38 +292,7 @@ body {
 
 
 
-/* search with tag */
-.tags-input-container {
-  display: flex;
-  flex-wrap: wrap;
-  border: 1px solid #ccc;
-  padding: 4px;
-  border-radius: 4px;
-}
 
-.tag {
-  background-color: #838181;
-  color: #08f5fb;
-  padding: 5px 10px;
-  margin: 2px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-}
-
-.list-group-item.active {
-  background-color: #838181 !important; /* verde Bootstrap */
-  color: #08f5fb;
-}
-
-.remove-tag {
-  background: none;
-  border: none;
-  color: white;
-  margin-left: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
 
 
 /* message */
@@ -297,4 +324,14 @@ body {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1040;
+}
+
+.nav-tabs .nav-link {
+  color: black;
+  font-weight: normal;
+}
+
+.nav-tabs .nav-link.active {
+  color: black;
+  font-weight: bold;
 }
