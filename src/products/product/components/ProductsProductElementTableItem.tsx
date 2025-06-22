@@ -7,6 +7,7 @@ import { TableActionEnum } from '../../../common/enums/table-actions.enum';
 import { ProductsProductContext } from '../context/ProductsProductContext';
 import { FormProductsProductElementInterface } from '../interfaces';
 import { ActiveStatusEnum } from "../../../common/enums";
+import { ActionEnum } from "../../../common/enums/action.enum";
 
 interface Props {
   value: FormProductsProductElementInterface;
@@ -25,7 +26,7 @@ export const ProductsProductElementTableItem: FC<Props> = ({
   if (!context) 
     throw new Error("ProductsProductElementTableItem: ProductsProductContext must be used within an ProductsProductProvider");
   
-  const { form, updateTableProductElement } = context;
+  const { actionList, form, updateTableProductElement } = context;
   const [formProductElement, setFormProductElement] = useState<FormProductsProductElementInterface>({ ...value });
   
   // useEffect(() => {
@@ -62,14 +63,14 @@ export const ProductsProductElementTableItem: FC<Props> = ({
     >
       <td>
         {
-          (!form.readonly && form.status == ActiveStatusEnum.ACTIVE && formProductElement.status == ActiveStatusEnum.ACTIVE)
+          (!actionList.includes(ActionEnum.SAVE) && form.status == ActiveStatusEnum.ACTIVE && formProductElement.status == ActiveStatusEnum.ACTIVE)
           ? <ButtonWithConfirm className={"custom-btn-outline-danger-delete-sm"}  title={"Confirmación"} message={"Eliminar formProductElement de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete} />
           : <div/>
         }
       </td>
 
       <td className="text-capitalize">
-        {formProductElement.name?.toLowerCase()}
+        {formProductElement.element.name?.toLowerCase()}
       </td>
 
       <td>
@@ -78,12 +79,12 @@ export const ProductsProductElementTableItem: FC<Props> = ({
           className={"form-control form-control-sm"} 
           value={formProductElement.qty}
           onChange={handleChange}
-          readOnly={form.readonly || !(form.status == ActiveStatusEnum.ACTIVE && formProductElement.status == ActiveStatusEnum.ACTIVE)}
+          readOnly={actionList.includes(ActionEnum.SAVE) || !(form.status == ActiveStatusEnum.ACTIVE && formProductElement.status == ActiveStatusEnum.ACTIVE)}
         />
       </td>
 
       <td className="text-center">
-        {formProductElement.unit}
+        {formProductElement.element.unit}
       </td>
 
     </tr>

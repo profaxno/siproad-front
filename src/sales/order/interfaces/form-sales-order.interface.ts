@@ -1,6 +1,6 @@
 export interface FormSalesOrderInterface {
   id?: string;
-  code?: string;
+  code?: number;
   customerIdDoc?: string;
   customerName: string;
   customerEmail?: string;

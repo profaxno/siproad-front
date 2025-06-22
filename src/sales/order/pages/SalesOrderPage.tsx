@@ -79,7 +79,7 @@ export const SalesOrderPage: FC = () => {
         <div>
 
           <div className="p-2 mt-3">
-            <h5 className="text-dark m-0">Búsqueda de Ordenes</h5>
+            <h5 className="text-dark m-0">Búsqueda Ordenes de Ventas</h5>
           </div>
 
           <div className="row">

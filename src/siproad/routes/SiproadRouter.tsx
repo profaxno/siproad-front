@@ -12,20 +12,17 @@ import { ApolloWrapper } from "../graphql/ApolloWrapper";
 import { AuthContext } from "../../auth/context/AuthContext";
 import { LoginPage } from "../../auth/pages/LoginPage";
 
+import { ProductsNavbar } from "../../products/common/components/ProductsNavbar";
+import { ProductsProductProvider } from "../../products/product/context/ProductsProductContext";
+import { ProductsProductPage } from "../../products/product/pages/ProductsProductPage";
+
+import { PurchasesNavbar } from "../../purchases/common/components/PurchasesNavbar";
+import { PurchasesOrderProvider } from "../../purchases/order/context/PurchasesOrderContext";
+import { PurchasesOrderPage } from "../../purchases/order/pages/PurchasesOrderPage";
+
 import { SalesNavbar } from "../../sales/common/components/SalesNavbar";
 import { SalesOrderProvider } from "../../sales/order/context/SalesOrderContext";
-import { SalesQuotationPage } from "../../sales/quotation/pages/SalesQuotationPage";
 import { SalesOrderPage } from "../../sales/order/pages/SalesOrderPage";
-
-import { InventoryNavbar } from "../../inventory/common/components/InventoryNavbar";
-import { InventoryProductProvider } from "../../inventory/product/context/InventoryProductContext";
-import { InventoryProductPage } from "../../inventory/product/pages/InventoryProductPage";
-
-// import { ProductsNavbar } from "../../products/common/components/ProductsNavbar";
-// import { ProductsProductProvider } from "../../products/product/context/ProductsProductContext";
-// import { ProductsProductPage } from "../../products/product/pages/ProductsProductPage";
-
-import { SalesQuotationProvider } from "../../sales/quotation/context/SalesQuotationContext";
 
 export const SiproadRouter: FC = () => {
   
@@ -51,24 +48,29 @@ export const SiproadRouter: FC = () => {
           </SiproadPrivateRoute>
         } />
 
-        <Route path="sales/quotations" element={
+        <Route path="/products/*" element={
           <SiproadPrivateRoute>
             <SiproadNavbar />
-            <SalesNavbar />
+            <ProductsNavbar />
             <ApolloWrapper>
-              <SalesQuotationProvider>
-                <SalesQuotationPage />
-              </SalesQuotationProvider>
+              <ProductsProductProvider>
+                <ProductsProductPage />
+              </ProductsProductProvider>
             </ApolloWrapper>
           </SiproadPrivateRoute>
         } />
 
-        {/* <Route path="/sales/customers" element={
+        <Route path="/purchases/*" element={
           <SiproadPrivateRoute>
             <SiproadNavbar />
-            <SalesNavbar />
+            <PurchasesNavbar />
+            <ApolloWrapper>
+              <PurchasesOrderProvider>
+                <PurchasesOrderPage />
+              </PurchasesOrderProvider>
+            </ApolloWrapper>
           </SiproadPrivateRoute>
-        } /> */}
+        } />
 
         <Route path="/sales/*" element={
           <SiproadPrivateRoute>
@@ -80,38 +82,14 @@ export const SiproadRouter: FC = () => {
               </SalesOrderProvider>
             </ApolloWrapper>
           </SiproadPrivateRoute>
-        } />
+        } />        
 
-        {/* <Route path="/products/*" element={
+        {/* <Route path="/sales/customers" element={
           <SiproadPrivateRoute>
             <SiproadNavbar />
-            <ProductsNavbar />
-            <ApolloWrapper>
-              <ProductsProductProvider>
-                <ProductsProductPage />
-              </ProductsProductProvider>
-            </ApolloWrapper>
+            <SalesNavbar />
           </SiproadPrivateRoute>
         } /> */}
-
-        {/* <Route path="/products/elements" element={
-          <SiproadPrivateRoute>
-            <SiproadNavbar />
-            <ProductsNavbar />
-          </SiproadPrivateRoute>
-        } /> */}
-
-        <Route path="/inventory/*" element={
-          <SiproadPrivateRoute>
-            <SiproadNavbar />
-            <InventoryNavbar />
-            <ApolloWrapper>
-              <InventoryProductProvider>
-                <InventoryProductPage />
-              </InventoryProductProvider>
-            </ApolloWrapper>
-          </SiproadPrivateRoute>
-        } />
 
       </Routes>
 

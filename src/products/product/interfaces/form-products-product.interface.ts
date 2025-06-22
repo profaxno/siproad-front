@@ -1,27 +1,30 @@
 import { ActiveStatusEnum } from "../../../common/enums";
+import { ProductTypeEnum } from "../enums/product-type.enum";
 
 export interface FormProductsProductInterface {
+  companyId?: string;
   id?: string;
+  productCategoryId?: string;
   name: string;
   code?: string;
   description?: string;
+  unit?: string;
   cost?: number;
   price?: number;
-  imagenUrl?: string;
-  hasFormula: boolean;
-  productTypeId?: string;
-  elementList: FormProductsProductElementInterface[];
-  status: ActiveStatusEnum;
-  readonly: boolean;
+  type: ProductTypeEnum;
+  enable4Sale: boolean;
+  elementList?: FormProductsProductElementInterface[];
+  status?: ActiveStatusEnum;
 }
 
 export interface FormProductsProductElementInterface {
   key: string;
-  id: string;
+  element: FormProductsProductInterface;
+  // id: string;
   qty: number;
-  name: string;
-  cost: number;
-  unit: string;
+  // name: string;
+  // cost: number;
+  // unit: string;
   status: number;
 }
 

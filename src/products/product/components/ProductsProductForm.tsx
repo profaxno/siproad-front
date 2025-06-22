@@ -3,6 +3,7 @@ import { ChangeEvent, useContext } from 'react';
 
 import { InputAmount } from '../../../common/components';
 import { ProductsProductContext } from '../context/ProductsProductContext';
+import { ActionEnum } from '../../../common/enums/action.enum';
 
 export const ProductsProductForm: FC = () => {
 
@@ -11,12 +12,16 @@ export const ProductsProductForm: FC = () => {
   if (!context) 
     throw new Error("ProductsProductForm: ProductsProductContext must be used within an ProductsProductProvider");
 
-  const { form, formError, updateForm, setFormError, calculateProfitMargin } = context;
+  const { actionList, form, formError, updateForm, setFormError, calculateProfitMargin } = context;
 
   // * handles
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     updateForm({ ...form, [e.target.name]: e.target.value });
     setFormError({ ...formError, [e.target.name]: "" });
+  };
+
+  const handleChangeCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
+    updateForm({ ...form, [e.target.name]: e.target.checked });
   };
 
   return (
@@ -34,7 +39,7 @@ export const ProductsProductForm: FC = () => {
             value={form.name?.toLowerCase() || ""}
             onChange={handleChange}
             maxLength={50}
-            readOnly={form.readonly}
+            readOnly={!actionList.includes(ActionEnum.SAVE)}
           />
           {formError.name && <div className="custom-invalid-feedback">{formError.name}</div>}
         </div>
@@ -49,7 +54,7 @@ export const ProductsProductForm: FC = () => {
             value={form.code || ""}
             onChange={handleChange}
             maxLength={50}
-            readOnly={form.readonly}
+            readOnly={!actionList.includes(ActionEnum.SAVE)}
           />
         </div>
 
@@ -64,7 +69,7 @@ export const ProductsProductForm: FC = () => {
           value={form.description?.toLowerCase() || ""}
           onChange={handleChange}
           maxLength={100}
-          readOnly={form.readonly}
+          readOnly={!actionList.includes(ActionEnum.SAVE)}
         />
       </div>
 
@@ -80,7 +85,7 @@ export const ProductsProductForm: FC = () => {
             value={form.cost || 0}
             onChange={handleChange}
             // placeholder={"Cantidad"}
-            readOnly={form.readonly}
+            readOnly={!actionList.includes(ActionEnum.SAVE)}
           />
           {formError.cost && <div className="custom-invalid-feedback">{formError.cost}</div>}
         </div>
@@ -94,7 +99,7 @@ export const ProductsProductForm: FC = () => {
             value={form.price || 0}
             onChange={handleChange}
             // placeholder={"Cantidad"}
-            readOnly={form.readonly}
+            readOnly={!actionList.includes(ActionEnum.SAVE)}
           />
           {formError.price && <div className="custom-invalid-feedback">{formError.price}</div>}
         </div>
@@ -112,7 +117,23 @@ export const ProductsProductForm: FC = () => {
             %
           </div>
         </div>
+
+        
       </div>
+
+      <div className='d-flex gap-2 mt-3'>
+        <input
+          type="checkbox"
+          name='enable4Sale'
+          className='form-check-input'
+          checked={form.enable4Sale}
+          onChange={handleChangeCheckbox}
+          readOnly={!actionList.includes(ActionEnum.SAVE)}
+        />
+        
+        <label>Disponible para ventas</label>
+      </div>
+
     </div>
   );
 };

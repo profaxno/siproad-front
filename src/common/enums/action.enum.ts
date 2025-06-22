@@ -1,11 +1,5 @@
 export enum ActionEnum {
-  RETURN,
-  RETURN_WITH_CONFIRM,
+  NEW,
   SAVE,
-  QUOTATION,
-  ORDER,
-  BILL,
-  PAY,
-  GENERATE_PDF,
   DELETE
 }

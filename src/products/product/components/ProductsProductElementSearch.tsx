@@ -8,24 +8,40 @@ import { TableActionEnum, ActiveStatusEnum } from '../../../common/enums';
 
 import { ProductsProductContext } from "../context/ProductsProductContext";
 
-import { FormProductsProductElementInterface } from '../interfaces';
+import { FormProductsProductElementInterface, FormProductsProductInterface, ProductsProductInterface } from '../interfaces';
 import { ProductsElementUnitEnum } from "../../element/enums/products-element-unit.enum";
 
 import { ProductsElementInterface } from "../../element/interfaces/products-element.interface";
 
 import { ProductsElementContext } from "../../element/context/ProductsElementContext";
+import { ProductTypeEnum } from "../enums/product-type.enum";
 
 interface ErrorState {
   [key: string]: string;
 }
 
+const initForm: FormProductsProductInterface = {
+  id          : undefined,
+  name        : '',
+  code        : '',
+  description : '',
+  unit        : undefined,
+  cost        : 0,
+  price       : 0,
+  type        : 0,
+  enable4Sale : false,
+  elementList: [],
+  status      : ActiveStatusEnum.ACTIVE
+};
+
 const initProductElement: FormProductsProductElementInterface = {
   key     : '',
-  id      : '',
+  element: initForm,
+  // id      : '',
   qty     : 1,
-  name    : '',
-  cost    : 0,
-  unit    : ProductsElementUnitEnum.UN,
+  // name    : '',
+  // cost    : 0,
+  // unit    : ProductsElementUnitEnum.UN,
   status  : ActiveStatusEnum.ACTIVE
 }
 
@@ -36,13 +52,13 @@ export const ProductsProductElementSearch: FC = () => {
   if (!context) 
     throw new Error("ProductsProductElementSearch: ProductsProductContext must be used within an ProductsProductProvider");
 
-  const { updateTableProductElement } = context;
+  const { form, searchProducts, mapObjToForm, updateTableProductElement } = context;
 
-  const productContext = useContext(ProductsElementContext);
-  if (!productContext) 
-    throw new Error("ProductsProductElementSearch: ProductsElementContext must be used within an ProductsElementProvider");
+  // const productContext = useContext(ProductsElementContext);
+  // if (!productContext) 
+  //   throw new Error("ProductsProductElementSearch: ProductsElementContext must be used within an ProductsElementProvider");
 
-  const { searchElements } = productContext;
+  // const { searchElements } = productContext;
   
   const [formProductElementSearch, setFormProductElementSearch] = useState<FormProductsProductElementInterface>(initProductElement);
   const [errors, setErrors] = useState<ErrorState>({});
@@ -57,37 +73,57 @@ export const ProductsProductElementSearch: FC = () => {
 
   const validate = () => {
     const newErrors: ErrorState = {};
-    if (!(formProductElementSearch?.id && formProductElementSearch.name)) newErrors.name = 'Ingrese el nombre del producto a buscar';
+    if (!(formProductElementSearch?.element.id && formProductElementSearch.element.name)) newErrors.name = 'Ingrese el nombre del producto a buscar';
     if (!formProductElementSearch?.qty) newErrors.qty = 'Ingrese la cantidad';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const updateForm = (product: ProductsElementInterface) => {
+  const updateForm = (obj: ProductsProductInterface) => {
 
+    const form = mapObjToForm(obj, 0);
+
+    // const form: FormProductsProductInterface = {
+    //   id: obj.id,
+    //   productCategoryId: obj.productCategoryId,
+    //   name: obj.name,
+    //   code: obj.code,
+    //   description: obj.description,
+    //   unit: obj.unit,
+    //   cost: obj.cost,
+    //   price: obj.price,
+    //   type: obj.type,
+    //   enable4Sale: obj.enable4Sale,
+    //   formElementList: obj.elementList,
+    //   status: ActiveStatusEnum.ACTIVE,
+    //   readonly: false
+    //   // new ProductDto(product.company.id, product.name, product.cost, product.type, product.enable4Sale, product.id, product.productCategory?.id, product.code, product.description, product.unit, product.price, [])
+    // }
+    
     const formProductElement: FormProductsProductElementInterface ={
       key     : uuidv4(),
-      id      : product.id,
+      element: form,
+      // id      : product.id,
       qty     : formProductElementSearch.qty,
-      name    : product.name,
-      cost    : product.cost,
-      unit    : product.unit,
+      // name    : product.name,
+      // cost    : product.cost,
+      // unit    : product.unit,
       status  : ActiveStatusEnum.ACTIVE
     };
 
     setFormProductElementSearch(formProductElement);
   };
 
-  const search = (value: string): Promise<ProductsElementInterface[]> => {
+  const search = (value: string): Promise<ProductsProductInterface[]> => {
     const name = value?.length > 3 ? value : undefined;
 
     if (!name) {
       return Promise.resolve([]);
     }
 
-    return searchElements(name)
-    .then( (productList: ProductsElementInterface[]) => productList)
+    return searchProducts(name, [ProductTypeEnum.P, ProductTypeEnum.PC])
+    .then( (productList: ProductsProductInterface[]) => productList.filter(value => value.id != form.id) )
     .catch( (error: any) => {
       console.error('search: Error', error);
       return [];
@@ -96,7 +132,7 @@ export const ProductsProductElementSearch: FC = () => {
 
   const handleButtonAdd = () => {
     if (!validate()) return;
-    if (formProductElementSearch.name === '') return;
+    if (formProductElementSearch.element.name === '') return;
     if (formProductElementSearch.qty < 0) return;
 
     // const orderElementAux: FormProductsProductElementInterface = {
@@ -117,7 +153,7 @@ export const ProductsProductElementSearch: FC = () => {
           name="name"
           className={`form-control ${errors.name ? 'is-invalid' : ''}`}
           // fieldToShow={['name']}
-          value={formProductElementSearch.name}
+          value={formProductElementSearch.element.name}
           placeholder="Buscador..."
           onNotifyChange={handleChange}
           onSearch={search}

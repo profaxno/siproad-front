@@ -1,0 +1,11 @@
+export enum SalesActionEnum {
+  RETURN,
+  RETURN_WITH_CONFIRM,
+  SAVE,
+  QUOTATION,
+  ORDER,
+  BILL,
+  PAY,
+  GENERATE_PDF,
+  DELETE
+}

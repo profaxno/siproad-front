@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { useState, useEffect, useReducer, ReactNode, createContext } from 'react';
+import moment from 'moment';
 
 import { TableActionInterface, ScreenMessageInterface } from '../../../common/interfaces';
 import { TableActionEnum, ScreenMessageTypeEnum } from '../../../common/enums';
@@ -42,7 +43,7 @@ export const SalesOrderContext = createContext<SalesOrderContextType | undefined
 
 // * provider
 const initFormSearch: FormSalesOrderSearchInterface = {
-  createdAtInit : '',
+  createdAtInit : moment().format('YYYY-MM-DD'),
   createdAtEnd  : '',
   code          : '',
   customerNameIdDoc: '',
@@ -51,7 +52,7 @@ const initFormSearch: FormSalesOrderSearchInterface = {
 
 const initForm: FormSalesOrderInterface = {
   id          : undefined,
-  code          : '',
+  code          : undefined,
   customerIdDoc : '',
   customerName  : '',
   customerEmail : '',
@@ -251,7 +252,7 @@ export const SalesOrderProvider: FC<Props> = ({ children }) => {
 
     const obj: SalesOrderInterface = {
       id              : form.id || undefined,
-      code            : form.code || undefined,
+      code            : form.code ? Number(form.code) : undefined,
       customerIdDoc   : form.customerIdDoc,
       customerName    : form.customerName,
       customerEmail   : form.customerEmail,
