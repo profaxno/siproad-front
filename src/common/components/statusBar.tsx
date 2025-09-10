@@ -16,7 +16,8 @@ export const StatusBar: FC<StatusBarProps> = ({ statusList, currentStatus }) => 
           return (
             <div key={status} className="statusbar-step-container">
               <div className={`statusbar-step ${isActive ? 'active' : 'inactive'}`}>
-                {status.toUpperCase()}
+                {status}
+                {/* {status.toUpperCase()} */}
               </div>
               {index < statusList.length - 1 && <div className="statusbar-linea" />}
             </div>

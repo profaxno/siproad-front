@@ -1,15 +1,15 @@
 import { useContext } from 'react'
 import type { FC } from 'react';
 
-import { SalesOrderContext } from '../context/SalesOrderContext';
-import { SalesOrderSearchTableItem } from './SalesOrderSearchTableItem';
+import { salesOrderContext } from '../context/sales-order.context';
+import { SalesOrderSearchTableItem } from './';
 
 export const SalesOrderSearchTable: FC = () => {
 
   // * hooks
-  const context = useContext(SalesOrderContext);
+  const context = useContext(salesOrderContext);
   if (!context) 
-    throw new Error("SalesOrderSearchTable: SalesOrderContext must be used within an SalesOrderProvider");
+    throw new Error("SalesOrderSearchTable: salesOrderContext must be used within an SalesOrderProvider");
   
   const { formList } = context;
     

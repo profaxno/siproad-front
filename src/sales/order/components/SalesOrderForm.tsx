@@ -2,15 +2,16 @@ import type { FC } from 'react';
 import { ChangeEvent, useContext } from 'react';
 
 import { InputSearchWithTag } from '../../../common/components';
-import { SalesOrderContext } from '../context/SalesOrderContext';
-import { SalesOrderStatusEnum } from '../enums/sales-order-status.enum';
+
+import { salesOrderContext } from '../context/sales-order.context';
+import { SalesOrderStatusEnum } from '../enums';
 
 export const SalesOrderForm: FC = () => {
 
   // * hooks
-  const context = useContext(SalesOrderContext);
+  const context = useContext(salesOrderContext);
   if (!context) 
-    throw new Error("SalesOrderForm: SalesOrderContext must be used within an SalesOrderProvider");
+    throw new Error("SalesOrderForm: salesOrderContext must be used within an SalesOrderProvider");
 
   const { form, formError, updateForm, setFormError } = context;
 

@@ -1,8 +1,8 @@
-import type { FC } from "react";
 import { useContext } from 'react'
-import { ProductsProductContext } from '../context/ProductsProductContext';
 import { ButtonWithConfirm } from '../../../common/components';
-import { ActionEnum } from '../../../common/enums/action.enum';
+import { ActionEnum } from '../../../common/enums';
+
+import { productsProductContext } from '../context/products-product.context';
 
 // interface Props {
 //   actionList: ActionEnum[];
@@ -13,9 +13,9 @@ import { ActionEnum } from '../../../common/enums/action.enum';
 // }) => {
 export const ProductsProductButtons = () => {
 
-  const context = useContext(ProductsProductContext);
+  const context = useContext(productsProductContext);
   if (!context) 
-    throw new Error("ProductsProductPage: ProductsProductContext must be used within an ProductsProductProvider");
+    throw new Error("ProductsProductPage: productsProductContext must be used within an ProductsProductProvider");
 
   // * context
   const { actionList, saveForm, deleteForm, cleanForm } = context;

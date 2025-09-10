@@ -51,7 +51,7 @@ export const PurchasesOrderTabs = () => {
           <>
             <div className="p-3">
               { form.status === PurchasesOrderStatusEnum.CANCELLED
-                ? ( <div/> ) //<div className="alert alert-danger text-center">Orden Cancelada</div>
+                ? ( <div/> )
                 : ( 
                     <PurchasesProductProvider>
                       <PurchasesOrderProductSearch />

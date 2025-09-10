@@ -1,14 +1,17 @@
 import { useState, useContext } from 'react';
-import { SalesOrderContext, SalesProductProvider } from '../context';
-import { SalesOrderProductSearch } from './SalesOrderProductSearch';
-import { SalesOrderProductTable } from './SalesOrderProductTable';
+
 import { InputAmount } from '../../../common/components';
+
+import { salesOrderContext } from '../context/sales-order.context';
+import { SalesOrderProductSearch, SalesOrderProductTable } from './';
 import { SalesOrderStatusEnum } from '../enums';
 
+import { ProductsProductProvider } from '../../../products/product/context/ProductsProductProvider';
+
 export const SalesOrderTabs = () => {
-  const context = useContext(SalesOrderContext);
+  const context = useContext(salesOrderContext);
   if (!context) 
-    throw new Error("SalesOrderPage: SalesOrderContext must be used within an SalesOrderProvider");
+    throw new Error("SalesOrderPage: salesOrderContext must be used within an SalesOrderProvider");
 
   const { form, formError } = context;
     
@@ -51,11 +54,11 @@ export const SalesOrderTabs = () => {
           <>
             <div className="p-3">
               { form.status === SalesOrderStatusEnum.CANCELLED
-                ? ( <div/> ) //<div className="alert alert-danger text-center">Orden Cancelada</div>
+                ? ( <div/> )
                 : ( 
-                    <SalesProductProvider>
+                    <ProductsProductProvider>
                       <SalesOrderProductSearch />
-                    </SalesProductProvider>
+                    </ProductsProductProvider>
                   )
               }
 

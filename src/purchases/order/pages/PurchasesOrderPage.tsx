@@ -1,23 +1,16 @@
 import type { FC } from 'react';
 import { useState, useContext, useEffect } from 'react';
 
-import { ButtonWithConfirm, InputAmount, Message } from '../../../common/components';
-import { TableActionEnum } from '../../../common/enums/table-actions.enum';
-import { ScreenMessageTypeEnum } from '../../../common/enums/screen-message-type-enum';
+import { Message } from '../../../common/components';
 
-import { PurchasesOrderContext, PurchasesProductProvider } from '../context';
+import { PurchasesOrderContext } from '../context';
 
 import { PurchasesOrderSearch } from '../components/PurchasesOrderSearch';
 import { PurchasesOrderSearchTable } from '../components/PurchasesOrderSearchTable';
 
-import { PurchasesOrderForm } from '../components/PurchasesOrderForm';
-import { PurchasesOrderProductSearch } from '../components/PurchasesOrderProductSearch';
-import { PurchasesOrderProductTable } from '../components/PurchasesOrderProductTable';
-import { PurchasesOrderButtonGeneratePdfPrice } from '../components/PurchasesOrderButtonGeneratePdfPrice';
-import { FormPurchasesOrderInterface, FormPurchasesOrderErrorInterface, PurchasesOrderInterface } from '../interfaces';
 import { PurchasesOrderStatusEnum, PurchasesOrderStatusNameEnum } from '../enums/purchases-order-status.enum';
-import { StatusBar } from '../../../common/components/statusBar';
-import { ActionEnum } from '../../../common/enums/action.enum';
+import { PurchasesActionEnum } from '../enums/purchases-action.enum';
+import { PurchasesOrderForm } from '../components/PurchasesOrderForm';
 import { PurchasesOrderTabs } from '../components/PurchasesOrderTabs';
 import { PurchasesOrderButtons } from '../components/PurchasesOrderButtons';
 
@@ -27,37 +20,36 @@ export const PurchasesOrderPage: FC = () => {
   if (!context) 
     throw new Error("PurchasesOrderPage: PurchasesOrderContext must be used within an PurchasesOrderProvider");
 
-  const { isOpenOrderSection, form, screenMessage, resetScreenMessage } = context;
+  const { setActionList, isOpenOrderSection, form, screenMessage, resetScreenMessage } = context;
   const [isOpenOrderFormSection, setIsOpenOrderFormSection] = useState<boolean>(true);
   const [statusList, setStatusList] = useState<string[]>([]);
-  const [actionList, setActionList] = useState<ActionEnum[]>([]);
-
+  
   useEffect(() => {
 
     switch (form.status) {
       case PurchasesOrderStatusEnum.NEW:
         setStatusList([PurchasesOrderStatusNameEnum.NEW, PurchasesOrderStatusNameEnum.QUOTATION, PurchasesOrderStatusNameEnum.ORDER]);
-        setActionList([ActionEnum.RETURN, ActionEnum.QUOTATION, ActionEnum.ORDER]);
+        setActionList([PurchasesActionEnum.RETURN, PurchasesActionEnum.QUOTATION, PurchasesActionEnum.ORDER]);
         break;
       case PurchasesOrderStatusEnum.QUOTATION:
         setStatusList([PurchasesOrderStatusNameEnum.QUOTATION, PurchasesOrderStatusNameEnum.ORDER, PurchasesOrderStatusNameEnum.INVOICED]);
-        setActionList([ActionEnum.RETURN_WITH_CONFIRM, ActionEnum.SAVE, ActionEnum.ORDER, ActionEnum.GENERATE_PDF, ActionEnum.DELETE]);
+        setActionList([PurchasesActionEnum.RETURN_WITH_CONFIRM, PurchasesActionEnum.SAVE, PurchasesActionEnum.ORDER, PurchasesActionEnum.GENERATE_PDF, PurchasesActionEnum.DELETE]);
         break;
       case PurchasesOrderStatusEnum.ORDER:
         setStatusList([PurchasesOrderStatusNameEnum.QUOTATION, PurchasesOrderStatusNameEnum.ORDER, PurchasesOrderStatusNameEnum.INVOICED]);
-        setActionList([ActionEnum.RETURN_WITH_CONFIRM, ActionEnum.SAVE, ActionEnum.BILL, ActionEnum.GENERATE_PDF, ActionEnum.DELETE]);
+        setActionList([PurchasesActionEnum.RETURN_WITH_CONFIRM, PurchasesActionEnum.SAVE, PurchasesActionEnum.BILL, PurchasesActionEnum.GENERATE_PDF, PurchasesActionEnum.DELETE]);
         break;
       case PurchasesOrderStatusEnum.INVOICED:
         setStatusList([PurchasesOrderStatusNameEnum.ORDER, PurchasesOrderStatusNameEnum.INVOICED, PurchasesOrderStatusNameEnum.PAID]);
-        setActionList([ActionEnum.RETURN, ActionEnum.GENERATE_PDF, ActionEnum.DELETE]);
+        setActionList([PurchasesActionEnum.RETURN, PurchasesActionEnum.GENERATE_PDF, PurchasesActionEnum.DELETE]);
         break;
       case PurchasesOrderStatusEnum.PAID:
         setStatusList([PurchasesOrderStatusNameEnum.ORDER, PurchasesOrderStatusNameEnum.INVOICED, PurchasesOrderStatusNameEnum.PAID]);
-        setActionList([ActionEnum.RETURN, ActionEnum.GENERATE_PDF, ActionEnum.DELETE]);
+        setActionList([PurchasesActionEnum.RETURN, PurchasesActionEnum.GENERATE_PDF, PurchasesActionEnum.DELETE]);
         break;
       case PurchasesOrderStatusEnum.CANCELLED:
         setStatusList([PurchasesOrderStatusNameEnum.QUOTATION, PurchasesOrderStatusNameEnum.ORDER, PurchasesOrderStatusNameEnum.CANCELLED]);
-        setActionList([ActionEnum.RETURN]);
+        setActionList([PurchasesActionEnum.RETURN]);
         break;
       default:
         setStatusList([]);
@@ -72,7 +64,7 @@ export const PurchasesOrderPage: FC = () => {
     <div className="mt-3">
 
       <div className="d-flex border-bottom p-2 gap-2">
-        <PurchasesOrderButtons actionList={actionList}/>
+        <PurchasesOrderButtons/>
       </div>
 
       {!isOpenOrderSection && (

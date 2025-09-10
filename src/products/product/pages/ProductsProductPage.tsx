@@ -1,31 +1,20 @@
 import type { FC } from 'react';
-import { useState, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
-import { ButtonWithConfirm, Message } from '../../../common/components';
-import { TableActionEnum, ScreenMessageTypeEnum, ActiveStatusEnum } from '../../../common/enums';
+import { Message } from '../../../common/components';
+import { ActiveStatusEnum, ActionEnum } from '../../../common/enums';
 
-import { ProductsProductContext } from '../context/ProductsProductContext';
-
-import { ProductsProductSearch } from '../components/ProductsProductSearch';
-import { ProductsProductSearchTable } from '../components/ProductsProductSearchTable';
-
-import { ProductsProductForm } from '../components/ProductsProductForm';
-import { ProductsProductElementSearch } from '../components/ProductsProductElementSearch';
-import { ProductsProductElementTable } from '../components/ProductsProductElementTable';
-import { FormProductsProductInterface, FormProductsProductErrorInterface, ProductsProductInterface } from '../interfaces';
-
-import { ProductsElementProvider } from '../../element/context/ProductsElementContext';
-import { ProductsProductButtons } from '../components/ProductsProductButtons';
-import { ActionEnum } from '../../../common/enums/action.enum';
+import { productsProductContext } from '../context/products-product.context';
+import { ProductsProductButtons, ProductsProductSearch, ProductsProductSearchTable, ProductsProductForm, ProductsProductElementSearch, ProductsProductElementTable } from '../components';
 
 export const ProductsProductPage: FC = () => {
 
-  const context = useContext(ProductsProductContext);
+  const context = useContext(productsProductContext);
   if (!context) 
-    throw new Error("ProductsProductPage: ProductsProductContext must be used within an ProductsProductProvider");
+    throw new Error("ProductsProductPage: productsProductContext must be used within an ProductsProductProvider");
 
   // * context
-  const { actionList, setActionList, form, screenMessage, setScreenMessage, resetScreenMessage, isOpenSearchSection, isOpenFormSection, setIsOpenSearchSection, setIsOpenFormSection } = context;
+  const { actionList, setActionList, form, screenMessage, resetScreenMessage, isOpenSearchSection, isOpenFormSection, setIsOpenSearchSection, setIsOpenFormSection } = context;
   // const [actionList, setActionList] = useState<ActionEnum[]>([]);  
 
   useEffect(() => {
@@ -36,7 +25,6 @@ export const ProductsProductPage: FC = () => {
         break;
       case ActiveStatusEnum.ACTIVE:
         setActionList([ActionEnum.NEW, ActionEnum.SAVE, ActionEnum.DELETE]);
-        // setActionList([]);
         break;
       default:
         setActionList([]);
@@ -64,7 +52,7 @@ export const ProductsProductPage: FC = () => {
 
           {isOpenSearchSection && (
             <div className="mt-3">
-              <ProductsProductSearch />
+              <ProductsProductSearch withMovements={false}/>
               <div className="mt-4 border rounded overflow-auto" style={{ maxHeight: '450px' }}>
                 <ProductsProductSearchTable />
               </div>
@@ -103,9 +91,9 @@ export const ProductsProductPage: FC = () => {
                 { 
                   actionList.includes(ActionEnum.SAVE)
                   ?  
-                    <ProductsElementProvider>
+                    // <ProductsProductProvider>
                       <ProductsProductElementSearch />
-                    </ProductsElementProvider>
+                    // </ProductsProductProvider>
                   : <div/>
                 }
                 

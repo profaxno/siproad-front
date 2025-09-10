@@ -12,6 +12,7 @@ import { useSearchOrder, useUpdateOrder } from '../graphql/usePurchasesOrder';
 import { PurchasesTypeInterface } from "../interfaces/purchases-type.interface";
 import { DocumentTypeInterface } from "../interfaces/purchases-document-type.interface";
 import { useSearchType } from "../graphql/usePurchasesType";
+import { PurchasesActionEnum } from "../enums/purchases-action.enum";
 
 // * context
 interface PurchasesOrderContextType {
@@ -20,6 +21,9 @@ interface PurchasesOrderContextType {
   setFormSearch : (formSearch: FormPurchasesOrderSearchInterface) => void;
   searchOrders  : (createdAtInit?: string, createdAtEnd?: string, code?: string, providerNameIdDoc?: string, comment?: string) => Promise<PurchasesOrderInterface[]>;
   updateTable   : (actionType: TableActionEnum, payload?: FormPurchasesOrderInterface | FormPurchasesOrderInterface[]) => void;
+
+  actionList    : PurchasesActionEnum[];
+  setActionList : (actionList: PurchasesActionEnum[]) => void;
 
   isOpenOrderSection: boolean;
   form        : FormPurchasesOrderInterface;
@@ -105,6 +109,8 @@ export const PurchasesOrderProvider: FC<Props> = ({ children }) => {
   const { mutateOrder }             = useUpdateOrder();
   const [formError, setFormError]   = useState<FormPurchasesOrderErrorInterface>(initFormError);
   
+  const [actionList, setActionList]= useState<PurchasesActionEnum[]>([]);
+
   const [screenMessage, setScreenMessage] = useState<ScreenMessageInterface>(initScreenMessage);
 
   useEffect(() => {
@@ -329,14 +335,6 @@ export const PurchasesOrderProvider: FC<Props> = ({ children }) => {
 
   const searchPurchaseTypes = (name?: string): Promise<PurchasesTypeInterface[]> => {
 
-    // const datosSimulados: PurchasesTypeInterface[] = [
-    //   { id: 'aaaaaaaaaa1', name: 'Variables' },
-    //   { id: 'bbbbbbbbbb2', name: 'Fijo' },
-    // ];
-
-    // return Promise.resolve(datosSimulados);
-    
-
     return fetchTypes({ variables: { name } })
     .then( (response) => {
 
@@ -394,6 +392,9 @@ export const PurchasesOrderProvider: FC<Props> = ({ children }) => {
         searchOrders,
         updateTable,
 
+        actionList,
+        setActionList,
+        
         isOpenOrderSection,
         form,
         formError,

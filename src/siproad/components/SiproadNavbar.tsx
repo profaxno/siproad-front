@@ -60,14 +60,14 @@ export const SiproadNavbar = () => {
                 Ventas
               </NavLink>
 
-              <NavLink
+              {/* <NavLink
                 className={({ isActive }) =>
                   `nav-link ${isActive ? 'active' : ''} custom-navlink-principal`
                 }
                 to="/purchases"
               >
                 Compras
-              </NavLink>
+              </NavLink> */}
 
               <NavLink
                 className={({ isActive }) =>

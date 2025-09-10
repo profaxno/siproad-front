@@ -5,22 +5,21 @@ import { ButtonWithConfirm } from '../../../common/components';
 import { ActionEnum } from '../../../common/enums/action.enum';
 import { PurchasesOrderButtonGeneratePdfPrice } from './PurchasesOrderButtonGeneratePdfPrice';
 import { PurchasesOrderStatusEnum } from "../enums";
+import { PurchasesActionEnum } from "../enums/purchases-action.enum";
 
 
-interface Props {
-  actionList: ActionEnum[];
-}
+// interface Props {
+//   actionList: ActionEnum[];
+// }
 
-export const PurchasesOrderButtons: FC<Props> = ({
-  actionList
-}) => {
+export const PurchasesOrderButtons = () => {
 // export const PurchasesOrderButtons = () => {
 
   const context = useContext(PurchasesOrderContext);
   if (!context) 
     throw new Error("PurchasesOrderPage: PurchasesOrderContext must be used within an PurchasesOrderProvider");
 
-  const { isOpenOrderSection, setIsOpenOrderSection, saveForm, saveFormStatus, deleteForm, cleanForm } = context;
+  const { actionList, isOpenOrderSection, setIsOpenOrderSection, saveForm, saveFormStatus, deleteForm, cleanForm } = context;
   
 
   return (
@@ -34,13 +33,13 @@ export const PurchasesOrderButtons: FC<Props> = ({
       {isOpenOrderSection && (
         <>
 
-          {actionList.includes(ActionEnum.RETURN) && (
+          {actionList.includes(PurchasesActionEnum.RETURN) && (
             <div>
               <button className="custom-btn-outline-success-return" title="Regresar" onClick={() => { setIsOpenOrderSection(false) }}/>
             </div>
           )}
 
-          {actionList.includes(ActionEnum.RETURN_WITH_CONFIRM) && (
+          {actionList.includes(PurchasesActionEnum.RETURN_WITH_CONFIRM) && (
             <ButtonWithConfirm
               className="custom-btn-outline-success-return"
               tooltip="Regresar"
@@ -67,14 +66,14 @@ export const PurchasesOrderButtons: FC<Props> = ({
               onExecute={saveForm}
             />
 
-          {actionList.includes(ActionEnum.GENERATE_PDF) && (
+          {actionList.includes(PurchasesActionEnum.GENERATE_PDF) && (
             <PurchasesOrderButtonGeneratePdfPrice
               className="custom-btn-outline-success-print"
               tooltip="Generar PDF"
             />
           )}
 
-          {actionList.includes(ActionEnum.DELETE) && (
+          {actionList.includes(PurchasesActionEnum.DELETE) && (
             <ButtonWithConfirm
               className="custom-btn-outline-danger-delete"
               tooltip="Eliminar Registro"

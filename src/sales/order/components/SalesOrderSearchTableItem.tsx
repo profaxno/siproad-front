@@ -1,20 +1,20 @@
 import type { FC } from "react";
 import { useContext } from 'react';
 
-import { SalesOrderContext } from '../context/SalesOrderContext';
-import { FormSalesOrderInterface } from '../interfaces';
-import { SalesOrderStatusEnum, SalesOrderStatusNameEnum } from '../enums/sales-order-status.enum';
+import { salesOrderContext } from '../context/sales-order.context';
+import { FormSalesOrderDto } from '../dto';
+import { SalesOrderStatusEnum, SalesOrderStatusNameEnum } from '../enums';
 
 interface Props {
-  value: FormSalesOrderInterface;
+  value: FormSalesOrderDto;
 }
 
 export const SalesOrderSearchTableItem: FC<Props> = ({ value }) => {
 
   // * hooks
-  const context = useContext(SalesOrderContext);
+  const context = useContext(salesOrderContext);
   if (!context) 
-    throw new Error("SalesOrderSearchTableItem: SalesOrderContext must be used within an SalesOrderProvider");
+    throw new Error("SalesOrderSearchTableItem: salesOrderContext must be used within an SalesOrderProvider");
 
   const { form, setIsOpenOrderSection, updateForm } = context;
   

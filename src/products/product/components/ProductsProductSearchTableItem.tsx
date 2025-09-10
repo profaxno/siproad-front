@@ -1,20 +1,21 @@
 import type { FC } from "react";
 import { useContext } from 'react';
 
-import { ProductsProductContext } from '../context/ProductsProductContext';
-import { FormProductsProductInterface } from '../interfaces';
 import { InputAmount } from "../../../common/components";
 
+import { productsProductContext } from '../context/products-product.context';
+import { FormProductsProductDto } from '../dto';
+
 interface Props {
-  value: FormProductsProductInterface;
+  value: FormProductsProductDto;
 }
 
 export const ProductsProductSearchTableItem: FC<Props> = ({ value }) => {
 
   // * hooks
-  const context = useContext(ProductsProductContext);
+  const context = useContext(productsProductContext);
   if (!context) 
-    throw new Error("ProductsProductSearchTableItem: ProductsProductContext must be used within an ProductsProductProvider");
+    throw new Error("ProductsProductSearchTableItem: productsProductContext must be used within an ProductsProductProvider");
 
   const { form, updateForm, calculateProfitMargin } = context;
   

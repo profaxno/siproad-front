@@ -8,10 +8,19 @@ export enum SalesOrderStatusEnum {
 }
 
 export enum SalesOrderStatusNameEnum {
-  CANCELLED = 'CANCELADO',
-  NEW       = 'NUEVO',
-  QUOTATION = 'COTIZACION',
-  ORDER     = 'ORDEN',
-  INVOICED  = 'FACTURADO',
-  PAID      = 'PAGADO'
+  CANCELLED = 'Cancelado',
+  NEW       = 'Nuevo',
+  QUOTATION = 'Cotizacion',
+  ORDER     = 'Orden',
+  INVOICED  = 'Facturado',
+  PAID      = 'Pagado'
 }
+
+// export enum SalesOrderStatusNameEnum {
+//   CANCELLED = 'CANCELADO',
+//   NEW       = 'NUEVO',
+//   QUOTATION = 'COTIZACION',
+//   ORDER     = 'ORDEN',
+//   INVOICED  = 'FACTURADO',
+//   PAID      = 'PAGADO'
+// }

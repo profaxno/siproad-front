@@ -1,22 +1,24 @@
 import { useState, useContext } from 'react';
 import type { FC } from 'react';
 
-import { SalesOrderContext } from '../context/SalesOrderContext';
-import { SalesOrderProductTableItem } from './SalesOrderProductTableItem';
-import { FormSalesOrderProductInterface } from '../interfaces';
+import { salesOrderContext } from '../context/sales-order.context';
+import { SalesOrderProductTableItem } from './';
+import { FormSalesOrderProductDto } from '../dto';
 
 export const SalesOrderProductTable: FC = () => {
 
   // * hooks
-  const context = useContext(SalesOrderContext);
+  const context = useContext(salesOrderContext);
   if (!context) 
-    throw new Error("SalesOrderProductTable: SalesOrderContext must be used within an SalesOrderProvider");
+    throw new Error("SalesOrderProductTable: salesOrderContext must be used within an SalesOrderProvider");
   
   const { form } = context;
   const [selectedRow, setSelectedRow] = useState<string>("");
 
+  console.log('table: form.productList='+ form.productList.length)
+
   // * handles
-  const handleRowClick = (formOrderProduct: FormSalesOrderProductInterface) => setSelectedRow(formOrderProduct.key);
+  const handleRowClick = (formOrderProduct: FormSalesOrderProductDto) => setSelectedRow(formOrderProduct.key);
 
   // * return component
   return (

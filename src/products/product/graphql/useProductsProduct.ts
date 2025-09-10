@@ -1,7 +1,5 @@
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
-
 import { ResponseInterface } from "../../../common/graphql/response";
-
 import { ProductsProductInterface } from "../interfaces";
 
 // * hooks
@@ -54,14 +52,13 @@ export const useDeleteProduct = () => {
 
 // * GraphQL Queries
 const SEARCH_PRODUCTS = gql`
-  query ProductsProductSearchByValues($nameCode: String, $productTypeList: [Float!], $productCategoryId: String) {
-    productsProductSearchByValues(nameCode: $nameCode, productTypeList: $productTypeList, productCategoryId: $productCategoryId) {
+  query ProductsProductSearchByValues($nameCode: String, $productTypeList: [Float!], $productCategoryId: String, $withMovements: Boolean, $enable4Sale: Boolean ) {
+    productsProductSearchByValues(nameCode: $nameCode, productTypeList: $productTypeList, productCategoryId: $productCategoryId, withMovements: $withMovements, enable4Sale: $enable4Sale) {
       internalCode
       message
       qty
       payload {
         id
-        productCategoryId
         name
         code
         description
@@ -71,10 +68,11 @@ const SEARCH_PRODUCTS = gql`
         type
         enable4Sale
         companyId
+        productCategoryId
+        productUnitId
         elementList {
           element {
             id
-            productCategoryId
             name
             code
             description
@@ -84,10 +82,11 @@ const SEARCH_PRODUCTS = gql`
             type
             enable4Sale
             companyId
+            productCategoryId
+            productUnitId
             elementList {
               element {
                 id
-                productCategoryId
                 name
                 code
                 description
@@ -97,11 +96,22 @@ const SEARCH_PRODUCTS = gql`
                 type
                 enable4Sale
                 companyId
+                productCategoryId
+                productUnitId
               }
               qty
             }
           }
           qty
+        }
+        movementList {
+          id
+          type
+          reason
+          qty
+          relatedId
+          productId
+          userId
         }
       }
     }
@@ -116,7 +126,6 @@ const UPDATE_PRODUCT = gql`
       qty
       payload {
         id
-        productCategoryId
         name
         code
         description
@@ -126,10 +135,10 @@ const UPDATE_PRODUCT = gql`
         type
         enable4Sale
         companyId
+        productCategoryId
         elementList {
           element {
             id
-            productCategoryId
             name
             code
             description
@@ -139,6 +148,7 @@ const UPDATE_PRODUCT = gql`
             type
             enable4Sale
             companyId
+            productCategoryId
             elementList {
               qty
               element {

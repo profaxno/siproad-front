@@ -1,63 +1,49 @@
 import type { FC } from 'react';
 import { useState, useContext, useEffect } from 'react';
 
-import { ButtonWithConfirm, InputAmount, Message } from '../../../common/components';
-import { TableActionEnum } from '../../../common/enums/table-actions.enum';
-import { ScreenMessageTypeEnum } from '../../../common/enums/screen-message-type-enum';
-
-import { SalesOrderContext, SalesProductProvider } from '../context';
-
-import { SalesOrderSearch } from '../components/SalesOrderSearch';
-import { SalesOrderSearchTable } from '../components/SalesOrderSearchTable';
-
-import { SalesOrderForm } from '../components/SalesOrderForm';
-import { SalesOrderProductSearch } from '../components/SalesOrderProductSearch';
-import { SalesOrderProductTable } from '../components/SalesOrderProductTable';
-import { SalesOrderButtonGeneratePdfPrice } from '../components/SalesOrderButtonGeneratePdfPrice';
-import { FormSalesOrderInterface, FormSalesOrderErrorInterface, SalesOrderInterface } from '../interfaces';
-import { SalesOrderStatusEnum, SalesOrderStatusNameEnum } from '../enums/sales-order-status.enum';
+import { Message } from '../../../common/components';
 import { StatusBar } from '../../../common/components/statusBar';
-import { ActionEnum } from '../../../common/enums/action.enum';
-import { SalesOrderTabs } from '../components/SalesOrderTabs';
-import { SalesOrderButtons } from '../components/SalesOrderButtons';
+
+import { salesOrderContext } from '../context/sales-order.context';
+import { SalesOrderStatusEnum, SalesOrderStatusNameEnum, SalesActionEnum } from '../enums';
+import { SalesOrderSearch, SalesOrderSearchTable, SalesOrderButtons, SalesOrderForm, SalesOrderTabs } from '../components';
 
 export const SalesOrderPage: FC = () => {
 
-  const context = useContext(SalesOrderContext);
+  const context = useContext(salesOrderContext);
   if (!context) 
-    throw new Error("SalesOrderPage: SalesOrderContext must be used within an SalesOrderProvider");
+    throw new Error("SalesOrderPage: salesOrderContext must be used within an SalesOrderProvider");
 
-  const { isOpenOrderSection, form, screenMessage, resetScreenMessage } = context;
+  const { setActionList, isOpenOrderSection, form, screenMessage, resetScreenMessage } = context;
   const [isOpenOrderFormSection, setIsOpenOrderFormSection] = useState<boolean>(true);
   const [statusList, setStatusList] = useState<string[]>([]);
-  const [actionList, setActionList] = useState<ActionEnum[]>([]);
-
+  
   useEffect(() => {
 
     switch (form.status) {
       case SalesOrderStatusEnum.NEW:
         setStatusList([SalesOrderStatusNameEnum.NEW, SalesOrderStatusNameEnum.QUOTATION, SalesOrderStatusNameEnum.ORDER]);
-        setActionList([ActionEnum.RETURN, ActionEnum.QUOTATION, ActionEnum.ORDER]);
+        setActionList([SalesActionEnum.RETURN, SalesActionEnum.QUOTATION, SalesActionEnum.ORDER]);
         break;
       case SalesOrderStatusEnum.QUOTATION:
         setStatusList([SalesOrderStatusNameEnum.QUOTATION, SalesOrderStatusNameEnum.ORDER, SalesOrderStatusNameEnum.INVOICED]);
-        setActionList([ActionEnum.RETURN_WITH_CONFIRM, ActionEnum.SAVE, ActionEnum.ORDER, ActionEnum.GENERATE_PDF, ActionEnum.DELETE]);
+        setActionList([SalesActionEnum.RETURN_WITH_CONFIRM, SalesActionEnum.SAVE, SalesActionEnum.ORDER, SalesActionEnum.GENERATE_PDF, SalesActionEnum.DELETE]);
         break;
       case SalesOrderStatusEnum.ORDER:
         setStatusList([SalesOrderStatusNameEnum.QUOTATION, SalesOrderStatusNameEnum.ORDER, SalesOrderStatusNameEnum.INVOICED]);
-        setActionList([ActionEnum.RETURN_WITH_CONFIRM, ActionEnum.SAVE, ActionEnum.BILL, ActionEnum.GENERATE_PDF, ActionEnum.DELETE]);
+        setActionList([SalesActionEnum.RETURN_WITH_CONFIRM, SalesActionEnum.SAVE, SalesActionEnum.BILL, SalesActionEnum.GENERATE_PDF, SalesActionEnum.DELETE]);
         break;
       case SalesOrderStatusEnum.INVOICED:
         setStatusList([SalesOrderStatusNameEnum.ORDER, SalesOrderStatusNameEnum.INVOICED, SalesOrderStatusNameEnum.PAID]);
-        setActionList([ActionEnum.RETURN, ActionEnum.GENERATE_PDF, ActionEnum.DELETE]);
+        setActionList([SalesActionEnum.RETURN, SalesActionEnum.GENERATE_PDF, SalesActionEnum.DELETE]);
         break;
       case SalesOrderStatusEnum.PAID:
         setStatusList([SalesOrderStatusNameEnum.ORDER, SalesOrderStatusNameEnum.INVOICED, SalesOrderStatusNameEnum.PAID]);
-        setActionList([ActionEnum.RETURN, ActionEnum.GENERATE_PDF, ActionEnum.DELETE]);
+        setActionList([SalesActionEnum.RETURN, SalesActionEnum.GENERATE_PDF, SalesActionEnum.DELETE]);
         break;
       case SalesOrderStatusEnum.CANCELLED:
         setStatusList([SalesOrderStatusNameEnum.QUOTATION, SalesOrderStatusNameEnum.ORDER, SalesOrderStatusNameEnum.CANCELLED]);
-        setActionList([ActionEnum.RETURN]);
+        setActionList([SalesActionEnum.RETURN]);
         break;
       default:
         setStatusList([]);
@@ -72,7 +58,7 @@ export const SalesOrderPage: FC = () => {
     <div className="mt-3">
 
       <div className="d-flex border-bottom p-2 gap-2">
-        <SalesOrderButtons actionList={actionList}/>
+        <SalesOrderButtons/>
       </div>
 
       {!isOpenOrderSection && (
@@ -116,7 +102,7 @@ export const SalesOrderPage: FC = () => {
                 <button className="d-block d-md-none custom-btn-outline-black-hamburger" onClick={() => setIsOpenOrderFormSection(!isOpenOrderFormSection)}/>
                 
                 <h5 className="text-dark m-0">
-                  {form.status == SalesOrderStatusEnum.QUOTATION ? SalesOrderStatusNameEnum.QUOTATION : SalesOrderStatusNameEnum.ORDER} {form.code}
+                  {form.status == SalesOrderStatusEnum.QUOTATION ? SalesOrderStatusNameEnum.QUOTATION : SalesOrderStatusNameEnum.ORDER}: {form.code}
                 </h5>
               </div>
 

@@ -12,6 +12,7 @@ export const ProductsNavbar: FC = () => {
     <nav className="navbar navbar-expand-sm border rounded custom-bg-secondary py-0 d-none d-sm-block">
       <div className="navbar-nav">
         <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''} custom-navlink-secondary`} to="/products/products">Productos</NavLink>
+        {/* <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''} custom-navlink-secondary`} to="/products/stock">Inventario</NavLink> */}
         {/* <NavLink className={(args) => `nav-link ${args.isActive ? 'active' : ''}`} to="/inventory/elements">Elementos</NavLink> */}
       </div>
     </nav>

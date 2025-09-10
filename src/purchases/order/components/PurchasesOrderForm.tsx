@@ -29,7 +29,7 @@ export const PurchasesOrderForm: FC = () => {
   };
 
   const handleChangeCmb = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
+    const value = e.target.value === '' ? undefined : e.target.value;
     updateForm({ ...form, [e.target.name]: value });
     if (value) {
       setFormError({ ...formError, [e.target.name]: "" });
@@ -143,10 +143,10 @@ export const PurchasesOrderForm: FC = () => {
             id="purchaseTypeId"
             name="purchaseTypeId"
             className={`form-select ${formError.purchaseTypeId ? 'is-invalid' : ''}`}
-            value={form.purchaseTypeId}
+            value={form.purchaseTypeId ?? ''}
             onChange={handleChangeCmb}
           >
-            <option value={undefined}></option>
+            <option value={''}></option>
             {purchaseTypeList.map( (item) => (
               <option key={item.id} value={item.id}>{item.name}</option>
             ))}
@@ -155,13 +155,6 @@ export const PurchasesOrderForm: FC = () => {
           {formError.purchaseTypeId && (
             <div className="invalid-feedback d-block">{formError.purchaseTypeId}</div>
           )}
-
-          {/* {selected && (
-            <p>
-              Has seleccionado:{" "}
-              {data.lista.find((item) => item.id.toString() === selected)?.nombre}
-            </p>
-          )} */}
         </div>
 
         <div className="d-flex gap-4 mt-3">
@@ -173,10 +166,10 @@ export const PurchasesOrderForm: FC = () => {
               id="documentTypeId"
               name="documentTypeId"
               className={`form-select`}
-              value={form.documentTypeId}
+              value={form.documentTypeId ?? ''}
               onChange={handleChangeCmb}
             >
-              <option value={undefined}></option>
+              <option value={''}></option>
               {documentTypeList.map( (item) => (
                 <option key={item.id} value={item.id}>{item.name}</option>
               ))}

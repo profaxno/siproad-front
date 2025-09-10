@@ -1,22 +1,22 @@
 import { useState, useContext } from 'react';
 import type { FC } from 'react';
 
-import { ProductsProductContext } from '../context/ProductsProductContext';
-import { ProductsProductElementTableItem } from './ProductsProductElementTableItem';
-import { FormProductsProductElementInterface } from '../interfaces';
+import { productsProductContext } from '../context/products-product.context';
+import { ProductsProductElementTableItem } from './';
+import { FormProductsProductElementDto } from '../dto';
 
 export const ProductsProductElementTable: FC = () => {
 
   // * hooks
-  const context = useContext(ProductsProductContext);
+  const context = useContext(productsProductContext);
   if (!context) 
-    throw new Error("ProductsProductElementTable: ProductsProductContext must be used within an ProductsProductProvider");
-  
+    throw new Error("ProductsProductElementTable: productsProductContext must be used within an ProductsProductProvider");
+    
   const { form } = context;
   const [selectedRow, setSelectedRow] = useState<string>("");
 
   // * handles
-  const handleRowClick = (formProductElement: FormProductsProductElementInterface) => setSelectedRow(formProductElement.key);
+  const handleRowClick = (formProductElement: FormProductsProductElementDto) => setSelectedRow(formProductElement.key);
 
   // * return component
   return (
@@ -34,7 +34,12 @@ export const ProductsProductElementTable: FC = () => {
         <tbody>
           {
             form.elementList?.map((value) => (
-              <ProductsProductElementTableItem key={value.key} value={value} selectedRow={selectedRow} onNotifyClick={handleRowClick}/>
+              <ProductsProductElementTableItem 
+                key={value.key} 
+                value={value} 
+                selectedRow={selectedRow} 
+                onNotifyClick={handleRowClick}
+              />
             ))
           }
         </tbody>

@@ -2,17 +2,15 @@ import type { FC } from "react";
 import { useEffect, useContext, useState, ChangeEvent } from 'react';
 
 import { InputAmount, ButtonWithConfirm } from '../../../common/components';
-import { TableActionEnum } from '../../../common/enums/table-actions.enum';
+import { ActiveStatusEnum, ActionEnum, TableActionEnum } from "../../../common/enums";
 
-import { ProductsProductContext } from '../context/ProductsProductContext';
-import { FormProductsProductElementInterface } from '../interfaces';
-import { ActiveStatusEnum } from "../../../common/enums";
-import { ActionEnum } from "../../../common/enums/action.enum";
+import { productsProductContext } from '../context/products-product.context';
+import { FormProductsProductElementDto } from '../dto';
 
 interface Props {
-  value: FormProductsProductElementInterface;
+  value: FormProductsProductElementDto;
   selectedRow: string;
-  onNotifyClick: (formProductElement: FormProductsProductElementInterface) => void;
+  onNotifyClick: (formProductElement: FormProductsProductElementDto) => void;
 }
 
 export const ProductsProductElementTableItem: FC<Props> = ({
@@ -22,16 +20,16 @@ export const ProductsProductElementTableItem: FC<Props> = ({
 }) => {
 
   // * hooks
-  const context = useContext(ProductsProductContext);
+  const context = useContext(productsProductContext);
   if (!context) 
-    throw new Error("ProductsProductElementTableItem: ProductsProductContext must be used within an ProductsProductProvider");
+    throw new Error("ProductsProductElementTableItem: productsProductContext must be used within an ProductsProductProvider");
   
   const { actionList, form, updateTableProductElement } = context;
-  const [formProductElement, setFormProductElement] = useState<FormProductsProductElementInterface>({ ...value });
-  
-  // useEffect(() => {
-  //   setFormProductElement({ ...value });
-  // }, [value]);
+  const [formProductElement, setFormProductElement] = useState<FormProductsProductElementDto>({ ...value });
+
+  useEffect(() => {
+    setFormProductElement({ ...value });
+  }, [value]);
 
   useEffect(() => {
     updateTableProductElement(TableActionEnum.UPDATE, formProductElement);
@@ -63,14 +61,14 @@ export const ProductsProductElementTableItem: FC<Props> = ({
     >
       <td>
         {
-          (!actionList.includes(ActionEnum.SAVE) && form.status == ActiveStatusEnum.ACTIVE && formProductElement.status == ActiveStatusEnum.ACTIVE)
+          (actionList.includes(ActionEnum.SAVE) && form.status == ActiveStatusEnum.ACTIVE && formProductElement.status == ActiveStatusEnum.ACTIVE)
           ? <ButtonWithConfirm className={"custom-btn-outline-danger-delete-sm"}  title={"Confirmación"} message={"Eliminar formProductElement de la lista ¿Desea Continuar?"} onExecute={handleButtonDelete} />
           : <div/>
         }
       </td>
 
       <td className="text-capitalize">
-        {formProductElement.element.name?.toLowerCase()}
+        {formProductElement.element?.name.toLowerCase()}
       </td>
 
       <td>
@@ -79,12 +77,12 @@ export const ProductsProductElementTableItem: FC<Props> = ({
           className={"form-control form-control-sm"} 
           value={formProductElement.qty}
           onChange={handleChange}
-          readOnly={actionList.includes(ActionEnum.SAVE) || !(form.status == ActiveStatusEnum.ACTIVE && formProductElement.status == ActiveStatusEnum.ACTIVE)}
+          readOnly={form.status == ActiveStatusEnum.DELETED || formProductElement.status == ActiveStatusEnum.DELETED}
         />
       </td>
 
       <td className="text-center">
-        {formProductElement.element.unit}
+        {formProductElement.element?.unit}
       </td>
 
     </tr>

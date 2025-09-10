@@ -1,26 +1,19 @@
-import type { FC } from "react";
 import { useContext } from 'react'
-import { SalesOrderContext } from '../context';
+
 import { ButtonWithConfirm } from '../../../common/components';
-import { ActionEnum } from '../../../common/enums/action.enum';
+
+import { salesOrderContext } from '../context/sales-order.context';
 import { SalesOrderButtonGeneratePdfPrice } from './SalesOrderButtonGeneratePdfPrice';
-import { SalesOrderStatusEnum } from "../enums";
+import { SalesOrderStatusEnum, SalesActionEnum } from "../enums";
 
-
-interface Props {
-  actionList: ActionEnum[];
-}
-
-export const SalesOrderButtons: FC<Props> = ({
-  actionList
-}) => {
+export const SalesOrderButtons = () => {
 // export const SalesOrderButtons = () => {
 
-  const context = useContext(SalesOrderContext);
+  const context = useContext(salesOrderContext);
   if (!context) 
-    throw new Error("SalesOrderPage: SalesOrderContext must be used within an SalesOrderProvider");
+    throw new Error("SalesOrderPage: salesOrderContext must be used within an SalesOrderProvider");
 
-  const { isOpenOrderSection, setIsOpenOrderSection, saveForm, saveFormStatus, deleteForm, cleanForm } = context;
+  const { actionList, isOpenOrderSection, setIsOpenOrderSection, saveForm, saveFormStatus, deleteForm, cleanForm } = context;
   
 
   return (
@@ -34,13 +27,13 @@ export const SalesOrderButtons: FC<Props> = ({
       {isOpenOrderSection && (
         <>
 
-          {actionList.includes(ActionEnum.RETURN) && (
+          {actionList.includes(SalesActionEnum.RETURN) && (
             <div>
               <button className="custom-btn-outline-success-return" title="Regresar" onClick={() => { setIsOpenOrderSection(false) }}/>
             </div>
           )}
 
-          {actionList.includes(ActionEnum.RETURN_WITH_CONFIRM) && (
+          {actionList.includes(SalesActionEnum.RETURN_WITH_CONFIRM) && (
             <ButtonWithConfirm
               className="custom-btn-outline-success-return"
               tooltip="Regresar"
@@ -58,7 +51,7 @@ export const SalesOrderButtons: FC<Props> = ({
             onExecute={cleanForm}
           />
 
-          {actionList.includes(ActionEnum.SAVE) && (
+          {actionList.includes(SalesActionEnum.SAVE) && (
             <ButtonWithConfirm
               className="custom-btn-outline-success-save"
               tooltip="Guardar Registro"
@@ -68,7 +61,7 @@ export const SalesOrderButtons: FC<Props> = ({
             />
           )}
 
-          {actionList.includes(ActionEnum.QUOTATION) && (
+          {actionList.includes(SalesActionEnum.QUOTATION) && (
             <ButtonWithConfirm
               className="custom-btn-outline-success"
               tooltip="Generar Cotización"
@@ -79,7 +72,7 @@ export const SalesOrderButtons: FC<Props> = ({
             />
           )}
 
-          {actionList.includes(ActionEnum.ORDER) && (
+          {actionList.includes(SalesActionEnum.ORDER) && (
             <ButtonWithConfirm
               className="custom-btn-outline-success"
               tooltip="Generar Orden de Venta"
@@ -90,7 +83,7 @@ export const SalesOrderButtons: FC<Props> = ({
             />
           )}
 
-          {actionList.includes(ActionEnum.BILL) && (
+          {actionList.includes(SalesActionEnum.BILL) && (
             <div>
               <button className="custom-btn-outline-success" onClick={() => { alert('Metodo no implementado') }}>
                 Facturar
@@ -98,7 +91,7 @@ export const SalesOrderButtons: FC<Props> = ({
             </div>
           )}
 
-          {actionList.includes(ActionEnum.PAY) && (
+          {actionList.includes(SalesActionEnum.PAY) && (
             <div>
               <button className="custom-btn-outline-success" onClick={() => { alert('Metodo no implementado') }}>
                 Pagar
@@ -106,14 +99,14 @@ export const SalesOrderButtons: FC<Props> = ({
             </div>
           )}
 
-          {actionList.includes(ActionEnum.GENERATE_PDF) && (
+          {actionList.includes(SalesActionEnum.GENERATE_PDF) && (
             <SalesOrderButtonGeneratePdfPrice
               className="custom-btn-outline-success-print"
               tooltip="Generar PDF"
             />
           )}
 
-          {actionList.includes(ActionEnum.DELETE) && (
+          {actionList.includes(SalesActionEnum.DELETE) && (
             <ButtonWithConfirm
               className="custom-btn-outline-danger-delete"
               tooltip="Eliminar Registro"

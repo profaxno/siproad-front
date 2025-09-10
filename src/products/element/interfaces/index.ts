@@ -1,1 +1,0 @@
-export type { ProductsElementInterface } from './products-element.interface';
