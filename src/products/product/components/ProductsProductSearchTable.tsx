@@ -1,15 +1,15 @@
-import { useContext } from 'react'
 import type { FC } from 'react';
+import { useContext } from 'react'
 
-import { ProductsProductContext } from '../context/ProductsProductContext';
-import { ProductsProductSearchTableItem } from './ProductsProductSearchTableItem';
+import { productsProductContext } from '../context/products-product.context';
+import { ProductsProductSearchTableItem } from './';
 
 export const ProductsProductSearchTable: FC = () => {
 
   // * hooks
-  const context = useContext(ProductsProductContext);
+  const context = useContext(productsProductContext);
   if (!context) 
-    throw new Error("ProductsProductSearchTable: ProductsProductContext must be used within an ProductsProductProvider");
+    throw new Error("ProductsProductSearchTable: productsProductContext must be used within an ProductsProductProvider");
   
   const { formList } = context;
     

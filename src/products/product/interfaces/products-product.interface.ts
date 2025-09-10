@@ -1,23 +1,33 @@
-import { ProductsElementUnitEnum } from "../../element/enums/products-element-unit.enum";
-
+import { ProductTypeEnum, ProductUnitEnum } from "../enums";
 export interface ProductsProductInterface {
-  companyId?:   string;
   id?:          string;
   name:         string;
   code?:        string;
   description?: string;
-  cost?:        number;
-  price?:       number;
-  imagenUrl?:   string;
-  hasFormula:   boolean;
-  productTypeId?: string;
+  unit?:        ProductUnitEnum;
+  cost:        number;
+  price:       number;
+  type:         ProductTypeEnum;
+  enable4Sale:  boolean;
+  stock?:       number;
+  companyId?:   string;
+  productCategoryId?: string;
+  productUnitId?: string;
   elementList: ProductsProductElementInterface[];
+  movementList: ProductsMovementInterface[];
 }
 
 export interface ProductsProductElementInterface {
-  id:   string;
+  element: ProductsProductInterface;
   qty:  number;
-  name?: string;
-  cost?: number;
-  unit?: ProductsElementUnitEnum;
+}
+
+export interface ProductsMovementInterface {
+  id?: string;
+  type: number;
+  reason: number;
+  qty: number;
+  relatedId?: string;
+  productId: string;
+  userId: string;
 }

@@ -7,11 +7,6 @@ export const tableReducerWithKey = <T>(state: any[], action: TableActionInterfac
   switch (action.type) {
 
     case TableActionEnum.ADD: {
-      // const itemAux = {
-      //   ...action.payload,
-      //   key: uuidv4(),
-      // };
-
       return [action.payload, ...state];
     }
 
@@ -30,19 +25,6 @@ export const tableReducerWithKey = <T>(state: any[], action: TableActionInterfac
     }
 
     case TableActionEnum.LOAD: {
-      // if (!action.payload) {
-      //   return [];
-      // }
-
-      // return action.payload.map((value: any) => {
-      //   const itemAux = {
-      //     ...value,
-      //     key: uuidv4(),
-      //   };
-
-      //   return itemAux;
-      // });
-
       return action.payload;
     }
 

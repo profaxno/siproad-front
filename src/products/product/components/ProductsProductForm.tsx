@@ -1,22 +1,42 @@
 import type { FC } from 'react';
-import { ChangeEvent, useContext } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { InputAmount } from '../../../common/components';
-import { ProductsProductContext } from '../context/ProductsProductContext';
+import { ActionEnum } from '../../../common/enums';
+
+import { productsProductContext } from '../context/products-product.context';
+import { ProductsProductUnitInterface } from '../interfaces';
 
 export const ProductsProductForm: FC = () => {
 
   // * hooks
-  const context = useContext(ProductsProductContext);
+  const context = useContext(productsProductContext);
   if (!context) 
-    throw new Error("ProductsProductForm: ProductsProductContext must be used within an ProductsProductProvider");
+    throw new Error("ProductsProductForm: productsProductContext must be used within an ProductsProductProvider");
 
-  const { form, formError, updateForm, setFormError, calculateProfitMargin } = context;
+  const { actionList, form, formError, updateForm, setFormError, searchProductUnits, calculateProfitMargin } = context;
+  const [productUnitList, setProductUnitList] = useState<ProductsProductUnitInterface[]>([]);
+
+  useEffect(() => {
+    searchProductUnits().then( (list) => setProductUnitList(list) );
+  }, []);
 
   // * handles
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     updateForm({ ...form, [e.target.name]: e.target.value });
     setFormError({ ...formError, [e.target.name]: "" });
+  };
+
+  const handleChangeCmb = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value === '' ? undefined : e.target.value;
+    updateForm({ ...form, [e.target.name]: value });
+    if (value) {
+      setFormError({ ...formError, [e.target.name]: "" });
+    }
+  };
+
+  const handleChangeCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
+    updateForm({ ...form, [e.target.name]: e.target.checked });
   };
 
   return (
@@ -34,7 +54,7 @@ export const ProductsProductForm: FC = () => {
             value={form.name?.toLowerCase() || ""}
             onChange={handleChange}
             maxLength={50}
-            readOnly={form.readonly}
+            readOnly={!actionList.includes(ActionEnum.SAVE)}
           />
           {formError.name && <div className="custom-invalid-feedback">{formError.name}</div>}
         </div>
@@ -49,7 +69,7 @@ export const ProductsProductForm: FC = () => {
             value={form.code || ""}
             onChange={handleChange}
             maxLength={50}
-            readOnly={form.readonly}
+            readOnly={!actionList.includes(ActionEnum.SAVE)}
           />
         </div>
 
@@ -64,7 +84,7 @@ export const ProductsProductForm: FC = () => {
           value={form.description?.toLowerCase() || ""}
           onChange={handleChange}
           maxLength={100}
-          readOnly={form.readonly}
+          readOnly={!actionList.includes(ActionEnum.SAVE)}
         />
       </div>
 
@@ -80,7 +100,7 @@ export const ProductsProductForm: FC = () => {
             value={form.cost || 0}
             onChange={handleChange}
             // placeholder={"Cantidad"}
-            readOnly={form.readonly}
+            readOnly={!actionList.includes(ActionEnum.SAVE)}
           />
           {formError.cost && <div className="custom-invalid-feedback">{formError.cost}</div>}
         </div>
@@ -94,7 +114,7 @@ export const ProductsProductForm: FC = () => {
             value={form.price || 0}
             onChange={handleChange}
             // placeholder={"Cantidad"}
-            readOnly={form.readonly}
+            readOnly={!actionList.includes(ActionEnum.SAVE)}
           />
           {formError.price && <div className="custom-invalid-feedback">{formError.price}</div>}
         </div>
@@ -112,7 +132,72 @@ export const ProductsProductForm: FC = () => {
             %
           </div>
         </div>
+        
       </div>
+
+      <div className="d-flex gap-5 mt-3">
+        <div className="col-6 flex-wrap">
+          <label htmlFor="productUnitId" className="form-label text-end">Unidad:</label>
+
+          <select
+            id="productUnitId"
+            name="productUnitId"
+            className={`form-select form-select-sm`}
+            value={form.productUnitId ?? ''}
+            onChange={handleChangeCmb}
+          >
+            <option value={''}></option>
+            {productUnitList.map( (item) => (
+              <option key={item.id} value={item.id}>{item.name}</option>
+            ))}
+          </select>
+
+        </div>
+
+        <div className="col-6 d-flex gap-2 mt-4">
+          <input
+            type="checkbox"
+            name='enable4Sale'
+            className='form-check-input'
+            checked={form.enable4Sale}
+            onChange={handleChangeCheckbox}
+            readOnly={!actionList.includes(ActionEnum.SAVE)}
+          />
+          
+          <label>Disponible para ventas</label>
+        </div>
+      </div>
+
+      {/* <div className="mt-3">
+        <label htmlFor="productUnitId" className="form-label text-end">Unidad:</label>
+
+        <select
+          id="productUnitId"
+          name="productUnitId"
+          className={`form-select form-select-sm`}
+          value={form.productUnitId}
+          onChange={handleChangeCmb}
+        >
+          <option value={undefined}></option>
+          {productUnitList.map( (item) => (
+            <option key={item.id} value={item.id}>{item.name}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className='d-flex gap-2 mt-3'>
+        <input
+          type="checkbox"
+          name='enable4Sale'
+          className='form-check-input'
+          checked={form.enable4Sale}
+          onChange={handleChangeCheckbox}
+          readOnly={!actionList.includes(ActionEnum.SAVE)}
+        />
+        
+        <label>Disponible para ventas</label>
+      </div> */}
+
     </div>
   );
 };

@@ -1,0 +1,39 @@
+/* status bar */
+.statusbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.statusbar-step-container {
+  display: flex;
+  align-items: center;
+}
+
+.statusbar-step {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  /* text-transform: uppercase; */
+  transition: all 0.3s ease;
+}
+
+.statusbar-step.active {
+  background-color: #08f5fb;
+  color: rgb(0, 0, 0);
+  box-shadow: 0 0 5px #838181;
+}
+
+.statusbar-step.inactive {
+  background-color: #f0f0f0;
+  color: #888;
+}
+
+.statusbar-linea {
+  width: 15px;
+  height: 1px;
+  background-color: #ccc;
+  margin: 0 0;
+}

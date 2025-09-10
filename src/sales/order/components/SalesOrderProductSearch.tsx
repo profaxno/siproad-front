@@ -4,17 +4,22 @@ import { useState, useContext, ChangeEvent } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { InputAmount, InputSearchWithTag } from '../../../common/components';
-import { TableActionEnum } from '../../../common/enums/table-actions.enum';
+import { TableActionEnum } from '../../../common/enums';
 
-import { SalesOrderContext, SalesProductContext } from '../context';
-import { FormSalesOrderProductInterface, SalesProductInterface } from '../interfaces';
-import { SalesOrderProductStatusEnum } from '../enums/sales-order-product-status.enum';
+import { salesOrderContext } from '../context/sales-order.context';
+import { SalesProductDto, FormSalesOrderProductDto } from "../dto";
+import { SalesOrderProductStatusEnum } from '../enums';
+
+import { productsProductContext } from "../../../products/product/context/products-product.context";
+import { ProductsProductInterface } from "../../../products/product/interfaces";
 
 interface ErrorState {
   [key: string]: string;
 }
 
-const initOrderProduct: FormSalesOrderProductInterface = {
+// const initOrderProduct: FormSalesOrderProductDto = new FormSalesOrderProductDto('', '', 1, '', 0, 0, 0, 0, SalesOrderProductStatusEnum.IN_USE);
+
+const initOrderProduct: FormSalesOrderProductDto = {
   key     : '',
   id      : '',
   name    : '',
@@ -30,19 +35,19 @@ const initOrderProduct: FormSalesOrderProductInterface = {
 export const SalesOrderProductSearch: FC = () => {
   
   // * hooks
-  const context = useContext(SalesOrderContext);
+  const context = useContext(salesOrderContext);
   if (!context) 
-    throw new Error("SalesOrderProductSearch: SalesOrderContext must be used within an SalesOrderProvider");
+    throw new Error("SalesOrderProductSearch: salesOrderContext must be used within an SalesOrderProvider");
 
-  const { updateTableOrderProduct } = context;
+  const { form, updateTableOrderProduct } = context;
 
-  const productContext = useContext(SalesProductContext);
+  const productContext = useContext(productsProductContext);
   if (!productContext) 
-    throw new Error("SalesOrderProductSearch: SalesProductContext must be used within an SalesProductProvider");
+    throw new Error("SalesOrderProductSearch: productsProductContext must be used within an ProductsProductProvider");
 
   const { searchProducts } = productContext;
   
-  const [formOrderProductSearch, setFormOrderProductSearch] = useState<FormSalesOrderProductInterface>(initOrderProduct);
+  const [formOrderProductSearch, setFormOrderProductSearch] = useState<FormSalesOrderProductDto>(initOrderProduct);
   const [errors, setErrors] = useState<ErrorState>({});
   // const [clean, setClean] = useState(false);
 
@@ -62,35 +67,21 @@ export const SalesOrderProductSearch: FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const updateForm = (product: SalesProductInterface) => {
-
-    const subTotal = formOrderProductSearch.qty * product.price;
-    const formOrderProduct ={
-      key     : uuidv4(),
-      id      : product.id,
-      qty     : formOrderProductSearch.qty,
-      comment : '',
-      name    : product.name,
-      code    : product.code,
-      cost    : product.cost,
-      price   : product.price,
-      discountPct: 0,
-      subTotal: subTotal,
-      status  : SalesOrderProductStatusEnum.IN_USE
-    };
-
+  const updateForm = (product: SalesProductDto) => { // TODO: TAL VEZ DEBA CAMBIAR EL NOMBRE DE ESTE METODO
+    const subTotal = formOrderProductSearch.qty * (product.price ?? 0);
+    const formOrderProduct: FormSalesOrderProductDto = new FormSalesOrderProductDto(uuidv4(), product.id ?? 'error', formOrderProductSearch.qty, product.name, product.cost ?? 0, product.price ?? 0, 0, subTotal, SalesOrderProductStatusEnum.IN_USE);
     setFormOrderProductSearch(formOrderProduct);
   };
 
-  const search = (value: string): Promise<SalesProductInterface[]> => {
+  const search = (value: string): Promise<SalesProductDto[]> => {
     const nameCode = value?.length > 3 ? value : undefined;
 
     if (!nameCode) {
       return Promise.resolve([]);
     }
 
-    return searchProducts(nameCode)
-    .then( (productList: SalesProductInterface[]) => productList)
+    return searchProducts(false, nameCode, undefined, undefined, true)
+    .then( (productList: ProductsProductInterface[]) => productList.map(value => new SalesProductDto(value.name, value.code, value.description, value.cost, value.price, value.id, value.companyId) ) )
     .catch( (error: any) => {
       console.error('search: Error', error);
       return [];
@@ -98,6 +89,7 @@ export const SalesOrderProductSearch: FC = () => {
   };
 
   const handleButtonAdd = () => {
+    
     if (!validate()) return;
     if (formOrderProductSearch.name === '') return;
     if (formOrderProductSearch.qty < 0) return;

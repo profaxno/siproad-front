@@ -1,12 +1,14 @@
 import type { FC } from "react";
 import { useState, useContext } from "react";
+
 import Modal from "react-modal";
-
-import { AuthContext } from "../../../auth/context/AuthContext";
-import { SalesOrderContext } from "../context";
-
 import { jsPDF } from "jspdf";
 import autoTable, { CellHookData } from "jspdf-autotable";
+
+import { AuthContext } from "../../../auth/context/AuthContext";
+
+import { salesOrderContext } from "../context/sales-order.context";
+
 import defaultHeader from "../assets/defaultHeader210x26mm.jpg";
 import defaultFooter from "../assets/defaultFooter210x26mm.jpg";
 
@@ -23,9 +25,9 @@ export const SalesOrderButtonGeneratePdfPrice: FC<Props> = ({
 }) => {
 
   // * hooks
-  const context = useContext(SalesOrderContext);
+  const context = useContext(salesOrderContext);
   if (!context) 
-    throw new Error("SalesOrderButtonGeneratePdfPrice: SalesOrderContext must be used within an SalesOrderProvider");
+    throw new Error("SalesOrderButtonGeneratePdfPrice: salesOrderContext must be used within an SalesOrderProvider");
 
   const { form } = context;
 

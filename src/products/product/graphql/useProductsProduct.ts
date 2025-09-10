@@ -1,7 +1,5 @@
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
-
 import { ResponseInterface } from "../../../common/graphql/response";
-
 import { ProductsProductInterface } from "../interfaces";
 
 // * hooks
@@ -54,8 +52,8 @@ export const useDeleteProduct = () => {
 
 // * GraphQL Queries
 const SEARCH_PRODUCTS = gql`
-  query ProductProductSearchByValues($nameCode: String, $productTypeId: String) {
-    productsProductSearchByValues(nameCode: $nameCode, productTypeId: $productTypeId) {
+  query ProductsProductSearchByValues($nameCode: String, $productTypeList: [Float!], $productCategoryId: String, $withMovements: Boolean, $enable4Sale: Boolean ) {
+    productsProductSearchByValues(nameCode: $nameCode, productTypeList: $productTypeList, productCategoryId: $productCategoryId, withMovements: $withMovements, enable4Sale: $enable4Sale) {
       internalCode
       message
       qty
@@ -64,16 +62,56 @@ const SEARCH_PRODUCTS = gql`
         name
         code
         description
+        unit
         cost
         price
-        hasFormula
+        type
+        enable4Sale
         companyId
+        productCategoryId
+        productUnitId
         elementList {
-          id
+          element {
+            id
+            name
+            code
+            description
+            unit
+            cost
+            price
+            type
+            enable4Sale
+            companyId
+            productCategoryId
+            productUnitId
+            elementList {
+              element {
+                id
+                name
+                code
+                description
+                unit
+                cost
+                price
+                type
+                enable4Sale
+                companyId
+                productCategoryId
+                productUnitId
+              }
+              qty
+            }
+          }
           qty
-          name
-          cost
-          unit
+        }
+        movementList {
+          id
+          type
+          reason
+          qty
+          relatedId
+          productId
+          userId
         }
       }
     }
@@ -81,26 +119,56 @@ const SEARCH_PRODUCTS = gql`
 `;
 
 const UPDATE_PRODUCT = gql`
-  mutation Update($input: ProductsProductInput!) {
+  mutation ProductsProductUpdate($input: ProductsProductInput!) {
     productsProductUpdate(product: $input) {
       internalCode
       message
       qty
       payload {
         id
-        companyId
         name
         code
         description
+        unit
         cost
         price
-        hasFormula
+        type
+        enable4Sale
+        companyId
+        productCategoryId
+        productUnitId
         elementList {
-          id
-          qty
-          name
-          cost
-          unit
+          element {
+            id
+            name
+            code
+            description
+            unit
+            cost
+            price
+            type
+            enable4Sale
+            companyId
+            productCategoryId
+            productUnitId
+            elementList {
+              qty
+              element {
+                id
+                name
+                code
+                description
+                unit
+                cost
+                price
+                type
+                enable4Sale
+                companyId
+                productCategoryId
+                productUnitId
+              }
+            }
+          }
         }
       }
     }

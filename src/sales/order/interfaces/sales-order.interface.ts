@@ -1,7 +1,7 @@
 export interface SalesOrderInterface {
   companyId?:      string;
   id?:             string;
-  code?:           string;
+  code?:           number;
   customerIdDoc?:  string;
   customerName:    string;
   customerEmail?:  string;

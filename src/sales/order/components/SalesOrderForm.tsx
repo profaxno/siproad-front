@@ -2,15 +2,16 @@ import type { FC } from 'react';
 import { ChangeEvent, useContext } from 'react';
 
 import { InputSearchWithTag } from '../../../common/components';
-import { SalesOrderContext } from '../context/SalesOrderContext';
-import { SalesOrderStatusEnum } from '../enums/sales-order-status.enum';
+
+import { salesOrderContext } from '../context/sales-order.context';
+import { SalesOrderStatusEnum } from '../enums';
 
 export const SalesOrderForm: FC = () => {
 
   // * hooks
-  const context = useContext(SalesOrderContext);
+  const context = useContext(salesOrderContext);
   if (!context) 
-    throw new Error("SalesOrderForm: SalesOrderContext must be used within an SalesOrderProvider");
+    throw new Error("SalesOrderForm: salesOrderContext must be used within an SalesOrderProvider");
 
   const { form, formError, updateForm, setFormError } = context;
 
@@ -21,10 +22,10 @@ export const SalesOrderForm: FC = () => {
   };
 
   return (
-    <div className="border rounded mt-2 p-3">
+    <>
       <div className="d-flex gap-4">
         <div className="col-7 flex-wrap">
-          <label className="form-label text-end">Nombre:</label>
+          <label className="form-label text-end">Cliente:</label>
           <InputSearchWithTag
             name="customerName"
             className={`form-control text-capitalize ${formError.customerName ? 'is-invalid' : ''}`}
@@ -99,6 +100,19 @@ export const SalesOrderForm: FC = () => {
           readOnly={form.status === SalesOrderStatusEnum.CANCELLED}
         />
       </div>
-    </div>
+
+      {/* <div className='d-flex gap-2 mt-2'>
+        <input
+          type="checkbox"
+          className='form-check-input'
+          // checked={checked}
+          // onChange={(e) => setChecked(e.target.checked)}
+        />
+        
+        <label>
+          Guardar Cliente
+        </label>
+      </div> */}
+    </>
   );
 };

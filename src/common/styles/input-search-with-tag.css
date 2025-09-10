@@ -1,0 +1,32 @@
+/* search with tag */
+.tags-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #ccc;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.tag {
+  background-color: #838181;
+  color: #08f5fb;
+  padding: 5px 10px;
+  margin: 2px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.list-group-item.active {
+  background-color: #838181 !important; /* verde Bootstrap */
+  color: #08f5fb;
+}
+
+.remove-tag {
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}

@@ -1,4 +1,5 @@
 export enum ActiveStatusEnum {
   DELETED,
-  ACTIVE
+  ACTIVE,
+  NEW
 }

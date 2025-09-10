@@ -49,7 +49,8 @@ export const SiproadNavbar = () => {
         {/* Menu grande */}
         <div className="navbar-nav me-auto d-none d-sm-block w-100">
           <div className="row">
-            <div className="col-1 d-flex">
+            <div className="col-2 d-flex">
+              
               <NavLink
                 className={({ isActive }) =>
                   `nav-link ${isActive ? 'active' : ''} custom-navlink-principal`
@@ -58,6 +59,16 @@ export const SiproadNavbar = () => {
               >
                 Ventas
               </NavLink>
+
+              {/* <NavLink
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? 'active' : ''} custom-navlink-principal`
+                }
+                to="/purchases"
+              >
+                Compras
+              </NavLink> */}
+
               <NavLink
                 className={({ isActive }) =>
                   `nav-link ${isActive ? 'active' : ''} custom-navlink-principal`
@@ -66,9 +77,10 @@ export const SiproadNavbar = () => {
               >
                 Productos
               </NavLink>
+
             </div>
 
-            <div className="col-11 d-flex justify-content-end">
+            <div className="col-10 d-flex justify-content-end">
               <span className="nav-item nav-link text-light text-capitalize">
                 {`${authState.company.fantasyName?.toLowerCase()}, ${authState.user.name?.toLowerCase()}`}
               </span>

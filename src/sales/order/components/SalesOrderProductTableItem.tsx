@@ -2,17 +2,16 @@ import type { FC } from "react";
 import { useEffect, useContext, useState, ChangeEvent } from 'react';
 
 import { InputAmount, ButtonWithConfirm } from '../../../common/components';
-import { TableActionEnum } from '../../../common/enums/table-actions.enum';
+import { TableActionEnum } from '../../../common/enums';
 
-import { SalesOrderContext } from '../context/SalesOrderContext';
-import { FormSalesOrderProductInterface } from '../interfaces';
-import { SalesOrderProductStatusEnum } from '../enums/sales-order-product-status.enum';
-import { SalesOrderStatusEnum } from "../enums/sales-order-status.enum";
+import { salesOrderContext } from '../context/sales-order.context';
+import { FormSalesOrderProductDto } from '../dto';
+import { SalesOrderProductStatusEnum, SalesOrderStatusEnum } from '../enums';
 
 interface Props {
-  value: FormSalesOrderProductInterface;
+  value: FormSalesOrderProductDto;
   selectedRow: string;
-  onNotifyClick: (formOrderProduct: FormSalesOrderProductInterface) => void;
+  onNotifyClick: (formOrderProduct: FormSalesOrderProductDto) => void;
 }
 
 export const SalesOrderProductTableItem: FC<Props> = ({
@@ -22,12 +21,12 @@ export const SalesOrderProductTableItem: FC<Props> = ({
 }) => {
 
   // * hooks
-  const context = useContext(SalesOrderContext);
+  const context = useContext(salesOrderContext);
   if (!context) 
-    throw new Error("SalesOrderProductTableItem: SalesOrderContext must be used within an SalesOrderProvider");
+    throw new Error("SalesOrderProductTableItem: salesOrderContext must be used within an SalesOrderProvider");
   
   const { form, updateTableOrderProduct } = context;
-  const [formOrderProduct, setFormOrderProduct] = useState<FormSalesOrderProductInterface>({ ...value });
+  const [formOrderProduct, setFormOrderProduct] = useState<FormSalesOrderProductDto>({ ...value });
   const [isShowComment, setIsShowComment] = useState<boolean>(!!value.comment);
 
   useEffect(() => {
