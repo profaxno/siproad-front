@@ -136,6 +136,7 @@ const UPDATE_PRODUCT = gql`
         enable4Sale
         companyId
         productCategoryId
+        productUnitId
         elementList {
           element {
             id
@@ -149,11 +150,11 @@ const UPDATE_PRODUCT = gql`
             enable4Sale
             companyId
             productCategoryId
+            productUnitId
             elementList {
               qty
               element {
                 id
-                productCategoryId
                 name
                 code
                 description
@@ -163,6 +164,8 @@ const UPDATE_PRODUCT = gql`
                 type
                 enable4Sale
                 companyId
+                productCategoryId
+                productUnitId
               }
             }
           }
