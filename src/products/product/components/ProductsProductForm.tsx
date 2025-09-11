@@ -136,7 +136,7 @@ export const ProductsProductForm: FC = () => {
       </div>
 
       <div className="d-flex gap-5 mt-3">
-        <div className="col-6 flex-wrap">
+        <div className="col-4 flex-wrap">
           <label htmlFor="productUnitId" className="form-label text-end">Unidad:</label>
 
           <select
@@ -154,7 +154,7 @@ export const ProductsProductForm: FC = () => {
 
         </div>
 
-        <div className="col-6 d-flex gap-2 mt-4">
+        <div className="col-8 d-flex gap-2 mt-4">
           <input
             type="checkbox"
             name='enable4Sale'
