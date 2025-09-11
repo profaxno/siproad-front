@@ -101,7 +101,7 @@ export const ProductsProductSearch: FC<Props> = ( { withMovements, productTypeLi
         </div>
 
         <div className="col-6 flex-wrap">
-          <label className="form-label text-end">Disponible para ventas:</label>
+          <label className="form-label text-end">Disp. en ventas:</label>
           <select
             name="enable4Sale"
             className="form-select"
