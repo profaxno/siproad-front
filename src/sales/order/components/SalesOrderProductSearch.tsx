@@ -39,7 +39,7 @@ export const SalesOrderProductSearch: FC = () => {
   if (!context) 
     throw new Error("SalesOrderProductSearch: salesOrderContext must be used within an SalesOrderProvider");
 
-  const { form, updateTableOrderProduct } = context;
+  const { updateTableOrderProduct } = context;
 
   const productContext = useContext(productsProductContext);
   if (!productContext) 
