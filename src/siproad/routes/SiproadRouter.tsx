@@ -54,18 +54,6 @@ export const SiproadRouter: FC = () => {
               </SalesOrderProvider>
             </ApolloWrapper>
           </SiproadPrivateRoute>
-        } />        
-
-        <Route path="/purchases/*" element={
-          <SiproadPrivateRoute>
-            <SiproadNavbar />
-            <PurchasesNavbar />
-            <ApolloWrapper>
-              <PurchasesOrderProvider>
-                <PurchasesOrderPage />
-              </PurchasesOrderProvider>
-            </ApolloWrapper>
-          </SiproadPrivateRoute>
         } />
 
         <Route path="/products/*" element={
@@ -75,18 +63,6 @@ export const SiproadRouter: FC = () => {
             <ApolloWrapper>
               <ProductsProductProvider>
                 <ProductsProductPage />
-              </ProductsProductProvider>
-            </ApolloWrapper>
-          </SiproadPrivateRoute>
-        } />
-
-        <Route path="/products/stock" element={
-          <SiproadPrivateRoute>
-            <SiproadNavbar />
-            <ProductsNavbar />
-            <ApolloWrapper>
-              <ProductsProductProvider>
-                <ProductsStockPage />
               </ProductsProductProvider>
             </ApolloWrapper>
           </SiproadPrivateRoute>
