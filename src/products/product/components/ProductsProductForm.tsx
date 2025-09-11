@@ -164,7 +164,7 @@ export const ProductsProductForm: FC = () => {
             readOnly={!actionList.includes(ActionEnum.SAVE)}
           />
           
-          <label>Disponible para ventas</label>
+          <label>Disp. en ventas</label>
         </div>
       </div>
 

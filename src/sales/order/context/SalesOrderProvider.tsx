@@ -15,8 +15,8 @@ import { salesOrderContext } from './sales-order.context';
 
 // * provider
 const initFormSearch: FormSalesOrderSearchDto = {
-  createdAtInit : moment().format('YYYY-MM-DD'),
-  createdAtEnd  : '',
+  createdAtInit : moment().startOf('month').format('YYYY-MM-DD'),
+  createdAtEnd  : moment().endOf('month').format('YYYY-MM-DD'),
   code          : '',
   customerNameIdDoc: '',
   comment       : '',
