@@ -65,7 +65,7 @@ export const SalesOrderButtons = () => {
             <ButtonWithConfirm
               className="custom-btn-outline-success"
               tooltip="Generar Cotización"
-              actionName="Crear Cotización"
+              actionName="Cotizar"
               title="Confirmación"
               message="Se creará la cotización ¿Desea Continuar?"
               onExecute={ () => saveFormStatus(SalesOrderStatusEnum.QUOTATION) }
@@ -76,7 +76,7 @@ export const SalesOrderButtons = () => {
             <ButtonWithConfirm
               className="custom-btn-outline-success"
               tooltip="Generar Orden de Venta"
-              actionName="Crear Orden"
+              actionName="C. Orden"
               title="Confirmación"
               message="Se creará la orden de venta ¿Desea Continuar?"
               onExecute={ () => saveFormStatus(SalesOrderStatusEnum.ORDER) }
