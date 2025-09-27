@@ -1,4 +1,4 @@
-export { PurchasesOrderButtonGeneratePdfPrice } from './PurchasesOrderButtonGeneratePdfPrice';
+// export { PurchasesOrderButtonGeneratePdfPrice } from './PurchasesOrderButtonGeneratePdfPrice';
 export { PurchasesOrderButtons } from './PurchasesOrderButtons';
 export { PurchasesOrderForm } from './PurchasesOrderForm';
 export { PurchasesOrderProductSearch } from './PurchasesOrderProductSearch';
