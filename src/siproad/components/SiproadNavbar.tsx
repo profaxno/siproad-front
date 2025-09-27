@@ -60,14 +60,14 @@ export const SiproadNavbar = () => {
                 Ventas
               </NavLink>
 
-              {/* <NavLink
+              <NavLink
                 className={({ isActive }) =>
                   `nav-link ${isActive ? 'active' : ''} custom-navlink-principal`
                 }
                 to="/purchases"
               >
                 Compras
-              </NavLink> */}
+              </NavLink>
 
               <NavLink
                 className={({ isActive }) =>
@@ -105,17 +105,17 @@ export const SiproadNavbar = () => {
             to="/sales/orders"
             onClick={closeNavbar}
           >
-            Ordenes
+            Ordenes de Venta
           </NavLink>
 
           <NavLink
             className={({ isActive }) =>
               `nav-link ${isActive ? 'active' : ''} custom-navlink-principal`
             }
-            to="/sales/customers"
+            to="/purchases/orders"
             onClick={closeNavbar}
           >
-            Clientes
+            Ordenes de Compra
           </NavLink>
 
           <NavLink
@@ -127,6 +127,26 @@ export const SiproadNavbar = () => {
           >
             Productos
           </NavLink>
+
+          {/* <NavLink
+            className={({ isActive }) =>
+              `nav-link ${isActive ? 'active' : ''} custom-navlink-principal`
+            }
+            to="/sales/customers"
+            onClick={closeNavbar}
+          >
+            Clientes
+          </NavLink> */}
+
+          {/* <NavLink
+            className={({ isActive }) =>
+              `nav-link ${isActive ? 'active' : ''} custom-navlink-principal`
+            }
+            to="/purchases/providers"
+            onClick={closeNavbar}
+          >
+            Proveedores
+          </NavLink> */}
 
           <ButtonWithConfirm
             className="custom-btn-outline-danger-logout"

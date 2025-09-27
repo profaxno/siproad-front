@@ -1,8 +1,7 @@
 import type { FC } from 'react';
 import { useState, useContext, useEffect } from 'react';
 
-import { Message } from '../../../common/components';
-import { StatusBar } from '../../../common/components/statusBar';
+import { Message, StatusBar } from '../../../common/components';
 
 import { salesOrderContext } from '../context/sales-order.context';
 import { SalesOrderStatusEnum, SalesOrderStatusNameEnum, SalesActionEnum } from '../enums';

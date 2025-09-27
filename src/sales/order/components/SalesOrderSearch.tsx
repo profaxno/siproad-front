@@ -45,12 +45,8 @@ export const SalesOrderSearch: FC = () => {
       
       const formOrderList: FormSalesOrderDto[] = orderList.map( (order: SalesOrderInterface) => {
         
-        const formOrderProductList: FormSalesOrderProductDto[] = order.productList.map( (orderProduct: SalesOrderProductInterface) => {
-          
-          // * calculate subTotal for each product in the list 
-          const discount = orderProduct.qty * orderProduct.price * (orderProduct.discountPct / 100);
-          const subTotal = orderProduct.qty * orderProduct.price - discount;
-          const formOrderProduct = new FormSalesOrderProductDto(uuidv4(), orderProduct.id, orderProduct.qty, orderProduct.name, orderProduct.cost, orderProduct.price, orderProduct.discountPct, subTotal, orderProduct.status);
+        const formOrderProductList: FormSalesOrderProductDto[] = order.productList.map( (orderProduct: SalesOrderProductInterface) => {          
+          const formOrderProduct = new FormSalesOrderProductDto(uuidv4(), orderProduct.id, orderProduct.qty, orderProduct.name, orderProduct.cost, orderProduct.price, orderProduct.discountPct, 0, orderProduct.status, undefined, orderProduct.code);
           return formOrderProduct;
         });
         

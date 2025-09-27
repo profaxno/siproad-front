@@ -46,18 +46,30 @@ export class FormSalesOrderProductDto {
   subTotal: number;
   status: number;
 
-  constructor(key: string, id: string, qty: number, name: string, cost: number, price: number, discountPct: number, subTotal: number, status: number, comment?: string, code?: string) {
+  constructor(
+    key: string,
+    id: string,
+    qty: number,
+    name: string, 
+    cost: number,
+    price: number,
+    discountPct: number,
+    subTotal: number,
+    status: number,
+    comment?: string,
+    code?: string
+  ) {
     this.key = key;
     this.id = id;
     this.qty = qty;
-    this.comment = comment;
     this.name = name;
-    this.code = code;
     this.cost = cost;
     this.price = price;
     this.discountPct = discountPct;
     this.subTotal = subTotal;
     this.status = status;
+    this.comment = comment;
+    this.code = code;
   }
 }
 
