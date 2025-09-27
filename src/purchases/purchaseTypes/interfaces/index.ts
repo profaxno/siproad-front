@@ -1,0 +1,1 @@
+export type { PurchasesPurchaseTypeInterface } from './puchases-purchase-type.interface';

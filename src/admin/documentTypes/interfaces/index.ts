@@ -1,0 +1,1 @@
+export type { AdminDocumentTypeInterface } from './admin-document-type.interface';

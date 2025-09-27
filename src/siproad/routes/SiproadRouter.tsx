@@ -12,13 +12,17 @@ import { ApolloWrapper } from "../graphql/ApolloWrapper";
 import { AuthContext } from "../../auth/context/AuthContext";
 import { LoginPage } from "../../auth/pages/LoginPage";
 
-import { ProductsNavbar } from "../../products/common/components/ProductsNavbar";
-import { ProductsProductProvider } from "../../products/product/context/ProductsProductProvider";
-import { ProductsProductPage } from "../../products/product/pages/ProductsProductPage";
-
 import { SalesNavbar } from "../../sales/common/components/SalesNavbar";
 import { SalesOrderProvider } from "../../sales/order/context/SalesOrderProvider";
 import { SalesOrderPage } from "../../sales/order/pages/SalesOrderPage";
+
+import { PurchasesNavbar } from "../../purchases/common/components/PurchasesNavbar";
+import { PurchasesOrderProvider } from "../../purchases/order/context/PurchasesOrderProvider";
+import { PurchasesOrderPage } from "../../purchases/order/pages/PurchasesOrderPage";
+
+import { ProductsNavbar } from "../../products/common/components/ProductsNavbar";
+import { ProductsProductProvider } from "../../products/product/context/ProductsProductProvider";
+import { ProductsProductPage } from "../../products/product/pages/ProductsProductPage";
 
 export const SiproadRouter: FC = () => {
   
@@ -56,6 +60,25 @@ export const SiproadRouter: FC = () => {
           </SiproadPrivateRoute>
         } />
 
+        {/* <Route path="/sales/customers" element={
+          <SiproadPrivateRoute>
+            <SiproadNavbar />
+            <SalesNavbar />
+          </SiproadPrivateRoute>
+        } /> */}
+
+        <Route path="/purchases/*" element={
+          <SiproadPrivateRoute>
+            <SiproadNavbar />
+            <PurchasesNavbar />
+            <ApolloWrapper>
+              <PurchasesOrderProvider>
+                <PurchasesOrderPage />
+              </PurchasesOrderProvider>
+            </ApolloWrapper>
+          </SiproadPrivateRoute>
+        } />
+
         <Route path="/products/*" element={
           <SiproadPrivateRoute>
             <SiproadNavbar />
@@ -68,12 +91,7 @@ export const SiproadRouter: FC = () => {
           </SiproadPrivateRoute>
         } />
 
-        {/* <Route path="/sales/customers" element={
-          <SiproadPrivateRoute>
-            <SiproadNavbar />
-            <SalesNavbar />
-          </SiproadPrivateRoute>
-        } /> */}
+        
 
       </Routes>
 

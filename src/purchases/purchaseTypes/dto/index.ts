@@ -1,0 +1,2 @@
+export { FormPurchasesPurchaseTypeSearchDto } from './form-purchases-purchase-type-search.dto';
+export { FormPurchasesPurchaseTypeDto, FormPurchasesPurchaseTypeErrorDto } from './form-purchases-purchase-type.dto';
