@@ -69,7 +69,7 @@ export const SalesOrderProductSearch: FC = () => {
 
   const updateForm = (product: SalesProductDto) => { // TODO: TAL VEZ DEBA CAMBIAR EL NOMBRE DE ESTE METODO
     const subTotal = formOrderProductSearch.qty * (product.price ?? 0);
-    const formOrderProduct: FormSalesOrderProductDto = new FormSalesOrderProductDto(uuidv4(), product.id ?? 'error', formOrderProductSearch.qty, product.name, product.cost ?? 0, product.price ?? 0, 0, subTotal, SalesOrderProductStatusEnum.IN_USE);
+    const formOrderProduct: FormSalesOrderProductDto = new FormSalesOrderProductDto(uuidv4(), product.id ?? 'error', formOrderProductSearch.qty, product.name, product.cost ?? 0, product.price ?? 0, 0, subTotal, SalesOrderProductStatusEnum.IN_USE, undefined, product.code);
     setFormOrderProductSearch(formOrderProduct);
   };
 
